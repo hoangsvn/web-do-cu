@@ -35,8 +35,5 @@ public class Response_Message {
 	public void setType(String type) {
 		this.type = type;
 	}
-	
 
-
-	
 }
