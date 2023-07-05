@@ -10,20 +10,13 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 public class BackEnd {
 
-    public static void InFo(String key, String value) {
+    public static void InFo(String ...value ) {
         Logger logger = LoggerFactory.getLogger(BackEnd.class);
-        logger.info(String.format("%-30s : %s ", key, (value == null ? "" : value)));
-    }
-
-    public static void InFo(String key, Integer value) {
-        Logger logger = LoggerFactory.getLogger(BackEnd.class);
-        logger.info(String.format("%-30s : %s ", key, (value == null ? 0 : value)));
-    }
-
-    public static void InFo(String key) {
-        Logger logger = LoggerFactory.getLogger(BackEnd.class);
-        logger.info(String.format("%-30s", key));
-
+        if (value.length>1) {
+        	logger.info(String.format("%-30s : %s ", value[0] ,value[1]));
+        } else {
+        	logger.info(String.format("%-30s :", value[0]));
+        }
     }
 
     public static String RamdomNameImage() {

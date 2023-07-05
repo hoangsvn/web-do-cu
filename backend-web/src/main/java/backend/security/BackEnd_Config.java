@@ -54,17 +54,17 @@ public class BackEnd_Config implements WebMvcConfigurer, WebServerFactoryCustomi
         int port = env.getProperty("server.port") == null ? 8080 : Integer.parseInt(env.getProperty("server.port"));
         try {
             BackEnd.InFo("+==================================================================+");
-            BackEnd.InFo("MY-SQL URL", env.getProperty("spring.datasource.url"));
+            BackEnd.InFo("MY-SQL URL", 		env.getProperty("spring.datasource.url"));
             BackEnd.InFo("MY-SQL USERNAME", env.getProperty("spring.datasource.username"));
             BackEnd.InFo("MY-SQL PASSWORD", env.getProperty("spring.datasource.password"));
-            BackEnd.InFo("SERVER  PORT", port);
-            BackEnd.InFo("CONTEXT PATH", env.getProperty("server.servlet.context-path"));
-            BackEnd.InFo("LOCAL PC/IP ", InetAddress.getLocalHost().toString());
-            BackEnd.InFo("PUBLIC IP ", Ip());
-            BackEnd.InFo("APP NAME", env.getProperty("app.name"));
+            BackEnd.InFo("SERVER  PORT", 	String.valueOf(port));
+            BackEnd.InFo("CONTEXT PATH", 	env.getProperty("server.servlet.context-path"));
+            BackEnd.InFo("LOCAL PC/IP ", 	InetAddress.getLocalHost().toString());
+            BackEnd.InFo("PUBLIC IP ", 		Ip());
+            BackEnd.InFo("APP NAME", 		env.getProperty("app.name"));
             BackEnd.InFo("APP DESCRIPTION", env.getProperty("app.description"));
-            BackEnd.InFo("APP VERSION", env.getProperty("app.version"));
-            BackEnd.InFo("JAVA VERSION", env.getProperty("java.version"));
+            BackEnd.InFo("APP VERSION", 	env.getProperty("app.version"));
+            BackEnd.InFo("JAVA VERSION", 	env.getProperty("java.version"));
             BackEnd.InFo("BACKEND MWC CONFIG", "OK");
         } catch (IOException e) {
             BackEnd.InFo("BACKEND MWC CONFIG", "FAIL");
