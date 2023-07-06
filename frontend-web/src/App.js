@@ -4,7 +4,7 @@ import { BrowserRouter, Route, Routes ,useNavigate } from 'react-router-dom';
 import Home from './Compoment/Home/Home';
 import Login from './Compoment/Auth/Login';
 import Register from './Compoment/Auth/Register';
- 
+import { ToastContainer } from 'react-toastify';
 
 function Root() {
   const navigate = useNavigate();
@@ -20,7 +20,7 @@ function Root() {
 function App() {
   return (
     <div className="App">
- 
+      <ToastContainer theme='colored' position='top-center'></ToastContainer>
       <BrowserRouter>
         <Root/>
       </BrowserRouter>
