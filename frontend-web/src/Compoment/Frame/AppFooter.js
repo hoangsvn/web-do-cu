@@ -1,16 +1,16 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import "./Footer.css"
 
-const Footer = () => {
-    
+
+const AppFooter = () => {
+
     return (
-        <div>
+        <footer>
             <div className="App-Footer">
-                 <p>This is Footer</p>
+                <p>THIS IS FOOTER</p>
             </div>
-        </div>
+        </footer>
     );
 }
 
-export default Footer;
+export default AppFooter;

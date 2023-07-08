@@ -1,5 +1,12 @@
 .App-Header {
-    padding: 20px;
+    position: fixed;
+    display: flex;
+    left: 0;
+    right: 0;
+    top: 0;
+    justify-content: space-between;
+    width: 100%;
+    padding: 10px;
     text-align: start;
     background: #d1d9d8;
     color: white;
