@@ -1,13 +1,11 @@
-import { useState, useEffect } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
-
 
 const AppFooter = () => {
 
     return (
         <footer>
             <div className="App-Footer">
-                <p>THIS IS FOOTER</p>
+                <p>Nguyễn Xuân Hoàng  <a className="t-none" href="mailto:nguyenxuanhoang02042001@gmail.com">Send email</a></p> 
+                
             </div>
         </footer>
     );
