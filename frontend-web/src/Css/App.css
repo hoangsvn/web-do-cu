@@ -9,13 +9,15 @@
 
 
 .App-Footer{
+  position: block;
+  width: 100%;
+  left: 0;
+  bottom: 0;
   font-size: calc(5px + 2vmin);
   justify-content:end;
   margin-top: 20%;
   background-color: #282c34;
   color: white;
-  justify-content: end;
-
 }
 .App-header {
   background-color: #282c34;
@@ -31,20 +33,7 @@
 .App-link {
   color: #61dafb;
 }
-/* .App-Header {
-  position: fixed;
-  display: flex;
-  left: 0;
-  right: 0;
-  top: 0;
-  justify-content: space-between;
-  width: 100%;
-  padding: 10px;
-  text-align: start;
-  background: #d1d9d8;
-  color: white;
-  
-} */
+
 .nav-item{
   text-decoration:none;
   margin-left: 20px;
