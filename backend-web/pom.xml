@@ -10,7 +10,7 @@
     <groupId>com</groupId>
     <artifactId>backend</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>backend</name>
+    <name>backend-web</name>
     <description>Back End Trang Web</description>
     <properties>
         <java.version>11</java.version>
