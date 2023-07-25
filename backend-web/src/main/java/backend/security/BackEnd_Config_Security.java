@@ -88,9 +88,6 @@ public class BackEnd_Config_Security { // extends WebSecurityConfigurerAdapter {
                 .and().authorizeRequests()
                 .antMatchers("/api/auth/**").permitAll()
                 .antMatchers("/api/test/**").permitAll()
-                .antMatchers("/api/book/**").permitAll()
-                .antMatchers("/api/chapter/**").permitAll()
-                .antMatchers("/backend/**").permitAll()
                 .anyRequest().authenticated();
 
         http.authenticationProvider(authenticationProvider());

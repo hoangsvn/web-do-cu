@@ -1,12 +1,16 @@
 package backend.modal;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "image")
+@Table(name = "hinhanh")
 public class HinhAnh {
 
+	@Id
+	@GeneratedValue
 	private Long id;
 	private Long sanpham_id;
 	private String link;

@@ -1,13 +1,21 @@
 package backend.modal;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
  
 @Entity
 @Table(name = "sanphan")
 public class SanPham {
+	
+	@Id
+	@GeneratedValue
 	private Long id;
 	private Long user_id;
 	private Long price;
@@ -15,6 +23,9 @@ public class SanPham {
 	private Date create_at;
 	private String desiption;
 
+	@OneToMany(mappedBy = "hinhanh")
+	private List<HinhAnh> listhinhanh =new ArrayList<>();
+	
 	public Long getId() {
 		return id;
 	}
