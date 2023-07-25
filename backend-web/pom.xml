@@ -15,7 +15,7 @@
     <name>backend-web</name>
     <description>Back End Trang Web</description>
     <properties>
-        <java.version>14</java.version>
+        <java.version>1.8</java.version>
     </properties>
     <dependencies>
         <dependency>

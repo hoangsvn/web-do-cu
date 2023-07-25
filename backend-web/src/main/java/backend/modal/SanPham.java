@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -15,7 +16,7 @@ import javax.persistence.Table;
 public class SanPham {
 	
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy = GenerationType.IDENTITY )
 	private Long id;
 	private Long user_id;
 	private Long price;
@@ -23,7 +24,7 @@ public class SanPham {
 	private Date create_at;
 	private String desiption;
 
-	@OneToMany(mappedBy = "hinhanh")
+	@OneToMany(targetEntity = HinhAnh.class)
 	private List<HinhAnh> listhinhanh =new ArrayList<>();
 	
 	public Long getId() {
