@@ -33,6 +33,7 @@ import backend.payload.response.Response_JWT;
 import backend.payload.response.Response_Message;
 import backend.repository.Repository_Role;
 import backend.repository.Repository_User;
+import backend.security.jwt.JWT_Manager;
 import backend.security.jwt.JWT_Utils;
 
 import backend.security.services.UserDetailsImpl;
@@ -42,24 +43,24 @@ import backend.security.services.UserDetailsImpl;
 @RequestMapping("/api/auth")
 public class REST_Controller_Auth {
 	@Autowired
-	AuthenticationManager authenticationManager;
+	private AuthenticationManager authenticationManager;
 
 	@Autowired
-	Repository_User userRepository;
+	private Repository_User userRepository;
 
 	@Autowired
-	Repository_Role roleRepository;
+	private Repository_Role roleRepository;
 
 	@Autowired
-	PasswordEncoder encoder;
+	private PasswordEncoder encoder;
 
 	@Autowired
-	JWT_Utils jwtUtils;
-
+	private JWT_Utils jwtUtils;
+	@Autowired
+    private JWT_Manager jwt_Manager;
 	 
 	@PostMapping("/signin")
 	public ResponseEntity<?> authenticateUser(@Valid @RequestBody Request_Login loginRequest) {
-
 		Authentication authentication = authenticationManager.authenticate( new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
 		SecurityContextHolder.getContext().setAuthentication(authentication);
 		String jwt = jwtUtils.generateJwtToken(authentication);
@@ -190,6 +191,26 @@ public class REST_Controller_Auth {
 			return ResponseEntity.ok(new Response_Message("NotFound !","User InFo",false));
 		}
 	}
-
+	@GetMapping("/logout")
+	public ResponseEntity<?> Logout( HttpServletRequest request ) {
+		try {
+			 
+			String headerAuth = request.getHeader("Authorization");
+			return ResponseEntity.ok(headerAuth.substring(7, headerAuth.length()) );
+ 
+		} catch (Exception e) {
+			return ResponseEntity.ok(new Response_Message("Logout Fail !","Token Fail",false));
+		}
+	}
+	@GetMapping("/running")
+	public ResponseEntity<?> Count(  ) {
+		try {
+			
+			  return ResponseEntity.ok(jwt_Manager.getActiveJwtCount());
+ 
+		} catch (Exception e) {
+			return ResponseEntity.ok(new Response_Message("Logout Fail !","Token Fail",false));
+		}
+	}
 
 }

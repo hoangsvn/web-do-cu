@@ -18,8 +18,8 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import backend.BackEnd;
-import backend.security.jwt.AuthEntryPointJWT;
-import backend.security.jwt.AuthTokenFilter;
+import backend.security.jwt.JWT_Auth_EntryPoint;
+import backend.security.jwt.JWT_Auth_Token_Filter;
 import backend.security.services.UserDetailsServiceImpl;
 
 @Configuration
@@ -33,11 +33,11 @@ public class BackEnd_Config_Security { // extends WebSecurityConfigurerAdapter {
     private UserDetailsServiceImpl userDetailsService;
 
     @Autowired
-    private AuthEntryPointJWT unauthorizedHandler;
+    private JWT_Auth_EntryPoint unauthorizedHandler;
 
     @Bean
-    public AuthTokenFilter authenticationJwtTokenFilter() {
-        return new AuthTokenFilter();
+    public JWT_Auth_Token_Filter authenticationJwtTokenFilter() {
+        return new JWT_Auth_Token_Filter();
     }
 
 //  @Override

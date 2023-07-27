@@ -40,6 +40,15 @@ public class JWT_Utils {
 	public String getUserNameFromJwtToken(String token) {
 		return Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody().getSubject();
 	}
+	public Date getExpirationDateFromJwtToken(String jwtToken) {
+	    try {
+			Claims claims = Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(jwtToken).getBody();
+	        return claims.getExpiration();
+	    } catch (Exception e) {
+	         
+	        return null;
+	    }
+	}
 
 	public boolean validateJwtToken(String authToken) {
 		try {

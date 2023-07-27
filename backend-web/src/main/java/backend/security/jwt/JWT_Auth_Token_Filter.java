@@ -19,14 +19,17 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import backend.security.services.UserDetailsServiceImpl;
 
-public class AuthTokenFilter extends OncePerRequestFilter {
+public class JWT_Auth_Token_Filter extends OncePerRequestFilter {
 	@Autowired
 	private JWT_Utils jwtUtils;
 
 	@Autowired
+    private JWT_Manager jwt_Manager;
+	
+	@Autowired
 	private UserDetailsServiceImpl userDetailsService;
 
-	private static final Logger logger = LoggerFactory.getLogger(AuthTokenFilter.class);
+	private static final Logger logger = LoggerFactory.getLogger(JWT_Auth_Token_Filter.class);
 
 	@Override
 	public void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
@@ -37,7 +40,8 @@ public class AuthTokenFilter extends OncePerRequestFilter {
 				UserDetails userDetails = userDetailsService.loadUserByUsername(username);
 				UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken( userDetails, null, userDetails.getAuthorities());
 				authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-
+				
+				jwt_Manager.addActiveJwt(jwt, jwtUtils.getExpirationDateFromJwtToken(jwt));
 				SecurityContextHolder.getContext().setAuthentication(authentication);
 			}
 		} catch (Exception e) {

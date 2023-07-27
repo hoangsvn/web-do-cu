@@ -19,9 +19,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 
 @Component
-public class AuthEntryPointJWT implements AuthenticationEntryPoint {
+public class JWT_Auth_EntryPoint implements AuthenticationEntryPoint {
 
-	private static final Logger logger = LoggerFactory.getLogger(AuthEntryPointJWT.class);
+	private static final Logger logger = LoggerFactory.getLogger(JWT_Auth_EntryPoint.class);
 
 	 
 	@Override
