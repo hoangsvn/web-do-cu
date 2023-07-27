@@ -19,7 +19,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import backend.security.services.UserDetailsServiceImpl;
 
-public class JWT_Auth_Token_Filter extends OncePerRequestFilter {
+public class JWT_Auth_Token_Filter extends OncePerRequestFilter  {
 	@Autowired
 	private JWT_Utils jwtUtils;
 

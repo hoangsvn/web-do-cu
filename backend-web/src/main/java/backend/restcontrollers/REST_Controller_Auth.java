@@ -63,6 +63,7 @@ public class REST_Controller_Auth {
 	public ResponseEntity<?> authenticateUser(@Valid @RequestBody Request_Login loginRequest) {
 		Authentication authentication = authenticationManager.authenticate( new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
 		SecurityContextHolder.getContext().setAuthentication(authentication);
+		
 		String jwt = jwtUtils.generateJwtToken(authentication);
 		UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
 		List<String> roles = userDetails.getAuthorities().stream().map(item -> item.getAuthority()).collect(Collectors.toList());
@@ -206,7 +207,7 @@ public class REST_Controller_Auth {
 	public ResponseEntity<?> Count(  ) {
 		try {
 			
-			  return ResponseEntity.ok(jwt_Manager.getActiveJwtCount());
+			  return ResponseEntity.ok("Running User =>" + jwt_Manager.getActiveJwtCount());
  
 		} catch (Exception e) {
 			return ResponseEntity.ok(new Response_Message("Logout Fail !","Token Fail",false));

@@ -70,12 +70,12 @@ public class JWT_Manager implements Runnable {
 
 	public void startCleaner() {
         ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
-        executor.scheduleAtFixedRate(this, 0, 1, TimeUnit.MINUTES);
+        executor.scheduleAtFixedRate(this, 0, 10, TimeUnit.MINUTES);
     }
 	
 	@Override
 	public void run() {
-		BackEnd.InFo("REMOVE","removeExpiredJwts");
+		BackEnd.InFo("REMOVE","removeExpiredJwts " + new Date().toString());
 		removeExpiredJwts();
 	}
 }
