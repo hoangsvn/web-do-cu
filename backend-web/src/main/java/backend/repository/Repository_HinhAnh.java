@@ -1,9 +1,14 @@
 package backend.repository;
 
-import org.springframework.data.jpa.repository.JpaRepository;
+import java.util.Optional;
 
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 import backend.modal.HinhAnh;
 
-public interface Repository_HinhAnh extends JpaRepository<HinhAnh,  Long>{
 
+
+@Repository
+public interface Repository_HinhAnh extends JpaRepository<HinhAnh,  Long>{
+	Optional<HinhAnh>  findByLink(String link);
 }

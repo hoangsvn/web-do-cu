@@ -5,7 +5,7 @@ import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import backend.security.user.User;
+import backend.modal.User;
 
 @Repository
 public interface Repository_User extends JpaRepository<User, Long> {

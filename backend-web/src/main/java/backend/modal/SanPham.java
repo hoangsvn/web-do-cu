@@ -3,13 +3,15 @@ package backend.modal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinTable; 
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
  
 @Entity
 @Table(name = "sanphan")
@@ -21,12 +23,25 @@ public class SanPham {
 	private Long user_id;
 	private Long price;
 	private String name;
+	
 	private Date create_at;
 	private String desiption;
 
-	@OneToMany(targetEntity = HinhAnh.class)
+	@OneToMany(targetEntity = HinhAnh.class ,cascade = CascadeType.ALL)
+	@JoinTable(name = "sanpham_hinhanh")
 	private List<HinhAnh> listhinhanh =new ArrayList<>();
 	
+	@OneToMany(targetEntity = DanhMuc.class , cascade =CascadeType.DETACH )
+	@JoinTable(name = "sanpham_danhmuc")
+	private List<DanhMuc> listdanhmuc =new ArrayList<>();
+	
+	
+	public List<DanhMuc> getListdanhmuc() {
+		return listdanhmuc;
+	}
+	public void setListdanhmuc(List<DanhMuc> listdanhmuc) {
+		this.listdanhmuc = listdanhmuc;
+	}
 	public Long getId() {
 		return id;
 	}
@@ -63,6 +78,18 @@ public class SanPham {
 	public void setDesiption(String desiption) {
 		this.desiption = desiption;
 	}
+	public List<HinhAnh> getListhinhanh() {
+		return listhinhanh;
+	}
+	public void setListhinhanh(List<HinhAnh> listhinhanh) {
+		this.listhinhanh = listhinhanh;
+	}
+	@Override
+	public String toString() {
+		return "SanPham [id=" + id + ", user_id=" + user_id + ", price=" + price + ", name=" + name + ", create_at="
+				+ create_at + ", desiption=" + desiption + ", listhinhanh=" + listhinhanh + "]";
+	}
+	
 	
 }
 

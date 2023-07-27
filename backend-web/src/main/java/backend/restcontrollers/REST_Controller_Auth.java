@@ -19,10 +19,14 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import backend.modal.ERole;
+import backend.modal.Role;
+import backend.modal.User;
 import backend.payload.request.Request_Login;
 import backend.payload.request.Request_Signup;
 import backend.payload.response.Response_JWT;
@@ -32,9 +36,6 @@ import backend.repository.Repository_User;
 import backend.security.jwt.JWT_Utils;
 
 import backend.security.services.UserDetailsImpl;
-import backend.security.user.ERole;
-import backend.security.user.Role;
-import backend.security.user.User;
 
 @CrossOrigin
 @RestController
@@ -98,8 +99,7 @@ public class REST_Controller_Auth {
 			return ResponseEntity.badRequest().body(new Response_Message("Error: Email is already in use!" ,"Add User",true));
 		}
 
-		User user = new User(signUpRequest.getUsername(), signUpRequest.getEmail(),
-				encoder.encode(signUpRequest.getPassword()));
+		User user = new User(signUpRequest.getUsername(), signUpRequest.getEmail(),encoder.encode(signUpRequest.getPassword()));
 
 		Set<String> strRoles = signUpRequest.getRole();
 		Set<Role> roles = new HashSet<>();
@@ -177,5 +177,19 @@ public class REST_Controller_Auth {
 			return ResponseEntity.ok(new Response_Message("NotFound !","User InFo",false));
 		}
 	}
+	@GetMapping("/mysanpham")
+	public ResponseEntity<?> InFoID(  ) {
+		try {
+			Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+			UserDetailsImpl userDetails = jwtUtils.getUserDetailsImpl(authentication);
+			User us = userRepository.findById(userDetails.getId()).get();
+			us.setPassword("");
+			  return ResponseEntity.ok(us);
+ 
+		} catch (Exception e) {
+			return ResponseEntity.ok(new Response_Message("NotFound !","User InFo",false));
+		}
+	}
+
 
 }
