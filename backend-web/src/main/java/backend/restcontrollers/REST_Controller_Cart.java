@@ -21,7 +21,7 @@ import backend.security.services.UserDetailsImpl;
 @RestController
 @CrossOrigin
 @RequestMapping("/api/cart")
-public class REST_Contrller_Cart extends Response {
+public class REST_Controller_Cart extends Response {
 	
 	
 	@Autowired
