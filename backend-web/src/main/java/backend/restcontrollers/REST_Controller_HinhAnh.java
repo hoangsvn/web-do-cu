@@ -11,15 +11,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import backend.modal.HinhAnh;
-import backend.payload.response.Response_Message;
 import backend.repository.Repository_HinhAnh;
 
 @CrossOrigin
 @RestController
 @RequestMapping("/api/hinhanh/")
-public class REST_Controller_HinhAnh {
+public class REST_Controller_HinhAnh extends Response {
 
 	
 	@Autowired
@@ -31,7 +29,7 @@ public class REST_Controller_HinhAnh {
             byte[] data = Base64.getDecoder().decode(hinhanh.getBase64());
             return ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG).header(HttpHeaders.CONTENT_DISPOSITION).body(data);
         } catch (NumberFormatException e) {
-            return ResponseEntity.ok(new Response_Message("Img Not Found", "Hinh AnH by Links", false));
+            return ResponseEntity.ok(image_not_found);
         }
 	}
 }

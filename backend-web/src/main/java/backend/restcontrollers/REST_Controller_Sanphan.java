@@ -1,12 +1,12 @@
 package backend.restcontrollers;
 
 import java.util.HashMap;
- 
+import java.util.List;
 import java.util.Map;
-
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,16 +15,17 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import backend.modal.SanPham;
-import backend.payload.response.Response_Message;
 import backend.repository.Repository_SanPham;
+ 
 
 @CrossOrigin
 @RestController
 @RequestMapping("/api/sanpham/")
-public class REST_Controller_Sanphan {
+public class REST_Controller_Sanphan extends Response {
 
 	@Autowired
 	private Repository_SanPham repository_SanPham;
+ 
 
 	@GetMapping("id={id}")
 	public ResponseEntity<?> GetByID(@PathVariable Long id) {
@@ -33,21 +34,20 @@ public class REST_Controller_Sanphan {
 			SanPham sp = repository_SanPham.findById(id).get();
 			return ResponseEntity.ok(sp);
 		} catch (Exception e) {
-
+			return ResponseEntity.status(404).body(sanpham_is_number);
 		}
-		return ResponseEntity.status(404).body(new Response_Message("Sanpham ID Is Mumber!", "Find Sanpham by Id", false));
+		
 	}
-	@GetMapping("topn={n}")
-	public ResponseEntity<?> GetSanPhamTopN(@PathVariable Long n) {
+	@GetMapping("top20")
+	public ResponseEntity<?> GetSanPhamTopN() {
 
 		try {
-//			List<SanPham> listsp = repository_SanPham.findTopN(n);
-			return ResponseEntity.ok(null);
+			List<SanPham> listsp = repository_SanPham.findTop20ByOrderById();
+			return ResponseEntity.ok(listsp);
 		} catch (Exception e) {
-
+			return ResponseEntity.status(404).body(sanpham_is_number);
 		}
-		return ResponseEntity.status(404)
-				.body(new Response_Message("Sanpham ID Is Mumber!", "Find Sanpham by Id", false));
+		
 	}
 
 	@GetMapping("delete/id={id}")
@@ -55,17 +55,15 @@ public class REST_Controller_Sanphan {
 		Map<String, Object> response = new HashMap<>();
 		try {
 			repository_SanPham.deleteById(id);
-			response.put("sanpham", null);
-			response.put("message", new Response_Message("Delete Success !", "Delete Sanpham ID", true));
+			response.put("sanpham", id);
+			response.put("message", delete_sanpham_success);
 			return ResponseEntity.ok(response);
 		} catch (Exception e) {
 
 			response.clear();
-			response.put("message", new Response_Message("Delete Fail!", "Sanpham ID Not Found", false));
+			response.put("message", delete_sanpham_fail);
 			return ResponseEntity.status(404).body(response);
 		}
-		
-
 	}
 
 	@PostMapping("update")
@@ -74,40 +72,41 @@ public class REST_Controller_Sanphan {
 		try {
 			if (repository_SanPham.existsById(sp.getId())) {
 				SanPham updatedProduct = repository_SanPham.saveAndFlush(sp);
-				
 				response.put("sanpham", updatedProduct);
-				response.put("message", new Response_Message("Update  Success !", "Update Sanpham ID", true));
+				response.put("message", update_sanpham_success);
 				return ResponseEntity.ok(response);
 			} else {
-				response.put("message",new Response_Message("Update Fail!", "Sanpham is not Exists", false));
+				response.put("message",sanpham_is_exists_in_mysql);
 				return ResponseEntity.ok(response);
 			}
 
 		} catch (Exception e) {
 			response.clear();
-			response.put("message", new Response_Message("Update Error!", "Error", false));
+			response.put("message", update_sanpham_error);
 			return ResponseEntity.status(404).body(response);
-		}
+		} 
 		 
 
 	}
 
+	
 	@PostMapping("add")
+	@PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
 	public ResponseEntity<?> AddByID(@Valid @RequestBody SanPham sp) {
 		Map<String, Object> response = new HashMap<>();
 		try {
+			 
 			sp.setId(-1L);
 			SanPham add = repository_SanPham.saveAndFlush(sp);
 			response.put("sanpham", add);
-			response.put("message", new Response_Message("Add Success!", "Add by Id", true));
+			response.put("message", insert_sanpham_success);
 			return ResponseEntity.ok(response);
 		} catch (Exception e) {
 			response.clear();
-			response.put("message", new Response_Message("Add Fail!", "Add by Id", false));
+			response.put("message", insert_sanpham_error);
 			return ResponseEntity.status(404).body(response);
 		}
-		
-
 	}
+	
 
 }

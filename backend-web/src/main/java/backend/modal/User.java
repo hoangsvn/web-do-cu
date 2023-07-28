@@ -10,6 +10,8 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
+import org.hibernate.validator.constraints.UniqueElements;
+
 @Entity
 @Table(name = "users", uniqueConstraints = { @UniqueConstraint(columnNames = "username"),	@UniqueConstraint(columnNames = "email") })
 public class User {
@@ -42,9 +44,28 @@ public class User {
 	@OneToMany (fetch = FetchType.LAZY,cascade = CascadeType.ALL,targetEntity = SanPham.class,mappedBy = "user_id")
 	private List<SanPham> listsanphamid = new ArrayList<>();
 	
+	@OneToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL,targetEntity = DiaChi.class,mappedBy = "user_id")
+	private List<DiaChi> listdiachi ;
+	
+	public List<DiaChi> getListdiachi() {
+		return listdiachi;
+	}
+	public void setListdiachi(List<DiaChi> listdiachi) {
+		this.listdiachi = listdiachi;
+	}
 	public User() {
 	}
-
+	@OneToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL,targetEntity = Cart.class ,mappedBy = "user_id")
+	private List<Cart> cart = new ArrayList<>();
+	
+	public List<Cart> getCart() {
+		return cart;
+	}
+	
+	public void setCart(List<Cart> cart) {
+		this.cart = cart;
+	}
+	
 	public User(String username, String email, String password) {
 		this.username = username;
 		this.email = email;

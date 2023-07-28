@@ -36,8 +36,6 @@ public class JWT_Auth_EntryPoint implements AuthenticationEntryPoint {
 		body.put("type", "Signin");
 		final ObjectMapper mapper = new ObjectMapper();
 		mapper.writeValue(response.getOutputStream(), body);
-	 
-		 
 	}
 
 }
