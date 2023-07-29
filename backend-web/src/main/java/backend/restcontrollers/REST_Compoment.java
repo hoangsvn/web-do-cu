@@ -1,8 +1,13 @@
 package backend.restcontrollers;
 
-import backend.payload.response.Response_Message;
 
-public class Response {
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+
+import backend.payload.response.Response_Message;
+import backend.security.services.UserDetailsImpl;
+ 
+public class REST_Compoment {
 	
 	public static Response_Message rest_controller_fail 	= new Response_Message("REST Controller Fail !", 		"Controller Fail"		, false);
 	public static Response_Message rest_controller_success	= new Response_Message("REST Controller Succeess !",	"Controller Success"	, true);
@@ -58,6 +63,15 @@ public class Response {
 	public static Response_Message image_success 			= new Response_Message("Image Success", 			"Image In MySql"	, true);
 	public static Response_Message image_error				= new Response_Message("Image Error", 				"Image In MySql"	, false);
 
-
-
+	
+	public UserDetailsImpl getUserDetailsImplInAuthentcation(Authentication authentication) {
+		UserDetailsImpl userPrincipal = (UserDetailsImpl) authentication.getPrincipal();
+		return userPrincipal;
+	}
+	public UserDetailsImpl getUserDetailsImplInAuthentcation() {
+		Authentication authentications = SecurityContextHolder.getContext().getAuthentication();
+		UserDetailsImpl userPrincipal = (UserDetailsImpl) authentications.getPrincipal();
+		return userPrincipal;
+	}
+	 
 }

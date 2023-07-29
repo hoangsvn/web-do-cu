@@ -38,7 +38,7 @@ import backend.security.services.UserDetailsImpl;
 @CrossOrigin
 @RestController
 @RequestMapping("/api/auth")
-public class REST_Controller_Auth extends Response{
+public class REST_Controller_Auth extends REST_Compoment{
 	@Autowired
 	private AuthenticationManager authenticationManager;
 
@@ -53,6 +53,7 @@ public class REST_Controller_Auth extends Response{
 
 	@Autowired
 	private JWT_Utils jwtUtils;
+	
 	@Autowired
     private JWT_Manager jwt_Manager;
 	 
@@ -152,10 +153,10 @@ public class REST_Controller_Auth extends Response{
 	}
 
 	@GetMapping("/info")
+	@PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
 	public ResponseEntity<?> InFo(HttpServletRequest request) {
 		try {
-			Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-			UserDetailsImpl userDetails = jwtUtils.getUserDetailsImpl(authentication);
+			UserDetailsImpl userDetails = getUserDetailsImplInAuthentcation();
 			String headerAuth = request.getHeader("Authorization");
 			List<String> roles = userDetails.getAuthorities()
 					.stream()
@@ -180,10 +181,10 @@ public class REST_Controller_Auth extends Response{
 		}
 	}
 	@GetMapping("/myrepository")
+	@PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
 	public ResponseEntity<?> InFoID(  ) {
 		try {
-			Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-			UserDetailsImpl userDetails = jwtUtils.getUserDetailsImpl(authentication);
+			UserDetailsImpl userDetails = getUserDetailsImplInAuthentcation();
 			User us = userRepository.findById(userDetails.getId()).get();
 			us.setPassword("");  return ResponseEntity.ok(us);
  
@@ -217,10 +218,10 @@ public class REST_Controller_Auth extends Response{
 		}
 	}
 	@GetMapping("/id")
+	@PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
 	public ResponseEntity<?> ID(  ) {
 		try {
-			Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-			UserDetailsImpl userDetails = jwtUtils.getUserDetailsImpl(authentication);
+			UserDetailsImpl userDetails = getUserDetailsImplInAuthentcation();
 			return ResponseEntity.ok(userDetails.getId());
 		}
 		catch(ClassCastException e) {

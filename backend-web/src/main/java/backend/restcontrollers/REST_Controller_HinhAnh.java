@@ -17,11 +17,13 @@ import backend.repository.Repository_HinhAnh;
 @CrossOrigin
 @RestController
 @RequestMapping("/api/hinhanh/")
-public class REST_Controller_HinhAnh extends Response {
+public class REST_Controller_HinhAnh extends REST_Compoment {
 
 	
 	@Autowired
 	private Repository_HinhAnh repository_HinhAnh;
+	
+	
 	@GetMapping("link={link}")
 	public ResponseEntity<?> getHinhAnh(@PathVariable String link){
 		try {
@@ -29,7 +31,9 @@ public class REST_Controller_HinhAnh extends Response {
             byte[] data = Base64.getDecoder().decode(hinhanh.getBase64());
             return ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG).header(HttpHeaders.CONTENT_DISPOSITION).body(data);
         } catch (NumberFormatException e) {
-            return ResponseEntity.ok(image_not_found);
-        }
+            return ResponseEntity.status(404).body(image_not_found);
+        } catch (Exception e) {
+			return ResponseEntity.status(404).body(rest_controller_error);
+		}
 	}
 }

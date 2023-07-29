@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -15,13 +16,12 @@ import java.util.List;
 import backend.modal.Cart;
 import backend.repository.Repository_Cart;
 import backend.repository.Repository_SanPham;
-import backend.security.jwt.JWT_Utils;
 import backend.security.services.UserDetailsImpl;
 
 @RestController
 @CrossOrigin
 @RequestMapping("/api/cart")
-public class REST_Controller_Cart extends Response {
+public class REST_Controller_Cart extends REST_Compoment {
 	
 	
 	@Autowired
@@ -30,18 +30,17 @@ public class REST_Controller_Cart extends Response {
 	@Autowired
 	private Repository_Cart repository_Cart;
 	
-	@Autowired
-	private JWT_Utils jwtUtils;
+	 
 	
 	
 	@GetMapping("addtocart/id={sanpham_id}")
+	@PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
 	public ResponseEntity<?> AddToCard(@PathVariable Long sanpham_id) {
 		Map<String, Object> response = new HashMap<>();
 		try {
-			
+			UserDetailsImpl userDetails = getUserDetailsImplInAuthentcation();
 			if (repository_SanPham.existsById(sanpham_id)) {
-				Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-				UserDetailsImpl userDetails = jwtUtils.getUserDetailsImpl(authentication);
+				
 				List<Cart> lcart = repository_Cart.findByUserIdAndSanphamId(userDetails.getId(), sanpham_id);
 				Cart cart = new Cart();
 				cart.setSanpham_id(sanpham_id);
@@ -66,7 +65,7 @@ public class REST_Controller_Cart extends Response {
 				
 			} else {
 				 
-				response.put("message", add_cart_fail);
+				response.put("message", sanpham_isnot_exists_in_mysql);
 			}
 			
 			return ResponseEntity.ok(response);
@@ -84,11 +83,12 @@ public class REST_Controller_Cart extends Response {
 	
 	
 	@GetMapping("deletetocart/id={sanpham_id}")
+	@PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
 	public ResponseEntity<?> DeleteToCard(@PathVariable Long sanpham_id) {
 		Map<String, Object> response = new HashMap<>();
 		try {
-			Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-			UserDetailsImpl userDetails = jwtUtils.getUserDetailsImpl(authentication);
+			
+			UserDetailsImpl userDetails = getUserDetailsImplInAuthentcation();
 			List<Cart> lcart = repository_Cart.findByUserIdAndSanphamId(userDetails.getId(), sanpham_id);
 			
 			if (lcart.size()>=1) {
