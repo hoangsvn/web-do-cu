@@ -1,7 +1,7 @@
 
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
-import Authservice from "../Services/Auth.service";
+import Authservice from "../Services/Auth";
 
 const AppHeader = () => {
     const [fullname, setFullname] = useState("");

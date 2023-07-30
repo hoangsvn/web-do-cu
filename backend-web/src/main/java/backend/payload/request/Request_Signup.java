@@ -10,12 +10,12 @@ public class Request_Signup {
 	private String username;
 
 	@NotBlank
-	@Size(max = 50)
+	@Size(max =255)
 	@Email
 	private String email;
 	
 	
-	@Size(max = 120)
+	 
 	private String fullname;
 	
 	private Set<String> role;

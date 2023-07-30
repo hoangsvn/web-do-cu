@@ -19,7 +19,7 @@ public class HinhAnh {
 	
 	private Date create_at;
 	
-	private String base64;
+	 
 	public Long getId() {
 		return id;
 	}
@@ -44,16 +44,10 @@ public class HinhAnh {
 	public void setCreate_at(Date create_at) {
 		this.create_at = create_at;
 	}
-	public String getBase64() {
-		return base64;
-	}
-	public void setBase64(String base64) {
-		this.base64 = base64;
-	}
+	 
 	@Override
 	public String toString() {
-		return "HinhAnh [id=" + id + ", sanpham_id=" + sanpham_id + ", link=" + link + ", create_at=" + create_at
-				+ ", base64=" + base64 + "]";
+		return "HinhAnh [id=" + id + ", sanpham_id=" + sanpham_id + ", link=" + link + ", create_at=" + create_at+ "]";
 	}
 	
 }

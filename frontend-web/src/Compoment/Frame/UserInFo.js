@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
-import Authservice from "../Services/Auth.service";
+import Authservice from "../Services/Auth";
 import { Link } from "react-router-dom";
 
 const InFo = () => {
 
     const [name , setName] = useState("");
     const [email, setEmail] = useState("");
-    const [date, setuDate] = useState("");
+    const [date, setDate] = useState("");
     const [isuser, setisUser] = useState(false);
 
     const Init = async () => {

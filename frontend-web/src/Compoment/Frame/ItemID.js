@@ -1,20 +1,16 @@
-import { Component } from "react";
+
+import {  useParams } from 'react-router-dom';
 
 
-class ItemID extends Component {
-    
-    constructor(props) {
-        super(props);
-        this.state = {
-            uid: props.id
-        };
-    }
-    render() {
-        return (
-            <div>
-                <p>ID {this.state.uid}</p>
-            </div>
-        );
-    }
+const ItemID = () => {
+    const {id} = useParams(); 
+
+
+    return (
+        <div>
+            <p>ID {id}</p>
+        </div>
+    );
+
 }
 export default ItemID;

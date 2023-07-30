@@ -64,6 +64,19 @@ public class REST_Compoment {
 	public static Response_Message image_error				= new Response_Message("Image Error", 				"Image In MySql"	, false);
 
 	
+	public static String type_success 		= "success";
+	public static String type_error 		= "error";
+	public static String type_fail 			= "fail";
+	
+	public static String info_message 	= "message";
+	public static String info_sanpham 	= "sanpham";
+	public static String info_user 		= "userinfo";
+	public static String info_image 	= "image";
+	
+	public static Response_Message upload_image_success 	= new Response_Message("Upload Image Success !", 	"Insert in Mysql"	, true);
+	public static Response_Message upload_image_fail 		= new Response_Message("Upload Image Fail !", 		"Insert in Mysql"	, false);
+	public static Response_Message upload_image_error 		= new Response_Message("Upload Image Error !", 		"Insert in Mysql"	, false);
+	
 	public UserDetailsImpl getUserDetailsImplInAuthentcation(Authentication authentication) {
 		UserDetailsImpl userPrincipal = (UserDetailsImpl) authentication.getPrincipal();
 		return userPrincipal;
@@ -72,6 +85,5 @@ public class REST_Compoment {
 		Authentication authentications = SecurityContextHolder.getContext().getAuthentication();
 		UserDetailsImpl userPrincipal = (UserDetailsImpl) authentications.getPrincipal();
 		return userPrincipal;
-	}
-	 
+	} 
 }

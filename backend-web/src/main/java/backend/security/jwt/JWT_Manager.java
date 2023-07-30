@@ -18,11 +18,11 @@ import backend.BackEnd;
 public class JWT_Manager implements Runnable {
 	
 	
-	@Bean
-	private void Run() {
-		BackEnd.InFo("STAT RUNABLE " , "DEL JWT  1P");
-		startCleaner();
-	}
+//	@Bean
+//	private void Run() {
+//		BackEnd.InFo("STAT RUNABLE " , "DEL JWT  1P");
+//		startCleaner();
+//	}
 	
 	private Map<String, String>   MapactiveUserName_Token = new HashMap<>();
 	private Map<String, JWT_InFo> MapactiveToken_JWT_Info = new HashMap<>();

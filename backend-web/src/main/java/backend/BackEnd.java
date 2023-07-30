@@ -22,7 +22,7 @@ public class BackEnd {
     }
 
     public static String RamdomNameImage() {
-        return DateToString() + "-" + UUID.randomUUID().toString() + ".png";
+        return DateToString()+ "-" + UUID.randomUUID().toString() + ".png";
     }
 
     public static String Ramdomkey() {

@@ -1,4 +1,4 @@
-const API = "http://localhost/api/auth/";
+const API = "http://localhost";
 
 const ApiLogin = (username, password) => {
   var myHeaders = new Headers();
@@ -13,7 +13,7 @@ const ApiLogin = (username, password) => {
     body: raw,
     redirect: "follow",
   };
-  return fetch(API + "signin", requestOptions)
+  return fetch(API + "/api/auth/signin", requestOptions)
     .then((response) => {
       if (response.ok) {
         return response.json();
@@ -31,11 +31,35 @@ const ApiLogout = () => {
   localStorage.removeItem("logininfo");
 };
 
-const ApiRegister = (email, username, password) => {
-  
+const ApiRegister = (email1, username1, password1) => {
+  var myHeaders = new Headers();
+  myHeaders.append("Content-Type", "application/json");
+
+  var raw = JSON.stringify({
+    "username": username1,
+    "password": password1,
+    "email": email1
+  });
+
+  var requestOptions = {
+    method: 'POST',
+    headers: myHeaders,
+    body: raw,
+    redirect: 'follow'
+  };
+
+
+  return fetch(API + "/api/auth/signup", requestOptions)
+    .then((response) => {
+      if (response.ok || response.status === 400) {
+        return response.json()
+      } else {
+        throw new Error("Resgister Error ");
+      }
+    });
 };
 
-const getCurrentUser = () => {
+const getCurrentUserApi = () => {
   try {
     return JSON.parse(localStorage.getItem("logininfo"));
   } catch (error) {
@@ -55,7 +79,7 @@ const Authservice = {
   ApiLogin,
   ApiLogout,
   ApiRegister,
-  getCurrentUserApi: getCurrentUser,
+  getCurrentUserApi,
   getCurrentUserToken,
 };
 

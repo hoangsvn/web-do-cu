@@ -3,6 +3,8 @@ package backend.restcontrollers;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.NoSuchElementException;
+
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -23,22 +25,45 @@ import backend.security.services.UserDetailsImpl;
 
 @CrossOrigin
 @RestController
-@RequestMapping("/api/sanpham/")
+@RequestMapping("/api/sanpham")
 public class REST_Controller_Sanphan extends REST_Compoment {
 
 	@Autowired
 	private Repository_SanPham repository_SanPham;
  
 
-	@GetMapping("id={id}")
-	public ResponseEntity<?> GetByID(@PathVariable Long id) {
-
+	@GetMapping("/id={id}")
+	public ResponseEntity<?> GetByID(@PathVariable String id) {
+		Map<String, Object> response = new HashMap<>();
 		try {
-			SanPham sp = repository_SanPham.findById(id).get();
-			return ResponseEntity.ok(sp);
-		} catch (Exception e) {
-			return ResponseEntity.status(404).body(sanpham_is_number);
+			
+			Long Fid = Long.parseLong(id);
+			if(repository_SanPham.existsById(Fid)) {
+				SanPham sp = repository_SanPham.findById(Fid).get();
+				response.put(info_sanpham, sp);
+				response.put(info_message, rest_controller_success);
+			} else {
+				response.put(info_message, sanpham_isnot_exists_in_mysql);
+			}
+			
+			return ResponseEntity.ok(response);
+		} 
+		catch (NoSuchElementException e) {
+			response.clear();
+			response.put(info_message, rest_controller_fail);
+			 
 		}
+		catch (NumberFormatException e) {
+			response.clear();
+			response.put(info_message, sanpham_is_number);
+			 
+		}
+		catch (Exception e) {
+			response.clear();
+			response.put(info_message, rest_controller_error);
+			
+		}
+		return ResponseEntity.status(404).body(response);
 		
 	}
 	@GetMapping("top20")
@@ -48,62 +73,61 @@ public class REST_Controller_Sanphan extends REST_Compoment {
 			List<SanPham> listsp = repository_SanPham.findTop20ByOrderById();
 			return ResponseEntity.ok(listsp);
 		} catch (Exception e) {
-			return ResponseEntity.status(404).body(sanpham_is_number);
+			return ResponseEntity.badRequest().body(rest_controller_error);
 		}
 		
 	}
 
-	@GetMapping("delete/id={id}")
+	@GetMapping("/delete/id={id}")
 	@PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
 	public ResponseEntity<?> DeleteByID(@PathVariable Long id) {
 		Map<String, Object> response = new HashMap<>();
 		try {
 			UserDetailsImpl userDetails = getUserDetailsImplInAuthentcation();
-			List <SanPham> lsp =repository_SanPham.findAllByIdAndUserid(id, userDetails.getId());
+			List <SanPham> lsp =repository_SanPham.findByIdAndUser_id(id, userDetails.getId());
 			if (!lsp.isEmpty()) {
 				repository_SanPham.deleteById(id);
-				response.put("sanpham", id);
-				response.put("message", delete_sanpham_success);
+				response.put(info_sanpham, id);
+				response.put(info_message, delete_sanpham_success);
 				return ResponseEntity.ok(response);
 			} else {
-				response.put("message", sanpham_isnot_exists_in_mysql);
-				return ResponseEntity.status(404).body(response);
+				response.put(info_message, sanpham_isnot_exists_in_mysql);
+				return ResponseEntity.badRequest().body(response);
 			}
 			
 		} catch (Exception e) {
 
 			response.clear();
-			response.put("message", delete_sanpham_fail);
-			return ResponseEntity.status(404).body(response);
+			response.put(info_message, delete_sanpham_fail);
+			return ResponseEntity.badRequest().body(response);
 		}
 	}
 
-	@PostMapping("update")
+	@PostMapping("/update")
 	@PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
 	public ResponseEntity<?> UpdateByID(@Valid @RequestBody SanPham sp) {
 		Map<String, Object> response = new HashMap<>();
 		try {
 			if (repository_SanPham.existsById(sp.getId())) {
 				SanPham updatedProduct = repository_SanPham.saveAndFlush(sp);
-				response.put("sanpham", updatedProduct);
-				response.put("message", update_sanpham_success);
-				return ResponseEntity.ok(response);
+				response.put(info_sanpham, updatedProduct);
+				response.put(info_message, update_sanpham_success);
+				
 			} else {
-				response.put("message",sanpham_is_exists_in_mysql);
-				return ResponseEntity.ok(response);
+				response.put(info_message,sanpham_is_exists_in_mysql);
 			}
+			return ResponseEntity.ok(response);
 
 		} catch (Exception e) {
 			response.clear();
-			response.put("message", update_sanpham_error);
-			return ResponseEntity.status(404).body(response);
+			response.put(info_message, update_sanpham_error);
 		} 
-		 
-
+		return ResponseEntity.badRequest().body(response);
+		
 	}
 
 	
-	@PostMapping("add")
+	@PostMapping("/add")
 	@PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
 	public ResponseEntity<?> AddByID(@Valid @RequestBody SanPham sp) {
 		Map<String, Object> response = new HashMap<>();
@@ -118,14 +142,14 @@ public class REST_Controller_Sanphan extends REST_Compoment {
 			}
 			savesp.setListhinhanh(listha);
 			savesp = repository_SanPham.save(savesp);
-			response.put("sanpham", savesp);
-			response.put("message", insert_sanpham_success);
+			response.put(info_sanpham, savesp);
+			response.put(info_image, insert_sanpham_success);
 			return ResponseEntity.ok(response);
 		} catch (Exception e) {
 			response.clear();
-			response.put("message", insert_sanpham_error);
-			return ResponseEntity.status(404).body(response);
+			response.put(info_image, insert_sanpham_error);
 		}
+		return ResponseEntity.badRequest().body(response);
 	}
 	
 

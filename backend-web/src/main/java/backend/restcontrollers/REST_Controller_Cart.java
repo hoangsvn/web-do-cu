@@ -5,8 +5,6 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -33,7 +31,7 @@ public class REST_Controller_Cart extends REST_Compoment {
 	 
 	
 	
-	@GetMapping("addtocart/id={sanpham_id}")
+	@GetMapping("/addtocart/id={sanpham_id}")
 	@PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
 	public ResponseEntity<?> AddToCard(@PathVariable Long sanpham_id) {
 		Map<String, Object> response = new HashMap<>();
@@ -52,20 +50,20 @@ public class REST_Controller_Cart extends REST_Compoment {
 						repository_Cart.delete(c);
 					}
 					repository_Cart.save(cart);
-					response.put("message", add_cart_success);
+					response.put(info_message, add_cart_success);
 				} else if (lcart.size()==0) {
 					cart.setCount(1L);
 					cart.setId(-1L);
 					repository_Cart.save(cart);
-					response.put("message", add_cart_success);
+					response.put(info_message, add_cart_success);
 				}else if (lcart.size()==1) {
-					response.put("message", sanpham_already_in_cart);
+					response.put(info_message, sanpham_already_in_cart);
 				} 
 				
 				
 			} else {
 				 
-				response.put("message", sanpham_isnot_exists_in_mysql);
+				response.put(info_message, sanpham_isnot_exists_in_mysql);
 			}
 			
 			return ResponseEntity.ok(response);
@@ -75,14 +73,14 @@ public class REST_Controller_Cart extends REST_Compoment {
 		}
 		catch (Exception e) {
 			response.clear();
-			response.put("message", add_cart_error);
+			response.put(info_message, add_cart_error);
 			return ResponseEntity.status(404).body(response);
 		}
 	}
 	
 	
 	
-	@GetMapping("deletetocart/id={sanpham_id}")
+	@GetMapping("/deletetocart/id={sanpham_id}")
 	@PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
 	public ResponseEntity<?> DeleteToCard(@PathVariable Long sanpham_id) {
 		Map<String, Object> response = new HashMap<>();
@@ -95,21 +93,20 @@ public class REST_Controller_Cart extends REST_Compoment {
 				for(Cart c : lcart) {
 					repository_Cart.delete(c);
 				}
-				response.put("message", delete_sanpham_in_cart_success);
+				response.put(info_message, delete_sanpham_in_cart_success);
 			} else if (lcart.size()==0) {
-				response.put("message", sanpham_already_in_cart);
+				response.put(info_message, sanpham_already_in_cart);
 			}
 			return ResponseEntity.ok(response);
 		} 
 		catch (ClassCastException e) {
 			response.clear();
-			response.put("message", not_login);
-			return ResponseEntity.status(404).body(response);	
+			response.put(info_message, not_login);
 		}
 		catch (Exception e) {
 			response.clear();
-			response.put("message", delete_sanpham_in_cart_error);
-			return ResponseEntity.status(404).body(response);
+			response.put(info_message, delete_sanpham_in_cart_error);
 		}
+		return ResponseEntity.status(404).body(response);	
 	}
 }

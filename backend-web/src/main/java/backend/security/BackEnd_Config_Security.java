@@ -89,6 +89,7 @@ public class BackEnd_Config_Security { // extends WebSecurityConfigurerAdapter {
                 .antMatchers("/api/auth/**").permitAll()
                 .antMatchers("/api/test/**").permitAll()
                 .antMatchers("/api/sanpham/**").permitAll()
+                .antMatchers("/api/image/**").permitAll()
                 .anyRequest().authenticated();
 
         http.authenticationProvider(authenticationProvider());

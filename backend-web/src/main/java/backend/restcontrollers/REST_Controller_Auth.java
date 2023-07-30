@@ -1,7 +1,9 @@
 package backend.restcontrollers;
 
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 import javax.servlet.http.HttpServletRequest;
@@ -69,12 +71,15 @@ public class REST_Controller_Auth extends REST_Compoment{
 
 	@PostMapping("/signup")
 	public ResponseEntity<?> registerUser(@Valid @RequestBody Request_Signup signUpRequest) {
+		Map<String, Object> response = new HashMap<>();
 		try {
 			if (userRepository.existsByUsername(signUpRequest.getUsername())) {
-				return ResponseEntity.badRequest().body(username_already);
+				response.put(info_message, username_already);
+				return ResponseEntity.badRequest().body(response);
 			}
 			if (userRepository.existsByEmail(signUpRequest.getEmail())) {
-				return ResponseEntity.badRequest().body(email_already);
+				response.put(info_message, email_already);
+				return ResponseEntity.badRequest().body(response);
 			}
 
 			User user = new User(signUpRequest.getUsername(), signUpRequest.getEmail(),encoder.encode(signUpRequest.getPassword()));
@@ -83,11 +88,16 @@ public class REST_Controller_Auth extends REST_Compoment{
 			Role userRole = roleRepository.findByName(ERole.ROLE_USER).orElseThrow(() -> new RuntimeException("Error: Role is not found."));
 			roles.add(userRole);
 			user.setRoles(roles);
-			userRepository.save(user);
-			return ResponseEntity.ok(register_success);
+			user = userRepository.save(user);
+			user.setPassword("");
+			response.put(info_user, user);
+			response.put(info_message, register_success);
+			return ResponseEntity.ok(response);
 		} catch (Exception e) {
-			return ResponseEntity.ok(register_error);
+			response.clear();
+			response.put(info_message, register_error);
 		}
+		return ResponseEntity.badRequest().body(response);
 	}
 
 	@PostMapping("/add")
@@ -155,6 +165,7 @@ public class REST_Controller_Auth extends REST_Compoment{
 	@GetMapping("/info")
 	@PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
 	public ResponseEntity<?> InFo(HttpServletRequest request) {
+		Map<String, Object> response = new HashMap<>();
 		try {
 			UserDetailsImpl userDetails = getUserDetailsImplInAuthentcation();
 			String headerAuth = request.getHeader("Authorization");
@@ -174,27 +185,37 @@ public class REST_Controller_Auth extends REST_Compoment{
 
 		} 
 		catch (ClassCastException e) {
-			return ResponseEntity.ok(not_login);
+			response.put(info_message, not_login);
+			 
 		}
 		catch (Exception e) {
-			return ResponseEntity.ok(user_not_found);
+			response.put(info_message, user_not_found);
 		}
+		return ResponseEntity.badRequest().body(response);
 	}
 	@GetMapping("/myrepository")
 	@PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
 	public ResponseEntity<?> InFoID(  ) {
+		Map<String, Object> response = new HashMap<>();
 		try {
 			UserDetailsImpl userDetails = getUserDetailsImplInAuthentcation();
 			User us = userRepository.findById(userDetails.getId()).get();
-			us.setPassword("");  return ResponseEntity.ok(us);
+			us.setPassword(""); 
+			response.put(info_user, us);
+			response.put(info_message,  rest_controller_success);
+			return ResponseEntity.ok(response);
  
 		}
 		catch (ClassCastException e) {
-			return ResponseEntity.ok(not_login);
+			response.clear();
+			response.put(info_message, not_login);
+			 
 		}
 		catch (Exception e) {
-			return ResponseEntity.ok(user_not_found);
+			response.clear();
+			response.put(info_message, user_not_found);
 		}
+		return ResponseEntity.badRequest().body(response);
 	}
 	@GetMapping("/logout")
 	public ResponseEntity<?> Logout( HttpServletRequest request ) {
