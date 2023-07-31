@@ -13,6 +13,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
  
 @Entity
@@ -22,6 +23,8 @@ public class SanPham {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY )
 	private Long id;
+	
+	@NotNull
 	private Long user_id;
 	private Long price;
 	private String name;

@@ -1,8 +1,14 @@
-const API = "http://localhost";
+import ApiInFo from "./ApiInFo";
+
+const API =ApiInFo.API
+
+
+var myHeaders = new Headers();
+myHeaders.append("Content-Type", "application/json");
+myHeaders.append("Authorization", localStorage.getItem("token"));
 
 const ApiLogin = (username, password) => {
-  var myHeaders = new Headers();
-  myHeaders.append("Content-Type", "application/json");
+
   var raw = JSON.stringify({
     username: username,
     password: password,
@@ -22,18 +28,20 @@ const ApiLogin = (username, password) => {
       }
     })
     .then((result) => {
-      localStorage.setItem("logininfo", JSON.stringify(result));
+      var user = JSON.stringify(result);
+      localStorage.setItem("logininfo", user);
+      localStorage.setItem("token", `${result.type} ${result.token}`);
       return result;
     });
 };
 
 const ApiLogout = () => {
   localStorage.removeItem("logininfo");
+  localStorage.removeItem("token");
 };
 
 const ApiRegister = (email1, username1, password1) => {
-  var myHeaders = new Headers();
-  myHeaders.append("Content-Type", "application/json");
+ 
 
   var raw = JSON.stringify({
     "username": username1,
@@ -75,12 +83,54 @@ const getCurrentUserToken = () => {
   }
 };
 
+
+const ApiUserInFo = () => {
+ 
+
+  var requestOptions = {
+    method: 'GET',
+    headers: myHeaders,
+    redirect: 'follow'
+  };
+
+  return fetch("http://localhost/api/auth/info", requestOptions)
+    .then((response) => {
+      if (response.ok) {
+        return response.json();
+      } else {
+        throw new Error("Cannot get Userinfo");
+      }
+    })
+}
+
+
+const ApiGetPath = (part) => {
+ 
+
+  var requestOptions = {
+    method: 'GET',
+    headers: myHeaders,
+    redirect: 'follow'
+  };
+
+  return fetch(API+"/api/auth/myrepository/"+part, requestOptions)
+    .then((response) => {
+      if (response.ok || response.status ===400) {
+        return response.json();
+      } else {
+        throw new Error("Cannot get Userinfo");
+      }
+    })
+}
+
 const Authservice = {
   ApiLogin,
   ApiLogout,
   ApiRegister,
+  ApiUserInFo,
   getCurrentUserApi,
   getCurrentUserToken,
+  ApiGetPath,
 };
 
 export default Authservice;

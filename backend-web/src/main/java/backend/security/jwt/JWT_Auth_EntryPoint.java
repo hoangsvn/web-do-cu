@@ -29,13 +29,15 @@ public class JWT_Auth_EntryPoint implements AuthenticationEntryPoint {
 		
 		logger.error("Unauthorized error: {}", authException.getMessage());
 		response.setContentType(MediaType.APPLICATION_JSON_VALUE);
-		response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+		response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
 		final Map<String, Object> body = new HashMap<>();
+		Map<String, Object> res = new HashMap<>();
 		body.put("success", false);
 		body.put("message", authException.getMessage());
 		body.put("type", "Signin");
+		res.put("message", body);
 		final ObjectMapper mapper = new ObjectMapper();
-		mapper.writeValue(response.getOutputStream(), body);
+		mapper.writeValue(response.getOutputStream(), res);
 	}
 
 }

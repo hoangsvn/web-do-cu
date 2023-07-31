@@ -1,3 +1,5 @@
 export {default as AuthSV } from './Auth' 
 export {default as SanPhamSV } from './SanPham'
 export {default as TimeSV } from './Time'
+export {default as ImageSV } from './Image'
+export {default as CartSV } from './Cart'

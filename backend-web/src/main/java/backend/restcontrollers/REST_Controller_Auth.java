@@ -1,5 +1,6 @@
 package backend.restcontrollers;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -20,17 +21,22 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import backend.modal.Cart;
 import backend.modal.ERole;
 import backend.modal.Role;
+import backend.modal.SanPham;
 import backend.modal.User;
 import backend.payload.request.Request_Login;
 import backend.payload.request.Request_Signup;
 import backend.payload.response.Response_JWT;
 import backend.payload.response.Response_Message;
 import backend.repository.Repository_Role;
+import backend.repository.Repository_SanPham;
 import backend.repository.Repository_User;
 import backend.security.jwt.JWT_Manager;
 import backend.security.jwt.JWT_Utils;
@@ -55,6 +61,9 @@ public class REST_Controller_Auth extends REST_Compoment{
 
 	@Autowired
 	private JWT_Utils jwtUtils;
+	
+	@Autowired
+	private Repository_SanPham repository_SanPham;
 	
 	@Autowired
     private JWT_Manager jwt_Manager;
@@ -168,34 +177,72 @@ public class REST_Controller_Auth extends REST_Compoment{
 		Map<String, Object> response = new HashMap<>();
 		try {
 			UserDetailsImpl userDetails = getUserDetailsImplInAuthentcation();
-			String headerAuth = request.getHeader("Authorization");
-			List<String> roles = userDetails.getAuthorities()
-					.stream()
-					.map(item -> item.getAuthority()) 
-					.collect(Collectors.toList());
-			if (StringUtils.hasText(headerAuth) && headerAuth.startsWith("Bearer ")) {
-				return ResponseEntity .ok(
-						new Response_JWT(userDetails.getId(), userDetails.getUsername(), userDetails.getFullname(),
-										userDetails.getEmail(), headerAuth.substring(7, headerAuth.length()),roles));
-			} else {
-				return ResponseEntity.ok(
-						new Response_JWT(userDetails.getId(), userDetails.getUsername(), userDetails.getFullname(),
-									userDetails.getEmail()));
-			}
-
-		} 
+			User us = userRepository.findById(userDetails.getId()).get();
+			us.setPassword(""); 
+			us.getCart().clear();
+			us.getListsanphamid().clear();
+			response.put(info_user, us);
+			response.put(info_message,  rest_controller_success);
+			return ResponseEntity.ok(response);
+ 
+		}
 		catch (ClassCastException e) {
+			response.clear();
 			response.put(info_message, not_login);
 			 
 		}
 		catch (Exception e) {
+			response.clear();
 			response.put(info_message, user_not_found);
 		}
 		return ResponseEntity.badRequest().body(response);
 	}
+	@GetMapping("/myrepository/{path}")
+	@PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
+	public ResponseEntity<?> MyrepositoryPath(@PathVariable String path  ) {
+		Map<String, Object> response = new HashMap<>();
+		try {
+			UserDetailsImpl userDetails = getUserDetailsImplInAuthentcation();
+			User us = userRepository.findById(userDetails.getId()).get();
+			us.setPassword(""); 
+			response.put(info_message,  rest_controller_success);
+			if (path.endsWith("listsanpham")) {
+				response.put(info_sanpham, us.getListsanphamid());
+			} else if (path.endsWith("listcart")) {
+				List<SanPham> listcart = new ArrayList<>();
+				for (Cart s : us.getCart()) {
+					if (repository_SanPham.existsById(s.getSanpham_id())) {
+						listcart.add(repository_SanPham.findById(s.getSanpham_id()).get());
+					}
+				}
+ 				response.put(info_sanpham,listcart);
+			} else if (path.endsWith("listdiachi")) {
+				response.put(info_address, us.getListdiachi());
+			} else {
+				response.put(info_message,  rest_controller_fail);
+			}
+			
+			return ResponseEntity.ok(response);
+ 
+		}
+		catch (ClassCastException e) {
+			response.clear();
+			response.put(info_message, not_login);
+			 
+		}
+		catch (Exception e) {
+			response.clear();
+			response.put(info_message, user_not_found);
+		}
+		return ResponseEntity.badRequest().body(response);
+	}
+	
+	
+	
+	
 	@GetMapping("/myrepository")
 	@PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
-	public ResponseEntity<?> InFoID(  ) {
+	public ResponseEntity<?> Myrepository(  ) {
 		Map<String, Object> response = new HashMap<>();
 		try {
 			UserDetailsImpl userDetails = getUserDetailsImplInAuthentcation();
@@ -217,6 +264,8 @@ public class REST_Controller_Auth extends REST_Compoment{
 		}
 		return ResponseEntity.badRequest().body(response);
 	}
+	
+	
 	@GetMapping("/logout")
 	public ResponseEntity<?> Logout( HttpServletRequest request ) {
 		try {

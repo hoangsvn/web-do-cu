@@ -70,6 +70,7 @@ public class REST_Compoment {
 	
 	public static String info_message 	= "message";
 	public static String info_sanpham 	= "sanpham";
+	public static String info_address 	= "address";
 	public static String info_user 		= "userinfo";
 	public static String info_image 	= "image";
 	

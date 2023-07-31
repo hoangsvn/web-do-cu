@@ -36,10 +36,10 @@ public class REST_Controller_Image_Byte extends REST_Compoment {
             Image_Byte ima = repository_Image_Byte.findByLink(link).get();
             return ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG).header(HttpHeaders.CONTENT_DISPOSITION).body(ima.getImagebyte());
         } catch (NoSuchElementException e) {
-            return ResponseEntity.status(404).body(image_not_found);
+            return ResponseEntity.badRequest().body(image_not_found);
         } catch (Exception e) {
         	e.printStackTrace();
-			return ResponseEntity.status(404).body(rest_controller_error);
+			return ResponseEntity.badRequest().body(rest_controller_error);
 		}
 	}
 	@PostMapping("/upload")

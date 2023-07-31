@@ -19,7 +19,6 @@ const Login = () => {
 
             AuthSV.ApiLogin(username, password)
                 .then(() => {
-                    
                     navigate("/home");
                 })
                 .catch((error) => {
