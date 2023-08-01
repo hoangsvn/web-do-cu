@@ -3,6 +3,7 @@ import Authservice from "../Services/Auth";
 import { Link } from "react-router-dom";
 import { faSignIn } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon as FaIcon } from "@fortawesome/react-fontawesome";
+import { toast } from "react-toastify";
 const InFo = () => {
 
     const [user, setUser] = useState({});
@@ -10,16 +11,15 @@ const InFo = () => {
 
 
     useEffect(() => {
-        try {
-            Authservice.ApiUserInFo()
-                .then((result) => {
-                    setUser(result);
-                    setisUser(true);
-                    console.log(result.userinfo);
-                }).catch(error => console.log(error));
-        } catch (error) {
-            setisUser(false);
-        }
+
+        Authservice.ApiUserInFo()
+            .then((result) => {
+                setUser(result);
+                setisUser(true);
+            }).catch(error => {
+                toast.error("You Not Login")
+            });
+
     }, []);
 
 
@@ -31,10 +31,10 @@ const InFo = () => {
                     <div className="card ms-4 mb-4">
                         <div className="card-body text-center">
                             <img src="useravata.png" alt="avatar" class="rounded-circle img-fluid" />
-                            <hr/>
-                            <h4 className="text-start my-3">{user.userinfo.fullname }</h4>
-                            <p className="text-muted text-start mb-1">{user.userinfo.email }</p>
-                            <p className="text-muted text-start mb-4">{user.userinfo.listdiachi[0]?.huyen }</p>
+                            <hr />
+                            <h4 className="text-start my-3">{user.userinfo.fullname}</h4>
+                            <p className="text-muted text-start mb-1">{user.userinfo.email}</p>
+                            <p className="text-muted text-start mb-4">{user.userinfo.listdiachi[0]?.huyen}</p>
                         </div>
                     </div>
                 </div>
@@ -46,28 +46,28 @@ const InFo = () => {
                                     <p className="mb-0 text-start">Full Name</p>
                                 </div>
                                 <div className="col-sm-9">
-                                    <p className="text-muted text-start mb-0">{user.userinfo.fullname }</p>
+                                    <p className="text-muted text-start mb-0">{user.userinfo.fullname}</p>
                                 </div>
                             </div>
-                            <hr/>
+                            <hr />
                             <div className="row">
                                 <div className="col-sm-3">
                                     <p className="mb-0 text-start">Username</p>
                                 </div>
                                 <div className="col-sm-9">
-                                    <p className="text-muted text-start mb-0">{user.userinfo.username }</p>
+                                    <p className="text-muted text-start mb-0">{user.userinfo.username}</p>
                                 </div>
                             </div>
-                            <hr/>
+                            <hr />
                             <div className="row">
                                 <div className="col-sm-3">
                                     <p className="mb-0 text-start">Email</p>
                                 </div>
                                 <div className="col-sm-9">
-                                    <p className="text-muted text-start mb-0">{user.userinfo.email }</p>
+                                    <p className="text-muted text-start mb-0">{user.userinfo.email}</p>
                                 </div>
                             </div>
-                            <hr/>
+                            <hr />
                             <div className="row">
                                 <div className="col-sm-3">
                                     <p className="mb-0 text-start">Phone</p>

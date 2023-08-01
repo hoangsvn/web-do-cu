@@ -1,6 +1,6 @@
 import ApiInFo from "./ApiInFo";
 
-const API =ApiInFo.API
+const API = ApiInFo.API
 
 
 var myHeaders = new Headers();
@@ -41,7 +41,7 @@ const ApiLogout = () => {
 };
 
 const ApiRegister = (email1, username1, password1) => {
- 
+
 
   var raw = JSON.stringify({
     "username": username1,
@@ -85,7 +85,7 @@ const getCurrentUserToken = () => {
 
 
 const ApiUserInFo = () => {
- 
+
 
   var requestOptions = {
     method: 'GET',
@@ -100,27 +100,43 @@ const ApiUserInFo = () => {
       } else {
         throw new Error("Cannot get Userinfo");
       }
-    })
+    });
 }
 
 
 const ApiGetPath = (part) => {
- 
-
   var requestOptions = {
     method: 'GET',
     headers: myHeaders,
     redirect: 'follow'
   };
 
-  return fetch(API+"/api/auth/myrepository/"+part, requestOptions)
+  return fetch(API + "/api/auth/myrepository/" + part, requestOptions)
     .then((response) => {
-      if (response.ok || response.status ===400) {
+      if (response.ok || response.status === 400) {
         return response.json();
       } else {
-        throw new Error("Cannot get Userinfo");
+        throw new Error("Cannot get Myrepository");
       }
-    })
+    });
+}
+
+
+const ApiGetUserInfoPublic = (sid) => {
+  var requestOptions = {
+    method: 'GET',
+    headers: myHeaders,
+    redirect: 'follow'
+  };
+
+  return fetch(API + "/api/auth/publicinfo/id=" + sid, requestOptions)
+    .then((response) => {
+      if (response.ok || response.status === 400) {
+        return response.json();
+      } else {
+        throw new Error("Cannot get Public User Info");
+      }
+    });
 }
 
 const Authservice = {
@@ -130,7 +146,7 @@ const Authservice = {
   ApiUserInFo,
   getCurrentUserApi,
   getCurrentUserToken,
-  ApiGetPath,
+  ApiGetPath,ApiGetUserInfoPublic
 };
 
 export default Authservice;

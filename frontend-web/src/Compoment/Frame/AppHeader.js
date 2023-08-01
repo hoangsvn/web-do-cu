@@ -10,24 +10,18 @@ import { faHome, faShoppingCart, faSignOut, faSignIn, faBell, faUser, faStore, f
 const AppHeader = () => {
     const [fullname, setFullname] = useState("");
     const [islogin, setISlogin] = useState(false);
-
-
     const usenavigate = useNavigate()
 
-    const fetchCurrentUser = async () => {
+   
+    useEffect(() => {
         try {
-            const currentUser = await Authservice.getCurrentUserApi();
+            const currentUser =  Authservice.getCurrentUserApi();
             setFullname(currentUser.fullname);
             setISlogin(true);
-            console.log(currentUser.fullname);
         } catch (error) {
             setISlogin(false);
             setFullname("");
-            console.error("Lỗi lấy thông tin người dùng", error);
         }
-    };
-    useEffect(() => {
-        fetchCurrentUser();
     }, []);
 
     const handleLogout = () => {
@@ -46,29 +40,29 @@ const AppHeader = () => {
             <title>Đồ Cũ </title>
             <div className="App-header">
                 <div>
-                    <nav class="navbar navbar-expand navbar-dark bg-dark" aria-label="Second navbar example">
-                        <div class="container-fluid">
-                            <a class="navbar-brand ms-4" href="/"><FaIcon icon={faHome}></FaIcon></a>
-                            <div class="collapse navbar-collapse" id="navbarsExample02">
-                                <ul class="navbar-nav me-auto">
-                                    <li class="nav-item">
-                                        <a class="nav-link active" aria-current="page" href="/myrepository/listcart"><FaIcon icon={faShoppingCart} /></a>
+                    <nav className="navbar navbar-expand navbar-dark bg-dark" aria-label="Second navbar example">
+                        <div className="container-fluid">
+                            <a className="navbar-brand ms-4" href="/"><FaIcon icon={faHome}></FaIcon></a>
+                            <div className="collapse navbar-collapse" id="navbarsExample02">
+                                <ul className="navbar-nav me-auto">
+                                    <li className="nav-item">
+                                        <a className="nav-link active" aria-current="page" href="/myrepository/listcart"><FaIcon icon={faShoppingCart} /></a>
                                     </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link active" href="/notification"><FaIcon icon={faBell} /></a>
+                                    <li className="nav-item">
+                                        <a className="nav-link active" href="/notification"><FaIcon icon={faBell} /></a>
                                     </li>
                                 </ul>
                                 <form className="w-50">
-                                    <input class="form-control" type="text" placeholder="Search" aria-label="Search"></input>
+                                    <input className="form-control" type="text" placeholder="Search" aria-label="Search"></input>
                                 </form>
                                 <ul className="navbar-nav ms-2">
                                     <li>
-                                        <a class="nav-link active" href="/info"><FaIcon icon={faUserCircle} ></FaIcon></a>
+                                        <a className="nav-link active" href="/info"><FaIcon icon={faUserCircle} ></FaIcon></a>
                                     </li>
                                 </ul>
                                 <ul className="navbar-nav ms-2">
                                     <li>
-                                        <a class="nav-link active" href="/myrepository/listsanpham"><FaIcon icon={faStore} ></FaIcon></a>
+                                        <a className="nav-link active" href="/myrepository/listsanpham"><FaIcon icon={faStore} ></FaIcon></a>
                                     </li>
                                 </ul>
                                 <form className="ms-2 me-5">

@@ -13,18 +13,22 @@ const ListCart = () => {
     const navigate = useNavigate();
     const [edit, SetEdit] = useState(false);
     const [deletecart, SetDeletcart] = useState(false);
+    const [isok , SetOke] = useState(false);
+    
+    
     useEffect(() => {
-
-        try {
+        // try {
             AuthSV.ApiGetPath(path)
                 .then((data) => {
                     if (data.message.success) {
                         setListCart(data.sanpham);
                         console.log(data.sanpham);
+                        SetOke(true);
                     } else {
                         handleToast(data.message.message);
                     }
-
+                }).catch(error => {
+                    toast.error("Cannot get data in Back End");
                 });
 
             if (path === "listcart") {
@@ -33,15 +37,17 @@ const ListCart = () => {
                 SetDeletcart(false);
                 SetEdit(true);
             }
-        } catch (error) {
-
-        }
-
+        // } catch (error) {
+        //     toast.error(error);
+        // }
     }, []);
 
     const handleToast = (message) => {
         toast.info(message);
     };
+    const handleDeleteItem = (id) => {
+        setListCart((listcart) => listcart.filter((item) => item.id !== id));
+      };
 
     const btnclicksanphan = (st, sid) => {
  
@@ -51,7 +57,7 @@ const ListCart = () => {
                 .then((data) => {
                     if (data.message.success) {
                         toast.success(data.message.message);
-                        setTimeout(() => { window.location.reload(); }, 3000);
+                        setTimeout(() => {handleDeleteItem(sid); }, 1000);
                     } else {
 
                         toast.info(data.message.message);
@@ -68,10 +74,10 @@ const ListCart = () => {
 
             SanPhamSV.DeleteSanPhamByID(sid)
                 .then((data) => {
-
                     if (data.message.success) {
                         toast.success(data.message.message);
-                        setTimeout(() => { window.location.reload(); }, 3000);
+                        
+                        setTimeout(() => {handleDeleteItem(sid); }, 1000);
                     } else {
                         toast.info(data.message.message);
                     }
@@ -89,10 +95,10 @@ const ListCart = () => {
 
     return (
         <div className="container mt-5">
-            {edit ? <div><button type="button" className="btn btn-sm w-100  btn-outline-success mt-2"><FaIcon icon={faAdd} /></button></div> : null }
+            {edit && <div><button type="button" className="btn btn-sm w-100  btn-outline-success mt-2"><FaIcon icon={faAdd} /></button></div>  }
             <div className="">
-                {listcart.map((sanpham) => (
-                    <div className="card shadow-sm w-100 col-lg-3 mt-3">
+                {isok && listcart.map((sanpham) => (
+                    <div className="card shadow-sm w-100  mt-3">
                         <div className="row">
                             <div className="col-lg-3">
                                 <img className="bd-placeholder-img card-img-top w-100 h-100" src={ImageSV.ImageUrlByLink(sanpham.listhinhanh[0]?.link)} onError={(e) => { e.target.src = '/imgerror.png'; }}></img>
@@ -105,9 +111,9 @@ const ListCart = () => {
                             <div className=" col-lg-1">
                                 <div className=" justify-content-between align-items-center ">
                                     <button type="button"   onClick={(e) => btnclicksanphan("view", sanpham.id)} className="btn btn-sm  btn-outline-info mt-4"> <FaIcon icon={faExclamationCircle} /></button> <br />
-                                    {edit ? <button type="button"   onClick={(e) => btnclicksanphan("update", sanpham.id)} className="btn btn-sm  btn-outline-success mt-2"><FaIcon icon={faPenSquare} /></button> : null} <br />
-                                    {edit ? <button type="button"   onClick={(e) => btnclicksanphan("deletesanpham", sanpham.id)} className="btn btn-sm  btn-outline-danger mt-2"><FaIcon icon={faTrashCan} /></button> : null} <br />
-                                    {deletecart ? <button type="button"  onClick={(e) => btnclicksanphan("deletetocart", sanpham.id)} className="btn btn-sm  btn-outline-danger mt-2 mb-4"><FaIcon icon={faTrashCan} /></button> : null} <br />
+                                    {edit && <button type="button"   onClick={(e) => btnclicksanphan("update", sanpham.id)} className="btn btn-sm  btn-outline-success mt-2"><FaIcon icon={faPenSquare} /></button> } <br />
+                                    {edit && <button type="button"   onClick={(e) => btnclicksanphan("deletesanpham", sanpham.id)} className="btn btn-sm  btn-outline-danger mt-2"><FaIcon icon={faTrashCan} /></button>} <br />
+                                    {deletecart && <button type="button"  onClick={(e) => btnclicksanphan("deletetocart", sanpham.id)} className="btn btn-sm  btn-outline-danger mt-2 mb-4"><FaIcon icon={faTrashCan} /></button>} <br />
 
                                 </div>
                             </div>

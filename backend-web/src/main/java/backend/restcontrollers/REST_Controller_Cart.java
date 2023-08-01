@@ -95,7 +95,7 @@ public class REST_Controller_Cart extends REST_Compoment {
 				}
 				response.put(info_message, delete_sanpham_in_cart_success);
 			} else if (lcart.size()==0) {
-				response.put(info_message, sanpham_already_in_cart);
+				response.put(info_message, sanpham_isnot_exists_in_cart);
 			}
 			return ResponseEntity.ok(response);
 		} 

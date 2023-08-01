@@ -24,8 +24,8 @@ public class REST_Compoment {
 	public static Response_Message logout_eror 				= new Response_Message("You Logout Error !", 		"Logout Eror"	, false);
 	public static Response_Message logout_success 			= new Response_Message("You Logout Success!", 		"Logout Success", true);	
 	
-	public static Response_Message username_already			= new Response_Message("Username is already taken !",	"In MySql"		, false);
-	public static Response_Message email_already 			= new Response_Message("Email is already taken !", 		"In MySql"		, false);
+	public static Response_Message username_already			= new Response_Message("Username is already taken !",	"In MySql"	, false);
+	public static Response_Message email_already 			= new Response_Message("Email is already taken !", 		"In MySql"	, false);
 	
 	public static Response_Message register_fail 			= new Response_Message("User registered Fail !", 	"Registered"	, false);
 	public static Response_Message register_error 			= new Response_Message("User registered Error !", 	"Registered"	, false);
@@ -38,9 +38,9 @@ public class REST_Compoment {
 	public static Response_Message sanpham_already_in_cart	= new Response_Message("Sanpham is already in Cart","In Cart"		, false);
 	public static Response_Message sanpham_is_number 		= new Response_Message("SanPham ID Is Number", 	 	"SanPham ID"	, false);
 	
-	public static Response_Message sanpham_isnot_exists_in_mysql 	= new Response_Message("SanPham Is Not Exists", 			"In Mysql"			, false);
-	public static Response_Message sanpham_is_exists_in_mysql 		= new Response_Message("SanPham Is Exists", 				"In Mysql"			, false);
-	public static Response_Message sanpham_isnot_exists_in_cart 	= new Response_Message("SanPham Is Not Exists", 			"SanPham in Cart"	, false);
+	public static Response_Message sanpham_isnot_exists_in_mysql 	= new Response_Message("SanPham Is Not Exists In Mysql", 	"SanPham In Mysql"	, false);
+	public static Response_Message sanpham_is_exists_in_mysql 		= new Response_Message("SanPham Is Exists In Mysql", 		"SanPham In Mysql"	, false);
+	public static Response_Message sanpham_isnot_exists_in_cart 	= new Response_Message("SanPham Is Not Exists in Cart", 	"SanPham in Cart"	, false);
 	
 	public static Response_Message delete_sanpham_in_cart_success 	= new Response_Message("Delete SanPham in Cart Success!", 	"Delete in Cart"	, true);
 	public static Response_Message delete_sanpham_in_cart_fail 		= new Response_Message("Delete SanPham in Cart Fail!", 		"Delete in Cart"	, false);
@@ -62,7 +62,6 @@ public class REST_Compoment {
 	public static Response_Message image_fail 				= new Response_Message("Image Fail", 				"Image In MySql"	, false);
 	public static Response_Message image_success 			= new Response_Message("Image Success", 			"Image In MySql"	, true);
 	public static Response_Message image_error				= new Response_Message("Image Error", 				"Image In MySql"	, false);
-
 	
 	public static String type_success 		= "success";
 	public static String type_error 		= "error";

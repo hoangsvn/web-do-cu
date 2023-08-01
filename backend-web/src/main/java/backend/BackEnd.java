@@ -1,7 +1,4 @@
 package backend;
-
-import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.UUID;
@@ -40,16 +37,5 @@ public class BackEnd {
     public static String EncodePassWord(String password) {
         return new BCryptPasswordEncoder().encode(password);
     }
-    private static Date StringToDate(String str) {
-        String pattern = "yyyy-MM-dd HH:mm:ss";  
-        DateFormat dateFormat = new SimpleDateFormat(pattern);
-        try {
-            Date date = dateFormat.parse(str);
-            return date;
-        } catch (ParseException e) {
-            return null;
-        }
-    	    
-	}
-
+   
 }

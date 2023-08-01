@@ -17,7 +17,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -301,6 +300,33 @@ public class REST_Controller_Auth extends REST_Compoment{
 			return ResponseEntity.ok("Fail");
 		}
 		 
+	}
+	@GetMapping("/publicinfo/id={id}")
+	public ResponseEntity<?> PubLicUserInfo( @PathVariable String id ){
+		Map<String, Object> response = new HashMap<>();
+		try {
+			Long sid = Long.parseLong(id);
+			User us = userRepository.findById(sid).get();
+			us.setPassword(""); 
+			us.setUsername("");
+			us.getListsanphamid().clear();
+			us.getCart().clear();
+			us.getRoles().clear();
+			response.put(info_user, us);
+			response.put(info_message,  rest_controller_success);
+			return ResponseEntity.ok(response);
+ 
+		}
+		catch (ClassCastException e) {
+			response.clear();
+			response.put(info_message, not_login);
+			 
+		}
+		catch (Exception e) {
+			response.clear();
+			response.put(info_message, user_not_found);
+		}
+		return ResponseEntity.badRequest().body(response);
 	}
 
 }
