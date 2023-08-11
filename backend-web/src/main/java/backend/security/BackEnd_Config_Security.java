@@ -80,7 +80,7 @@ public class BackEnd_Config_Security { // extends WebSecurityConfigurerAdapter {
 //  }
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        BackEnd.InFo("BACKEND SECURITY CONFIG", "OK");
+        
         http.cors().and().csrf().disable().exceptionHandling()
                 .authenticationEntryPoint(unauthorizedHandler)
                 .and()
@@ -94,6 +94,7 @@ public class BackEnd_Config_Security { // extends WebSecurityConfigurerAdapter {
 
         http.authenticationProvider(authenticationProvider());
         http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
+        BackEnd.InFo("BACKEND SECURITY CONFIG", "OK");
         return http.build();
     }
 }

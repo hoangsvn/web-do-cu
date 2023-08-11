@@ -1,5 +1,6 @@
 package backend.restcontrollers;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,8 +18,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import backend.BackEnd;
 import backend.modal.HinhAnh;
 import backend.modal.SanPham;
+import backend.payload.request.Resquest_sanpham;
 import backend.repository.Repository_SanPham;
 import backend.security.services.UserDetailsImpl;
  
@@ -34,6 +37,7 @@ public class REST_Controller_Sanphan extends REST_Compoment {
 
 	@GetMapping("/id={id}")
 	public ResponseEntity<?> GetByID(@PathVariable String id) {
+		
 		Map<String, Object> response = new HashMap<>();
 		try {
 			
@@ -129,25 +133,35 @@ public class REST_Controller_Sanphan extends REST_Compoment {
 	
 	@PostMapping("/add")
 	@PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
-	public ResponseEntity<?> AddByID(@Valid @RequestBody SanPham sp) {
+	public ResponseEntity<?> AddByID(@Valid @RequestBody Resquest_sanpham sp) {
+		 
 		Map<String, Object> response = new HashMap<>();
 		try {
-			List<HinhAnh> listha = sp.getListhinhanh();
-			sp.setId(-1L);
-			sp.setUser_id(getUserDetailsImplInAuthentcation().getId());
-			SanPham savesp = repository_SanPham.save(sp);
-			for (HinhAnh A: listha) {
-				A.setId(-1L);
-				A.setSanpham_id(savesp.getId());
+			UserDetailsImpl userDetail = getUserDetailsImplInAuthentcation();
+			SanPham spsave = new SanPham();
+			spsave.setId(-1l);
+			spsave.setName(sp.getName());
+			spsave.setCreate_at(new Date());
+			spsave.setUser_id(userDetail.getId());
+			spsave.setPrice(sp.getPrice());
+			spsave.setDesiption(sp.getDesiption());
+			spsave = repository_SanPham.save(spsave);
+			for (int i = 0; i < sp.getListimgsize(); i++) {
+			    HinhAnh ha = new HinhAnh();
+			    ha.setId(-1L);
+			    ha.setCreate_at(new Date());
+			    ha.setLink(BackEnd.RamdomNameImage());
+			    ha.setSanpham_id(spsave.getId());
+			    spsave.getListhinhanh().add(ha);
 			}
-			savesp.setListhinhanh(listha);
-			savesp = repository_SanPham.save(savesp);
-			response.put(info_sanpham, savesp);
-			response.put(info_image, insert_sanpham_success);
+			spsave = repository_SanPham.save(spsave);
+			response.put(info_sanpham, spsave);
+			response.put(info_message, insert_sanpham_success);
 			return ResponseEntity.ok(response);
 		} catch (Exception e) {
+			e.printStackTrace();
 			response.clear();
-			response.put(info_image, insert_sanpham_error);
+			response.put(info_message, insert_sanpham_error);
 		}
 		return ResponseEntity.badRequest().body(response);
 	}

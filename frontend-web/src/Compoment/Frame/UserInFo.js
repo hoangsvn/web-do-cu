@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { faSignIn } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon as FaIcon } from "@fortawesome/react-fontawesome";
 import { toast } from "react-toastify";
+ 
 const InFo = () => {
 
     const [user, setUser] = useState({});

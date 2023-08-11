@@ -54,17 +54,16 @@ public class REST_Controller_Image_Byte extends REST_Compoment {
 			imgage = repository_Image_Byte.save(imgage);
 			imgage.setImagebyte(null);
 			response.put(info_image, imgage);
-			response.put(type_success, rest_controller_success);
+			response.put(info_message, rest_controller_success);
 			return ResponseEntity.ok().body(response);
 		} 
 		catch (DataIntegrityViolationException e) {
 			response.clear();
-			response.put(type_success, rest_controller_fail);
+			response.put(info_message, rest_controller_fail);
 		}
 		catch (Exception e) {
 			e.printStackTrace();
 		}
-		
 		return ResponseEntity.badRequest().body(response);
 	}
 }

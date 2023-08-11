@@ -19,7 +19,7 @@ public class BackEnd {
     }
 
     public static String RamdomNameImage() {
-        return DateToString()+ "-" + UUID.randomUUID().toString() + ".png";
+        return DateToString()+ "-" + Ramdomkey()+ Ramdomkey() + ".png";
     }
 
     public static String Ramdomkey() {

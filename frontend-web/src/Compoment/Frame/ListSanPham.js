@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { AuthSV, CartSV, SanPhamSV, TimeSV ,ImageSV } from "../Services";
 import { toast } from "react-toastify";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import {  useNavigate, useParams } from "react-router-dom";
 import { FontAwesomeIcon as FaIcon } from "@fortawesome/react-fontawesome";
-import { faAdd, faDeleteLeft, faExclamationCircle, faPenSquare, faTrashCan } from "@fortawesome/free-solid-svg-icons";
+import { faAdd,  faExclamationCircle, faPenSquare, faTrashCan } from "@fortawesome/free-solid-svg-icons";
 
 const ListCart = () => {
 
@@ -69,7 +69,7 @@ const ListCart = () => {
         } else if (st === "view") {
             navigate(`/sanpham/${sid}`);
         } else if (st === "update") {
-
+            navigate(`/edit/${sid}`)
         } else if (st === "deletesanpham") {
 
             SanPhamSV.DeleteSanPhamByID(sid)
@@ -91,11 +91,14 @@ const ListCart = () => {
 
         }
     }
+    const btnAddsanpham = () =>{
+        navigate("/add");
+    }
 
 
     return (
         <div className="container mt-5">
-            {edit && <div><button type="button" className="btn btn-sm w-100  btn-outline-success mt-2"><FaIcon icon={faAdd} /></button></div>  }
+            {edit && <div><button type="button" className="btn btn-sm w-100  btn-outline-success mt-2" onClick={btnAddsanpham}><FaIcon icon={faAdd} /></button></div>  }
             <div className="">
                 {isok && listcart.map((sanpham) => (
                     <div className="card shadow-sm w-100  mt-3">

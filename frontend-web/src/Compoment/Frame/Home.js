@@ -30,7 +30,7 @@ const Home = () => {
     
     const btntosanphan = (sid) =>{
         
-        navigate(`/sanpham/${sid}`)
+        navigate(`/sanpham/${sid}`);
     }
     const btnaddsanphantocart = (sid) =>{
         
@@ -47,6 +47,7 @@ const Home = () => {
             
         }
     }
+
 
     return (
         

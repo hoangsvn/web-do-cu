@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 import backend.modal.Cart;
+import backend.modal.SanPham;
 import backend.repository.Repository_Cart;
 import backend.repository.Repository_SanPham;
 import backend.security.services.UserDetailsImpl;
@@ -31,20 +32,23 @@ public class REST_Controller_Cart extends REST_Compoment {
 	 
 	
 	
-	@GetMapping("/addtocart/id={sanpham_id}")
+	@GetMapping("/addtocart/id={sp_id}")
 	@PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
-	public ResponseEntity<?> AddToCard(@PathVariable Long sanpham_id) {
+	public ResponseEntity<?> AddToCard(@PathVariable String sp_id) {
 		Map<String, Object> response = new HashMap<>();
 		try {
+			Long sanpham_id = Long.parseLong(sp_id);
 			UserDetailsImpl userDetails = getUserDetailsImplInAuthentcation();
+			
 			if (repository_SanPham.existsById(sanpham_id)) {
-				
 				List<Cart> lcart = repository_Cart.findByUserIdAndSanphamId(userDetails.getId(), sanpham_id);
 				Cart cart = new Cart();
 				cart.setSanpham_id(sanpham_id);
 				cart.setUser_id(userDetails.getId());
-				
-				if (lcart.size()>1) {
+				SanPham sp = repository_SanPham.findById(sanpham_id).get();
+				if (sp.getUser_id() == userDetails.getId()) {
+					response.put(info_message, you_owner_sanpham);
+				} else if (lcart.size()>1) {
 					cart.setCount(1L);
 					for(Cart c : lcart) {
 						repository_Cart.delete(c);
@@ -56,13 +60,10 @@ public class REST_Controller_Cart extends REST_Compoment {
 					cart.setId(-1L);
 					repository_Cart.save(cart);
 					response.put(info_message, add_cart_success);
-				}else if (lcart.size()==1) {
+				} else if (lcart.size()==1) {
 					response.put(info_message, sanpham_already_in_cart);
 				} 
-				
-				
 			} else {
-				 
 				response.put(info_message, sanpham_isnot_exists_in_mysql);
 			}
 			

@@ -5,10 +5,11 @@ const API = ApiInFo.API
 
 var myHeaders = new Headers();
 myHeaders.append("Content-Type", "application/json");
-myHeaders.append("Authorization", localStorage.getItem("token"));
+
 
 const ApiLogin = (username, password) => {
 
+  myHeaders.append("Authorization", localStorage.getItem("token"));
   var raw = JSON.stringify({
     username: username,
     password: password,
@@ -42,7 +43,7 @@ const ApiLogout = () => {
 
 const ApiRegister = (email1, username1, password1) => {
 
-
+  myHeaders.append("Authorization", localStorage.getItem("token"));
   var raw = JSON.stringify({
     "username": username1,
     "password": password1,
@@ -86,7 +87,7 @@ const getCurrentUserToken = () => {
 
 const ApiUserInFo = () => {
 
-
+  myHeaders.append("Authorization", localStorage.getItem("token"));
   var requestOptions = {
     method: 'GET',
     headers: myHeaders,
@@ -105,6 +106,7 @@ const ApiUserInFo = () => {
 
 
 const ApiGetPath = (part) => {
+  myHeaders.append("Authorization", localStorage.getItem("token"));
   var requestOptions = {
     method: 'GET',
     headers: myHeaders,
@@ -123,6 +125,7 @@ const ApiGetPath = (part) => {
 
 
 const ApiGetUserInfoPublic = (sid) => {
+  myHeaders.append("Authorization", localStorage.getItem("token"));
   var requestOptions = {
     method: 'GET',
     headers: myHeaders,

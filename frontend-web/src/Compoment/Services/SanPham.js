@@ -28,7 +28,37 @@ const GetTop20Sanpham = () => {
             return result;
         });
 }
+const AddSanpham = ( sname , sprice ,sdesiption , slistimgsize ,sdanhmucid) => {
 
+    var raw = JSON.stringify({
+        "user_id" : -1,
+        "price": sprice,
+        "name": sname,
+        "desiption": sdesiption,
+        "listhinhanh": [],
+        "listdanhmuc": [] ,
+        "listimgsize" : slistimgsize ,
+        "danhmucid" : sdanhmucid
+      });
+
+    var requestOptions = {
+        method: 'POST',
+        headers: myHeaders,
+        body: raw,
+        redirect: 'follow'
+    };
+
+    return fetch(API + "/api/sanpham/add", requestOptions)
+        .then((response) => {
+            if (response.ok || response.status === 400 ) {
+                return response.json();
+            } else {
+                throw new Error("Add San Pham Error ");
+            }
+        }).then((result) => {
+            return result;
+        });
+}
 
 const DeleteSanPhamByID = (id) => {
     var requestOptions = {
@@ -65,7 +95,7 @@ const GetSanphambyID = (id) => {
         });
 }
 const SanPhamService = {
-    GetTop20Sanpham, GetSanphambyID, DeleteSanPhamByID
+    GetTop20Sanpham, GetSanphambyID, DeleteSanPhamByID,AddSanpham
 
 };
 export default SanPhamService;
