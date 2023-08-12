@@ -1,10 +1,7 @@
 package backend.payload.request;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-
- 
 
 import backend.modal.DanhMuc;
 import backend.modal.HinhAnh;
@@ -12,6 +9,7 @@ import backend.modal.HinhAnh;
 
 public class Resquest_sanpham  {
 	
+	private Long id;
 	private Long listimgsize;
 	private Long danhmucid;
 	private Long user_id;
@@ -22,6 +20,14 @@ public class Resquest_sanpham  {
 	private List<HinhAnh> listhinhanh =new ArrayList<>();
 	
 	private List<DanhMuc> listdanhmuc =new ArrayList<>();
+	
+	
+	public void setId(Long id) {
+		this.id = id;
+	}
+	public Long getId() {
+		return id;
+	}
 	public Long getListimgsize() {
 		return listimgsize;
 	}
@@ -75,10 +81,5 @@ public class Resquest_sanpham  {
 		return "Resquest_sanpham [listimgsize=" + listimgsize + ", danhmucid=" + danhmucid + ", user_id=" + user_id
 				+ ", price=" + price + ", name=" + name + ", desiption=" + desiption + ", listhinhanh=" + listhinhanh
 				+ ", listdanhmuc=" + listdanhmuc + "]";
-	}
-	
-	
-	 
-	
-	
+	}	
 }

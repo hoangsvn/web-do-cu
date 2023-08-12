@@ -87,6 +87,7 @@ public class BackEnd_Config_Security { // extends WebSecurityConfigurerAdapter {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and().authorizeRequests()
                 .antMatchers("/api/auth/**").permitAll()
+                .antMatchers("/api/danhmuc/**").permitAll()
                 .antMatchers("/api/test/**").permitAll()
                 .antMatchers("/api/sanpham/**").permitAll()
                 .antMatchers("/api/image/**").permitAll()

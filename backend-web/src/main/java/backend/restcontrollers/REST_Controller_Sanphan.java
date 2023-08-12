@@ -1,5 +1,6 @@
 package backend.restcontrollers;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -19,9 +20,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import backend.BackEnd;
+import backend.modal.DanhMuc;
 import backend.modal.HinhAnh;
 import backend.modal.SanPham;
 import backend.payload.request.Resquest_sanpham;
+import backend.repository.Repository_DanhMuc;
+import backend.repository.Repository_HinhAnh;
 import backend.repository.Repository_SanPham;
 import backend.security.services.UserDetailsImpl;
  
@@ -33,7 +37,12 @@ public class REST_Controller_Sanphan extends REST_Compoment {
 
 	@Autowired
 	private Repository_SanPham repository_SanPham;
- 
+	
+	@Autowired
+	private Repository_HinhAnh repository_HinhAnh;
+	
+	@Autowired
+	private Repository_DanhMuc repository_DanhMuc;
 
 	@GetMapping("/id={id}")
 	public ResponseEntity<?> GetByID(@PathVariable String id) {
@@ -67,7 +76,7 @@ public class REST_Controller_Sanphan extends REST_Compoment {
 			response.put(info_message, rest_controller_error);
 			
 		}
-		return ResponseEntity.status(404).body(response);
+		return ResponseEntity.badRequest().body(response);
 		
 	}
 	@GetMapping("top20")
@@ -100,7 +109,6 @@ public class REST_Controller_Sanphan extends REST_Compoment {
 			}
 			
 		} catch (Exception e) {
-
 			response.clear();
 			response.put(info_message, delete_sanpham_fail);
 			return ResponseEntity.badRequest().body(response);
@@ -109,23 +117,65 @@ public class REST_Controller_Sanphan extends REST_Compoment {
 
 	@PostMapping("/update")
 	@PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
-	public ResponseEntity<?> UpdateByID(@Valid @RequestBody SanPham sp) {
+	public ResponseEntity<?> UpdateByID(@Valid @RequestBody Resquest_sanpham sp) {
 		Map<String, Object> response = new HashMap<>();
 		try {
-			if (repository_SanPham.existsById(sp.getId())) {
-				SanPham updatedProduct = repository_SanPham.saveAndFlush(sp);
-				response.put(info_sanpham, updatedProduct);
-				response.put(info_message, update_sanpham_success);
-				
-			} else {
-				response.put(info_message,sanpham_is_exists_in_mysql);
+			UserDetailsImpl userDetail = getUserDetailsImplInAuthentcation();
+			SanPham spsave = new SanPham();
+			spsave = repository_SanPham.findById(sp.getId()).get();
+			spsave.setId(sp.getId());
+			spsave.setName(sp.getName());
+			spsave.setCreate_at(new Date());
+			spsave.setUser_id(userDetail.getId());
+			spsave.setPrice(sp.getPrice());
+			spsave.setDesiption(sp.getDesiption());
+			 
+			try {
+				if (sp.getDanhmucid()!=0 && sp.getDanhmucid() != spsave.getListdanhmuc().get(0).getId()) {
+					DanhMuc ms = repository_DanhMuc.findById(sp.getDanhmucid()).get();
+					spsave.getListdanhmuc().clear();
+					spsave.getListdanhmuc().add(ms);	 
+				}
+				 
+			} catch (Exception e) {
+				 
 			}
-			return ResponseEntity.ok(response);
+			spsave = repository_SanPham.save(spsave);
+			
+			
+			try {
+				for (HinhAnh a : spsave.getListhinhanh()) {
+				    repository_HinhAnh.deleteById(a.getId());
+				}
 
+				spsave.getListhinhanh().clear();
+
+				List<HinhAnh> newImages = new ArrayList<>();
+				for (int i = 0; i < sp.getListimgsize(); i++) {
+				    HinhAnh ha = new HinhAnh();
+				    ha.setId(-1L);
+				    ha.setCreate_at(new Date());
+				    ha.setLink(BackEnd.RamdomNameImage());
+				    ha.setSanpham_id(spsave.getId());
+				    newImages.add(ha);
+				}
+
+				spsave.getListhinhanh().addAll(newImages);
+
+			} catch (Exception e) {
+				 System.out.println("Error Update");
+			}
+			System.out.println(spsave);
+			spsave = repository_SanPham.saveAndFlush(spsave);
+			
+			response.put(info_sanpham, spsave);
+			response.put(info_message, update_sanpham_success);
+			return ResponseEntity.ok(response);
 		} catch (Exception e) {
+			e.printStackTrace();
 			response.clear();
 			response.put(info_message, update_sanpham_error);
-		} 
+		}
 		return ResponseEntity.badRequest().body(response);
 		
 	}
@@ -145,7 +195,20 @@ public class REST_Controller_Sanphan extends REST_Compoment {
 			spsave.setUser_id(userDetail.getId());
 			spsave.setPrice(sp.getPrice());
 			spsave.setDesiption(sp.getDesiption());
+			
+			try {
+				if (sp.getDanhmucid()!=0) {
+					DanhMuc ms = repository_DanhMuc.findById(sp.getDanhmucid()).get();
+					spsave.getListdanhmuc().clear();
+					spsave.getListdanhmuc().add(ms);
+				}
+			} catch (Exception e) {
+				
+			}
+			
+			 
 			spsave = repository_SanPham.save(spsave);
+			 
 			for (int i = 0; i < sp.getListimgsize(); i++) {
 			    HinhAnh ha = new HinhAnh();
 			    ha.setId(-1L);
@@ -159,12 +222,54 @@ public class REST_Controller_Sanphan extends REST_Compoment {
 			response.put(info_message, insert_sanpham_success);
 			return ResponseEntity.ok(response);
 		} catch (Exception e) {
-			e.printStackTrace();
+			 
 			response.clear();
 			response.put(info_message, insert_sanpham_error);
 		}
 		return ResponseEntity.badRequest().body(response);
 	}
 	
+	
+	
+	
+	
+	
+	@PostMapping("/tupdate")
+	@PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
+	public ResponseEntity<?> TUpdateByID(@Valid @RequestBody SanPham sp) {
+		Map<String, Object> response = new HashMap<>();
+		try {
+			repository_SanPham.save(sp);
+ 
+			response.put(info_sanpham, sp);
+			response.put(info_message, update_sanpham_success);
+			return ResponseEntity.ok(response);
+		} catch (Exception e) {
+			e.printStackTrace();
+			response.clear();
+			response.put(info_message, update_sanpham_error);
+		}
+		return ResponseEntity.badRequest().body(response);
+		
+	}
+	
+	
+	@GetMapping("/search={search}")
+	public ResponseEntity<?> Search(@PathVariable String search) {
+		Map<String, Object> response = new HashMap<>();
+		try {
+			 
+			List<SanPham> listsp = repository_SanPham.searchByNameLike(search);
+			response.put(info_sanpham, listsp);
+			response.put(info_message, search_sanpham_success);
+			return ResponseEntity.ok(response);
+		} catch (Exception e) {
+			e.printStackTrace();
+			response.clear();
+			response.put(info_message, search_sanpham_error);
+		}
+		return ResponseEntity.badRequest().body(response);
+		
+	}
 
 }

@@ -55,6 +55,11 @@ public class REST_Compoment {
 	public static Response_Message update_sanpham_fail 		= new Response_Message("Update SanPham Fail!", 		"Update in Mysql"	, false);
 	public static Response_Message update_sanpham_error 	= new Response_Message("Update SanPham Error!", 	"Update in Mysql"	, false);
 
+	
+	public static Response_Message search_sanpham_success 	= new Response_Message("Search SanPham Success!", 	"Search in Mysql"	, true);
+	public static Response_Message search_sanpham_fail 		= new Response_Message("Search SanPham Fail!", 		"Search in Mysql"	, false);
+	public static Response_Message search_sanpham_error 	= new Response_Message("Search SanPham Error!", 	"Search in Mysql"	, false);
+	
 	public static Response_Message insert_sanpham_success 	= new Response_Message("Insert SanPham Success!", 	"Insert in Mysql"	, true);
 	public static Response_Message insert_sanpham_fail 		= new Response_Message("Insert SanPham Fail!", 		"Insert in Mysql"	, false);
 	public static Response_Message insert_sanpham_error 	= new Response_Message("Insert SanPham Error!", 	"Insert in Mysql"	, false);
@@ -72,6 +77,7 @@ public class REST_Compoment {
 	public static String info_sanpham 	= "sanpham";
 	public static String info_address 	= "address";
 	public static String info_user 		= "userinfo";
+	public static String info_danhmuc 	= "danhmuc";
 	public static String info_image 	= "image";
 	
 	public static Response_Message upload_image_success 	= new Response_Message("Upload Image Success !", 	"Insert in Mysql"	, true);

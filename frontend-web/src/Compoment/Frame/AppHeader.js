@@ -12,10 +12,10 @@ const AppHeader = () => {
     const [islogin, setISlogin] = useState(false);
     const usenavigate = useNavigate()
 
-   
+
     useEffect(() => {
         try {
-            const currentUser =  Authservice.getCurrentUserApi();
+            const currentUser = Authservice.getCurrentUserApi();
             setFullname(currentUser.fullname);
             setISlogin(true);
         } catch (error) {
@@ -32,6 +32,16 @@ const AppHeader = () => {
         usenavigate("/login")
     }
 
+    const onChangesearch = () => {
+        clearTimeout(stsearch);
+        var stsearch = setTimeout(() => {
+            var spsearch = document.getElementById("spsearch");
+            usenavigate("/search/" + spsearch.value);
+        }, 500);
+
+
+
+    }
 
 
     return (
@@ -53,7 +63,7 @@ const AppHeader = () => {
                                     </li>
                                 </ul>
                                 <form className="w-50">
-                                    <input className="form-control" type="text" placeholder="Search" aria-label="Search"></input>
+                                    <input className="form-control" type="text" placeholder="Search" id="spsearch" aria-label="Search" onChange={(e) => onChangesearch()}></input>
                                 </form>
                                 <ul className="navbar-nav ms-2">
                                     <li>

@@ -2,15 +2,16 @@ package backend.modal;
 
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
 
 @Entity
-@Table(name = "imagebyte" ,uniqueConstraints = {@UniqueConstraint(columnNames = "link")})
+@Table(name = "imagebyte")
 public class Image_Byte {
 	
 	@Id
@@ -19,6 +20,9 @@ public class Image_Byte {
 	
 	private String link;
 	
+	
+	@Lob
+	@Column( columnDefinition = "longblob")
 	private byte[] imagebyte;
 	
 	

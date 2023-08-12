@@ -45,6 +45,17 @@ public class User {
 	@OneToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL,targetEntity = DiaChi.class,mappedBy = "user_id")
 	private List<DiaChi> listdiachi ;
 	
+    @OneToOne(cascade = CascadeType.ALL ,targetEntity = UserInFo.class)
+    @JoinColumn(name = "id", referencedColumnName = "userid")
+	private UserInFo userinfo ;
+	
+	public UserInFo getUserinfo() {
+		return userinfo;
+	}
+	public void setUserinfo(UserInFo userinfo) {
+		this.userinfo = userinfo;
+	}
+	
 	public List<DiaChi> getListdiachi() {
 		return listdiachi;
 	}

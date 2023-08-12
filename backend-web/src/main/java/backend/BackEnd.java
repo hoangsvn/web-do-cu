@@ -19,7 +19,7 @@ public class BackEnd {
     }
 
     public static String RamdomNameImage() {
-        return DateToString()+ "-" + Ramdomkey()+ Ramdomkey() + ".png";
+        return DateToString()+ "-" + Ramdomkey()+"-"+ Ramdomkey() + ".png";
     }
 
     public static String Ramdomkey() {
@@ -27,7 +27,7 @@ public class BackEnd {
     }
 
     public static String DateToString() {
-        return new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss").format(new Date());
+        return new SimpleDateFormat("yyyy-MM-dd-HH-mm-sss").format(new Date());
     }
 
     public static String getDateTime() {

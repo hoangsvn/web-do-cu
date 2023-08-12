@@ -5,7 +5,7 @@ import java.util.Date;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
+ 
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -32,7 +32,7 @@ public class SanPham {
 	private Date create_at;
 	private String desiption;
 
-	@OneToMany(fetch = FetchType.LAZY, targetEntity = HinhAnh.class ,cascade = CascadeType.ALL ,mappedBy = "sanpham_id")
+	@OneToMany( targetEntity = HinhAnh.class ,cascade = CascadeType.ALL ,mappedBy = "sanpham_id")
 	private List<HinhAnh> listhinhanh =new ArrayList<>();
 	
 	@ManyToMany(targetEntity = DanhMuc.class , cascade =CascadeType.DETACH )
@@ -91,9 +91,9 @@ public class SanPham {
 	@Override
 	public String toString() {
 		return "SanPham [id=" + id + ", user_id=" + user_id + ", price=" + price + ", name=" + name + ", create_at="
-				+ create_at + ", desiption=" + desiption + ", listhinhanh=" + listhinhanh + "]";
+				+ create_at + ", desiption=" + desiption + ", listhinhanh=" + listhinhanh + ", listdanhmuc="
+				+ listdanhmuc + "]";
 	}
-	
 	
 }
 

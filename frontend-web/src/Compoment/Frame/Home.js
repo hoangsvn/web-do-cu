@@ -1,9 +1,7 @@
 import { useEffect, useState } from "react";
 import { CartSV, ImageSV, SanPhamSV ,TimeSV} from "../Services";
-
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
-
 import { FontAwesomeIcon as FaIcon } from "@fortawesome/react-fontawesome";
 import {faExclamationCircle, faShopSlash, faShoppingCart } from "@fortawesome/free-solid-svg-icons";
 const Home = () => {

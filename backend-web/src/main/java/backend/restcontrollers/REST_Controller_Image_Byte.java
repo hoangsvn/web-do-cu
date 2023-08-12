@@ -66,4 +66,21 @@ public class REST_Controller_Image_Byte extends REST_Compoment {
 		}
 		return ResponseEntity.badRequest().body(response);
 	}
+	
+	
+	@GetMapping("/delid={id}")
+	public ResponseEntity<?> DEByID(@PathVariable String id) {
+		Map<String, Object> response = new HashMap<>();
+		try {
+			Long Fid = Long.parseLong(id);
+			repository_Image_Byte.deleteById(Fid);
+			response.put(info_message, rest_controller_success);
+			return ResponseEntity.ok(response);
+		} catch (Exception e) {
+			response.clear();
+			response.put(info_message, rest_controller_error);
+			return ResponseEntity.badRequest().body(response);
+		}	
+	}
+	 
 }

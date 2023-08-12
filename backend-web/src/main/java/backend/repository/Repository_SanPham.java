@@ -14,4 +14,8 @@ public interface Repository_SanPham extends JpaRepository<SanPham, Long> {
 	@Query("SELECT u From SanPham u Where u.id = ?1 and u.user_id = ?2 ")
 	List<SanPham> findByIdAndUser_id(Long id ,Long user_id);
 	
+	
+	@Query("SELECT p FROM SanPham p WHERE p.name LIKE %:keyword%")
+    List<SanPham> searchByNameLike(String keyword);
+	
 }
