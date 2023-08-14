@@ -28,16 +28,17 @@ const timePassed = (createdAt) => {
 
 
 function formatDate(dateString) {
-    const date = new Date(dateString);
-    const day = date.getDate().toString().padStart(2, '0');
-    const month = (date.getMonth() + 1).toString().padStart(2, '0');
-    const year = date.getFullYear();
-  
-    return `${day}/${month}/${year}`;
+    const options = { year: 'numeric', month: 'numeric', day: 'numeric' };
+    const formattedDate = new Date(dateString).toLocaleDateString('en-US', options);
+    return formattedDate;
   }
 
+
+function formatDatetypeDate(dateString){
+    return dateString ? dateString.split('T')[0] : '';
+}
 const TimeService = {
-    timePassed,formatDate
+    timePassed,formatDate,formatDatetypeDate
 
 };
 export default TimeService;

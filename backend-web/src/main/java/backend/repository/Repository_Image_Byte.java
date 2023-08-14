@@ -28,5 +28,7 @@ public interface Repository_Image_Byte extends JpaRepository<Image_Byte,  Long> 
 // 
 //    @Query("DELETE FROM Image_Byte u WHERE u.link = :link")
 //    void deleteByLink(String link);
+    
+ 
 
 }

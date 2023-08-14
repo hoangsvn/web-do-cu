@@ -49,26 +49,30 @@ public class BackEnd_Config implements WebMvcConfigurer, WebServerFactoryCustomi
 
     @Autowired
     private Environment env;
-
+    private int port = 8080;
     public void InFo() {
-        int port = env.getProperty("server.port") == null ? 8080 : Integer.parseInt(env.getProperty("server.port"));
         try {
-            BackEnd.InFo("+==================================================================+");
-            BackEnd.InFo("MY-SQL URL", 		env.getProperty("spring.datasource.url"));
-            BackEnd.InFo("MY-SQL USERNAME", env.getProperty("spring.datasource.username"));
-            BackEnd.InFo("MY-SQL PASSWORD", env.getProperty("spring.datasource.password"));
-            BackEnd.InFo("SERVER  PORT", 	String.valueOf(port));
-            BackEnd.InFo("CONTEXT PATH", 	env.getProperty("server.servlet.context-path"));
-            BackEnd.InFo("LOCAL PC/IP ", 	InetAddress.getLocalHost().toString());
-            BackEnd.InFo("PUBLIC IP ", 		Ip());
-            BackEnd.InFo("APP NAME", 		env.getProperty("app.name"));
-            BackEnd.InFo("APP DESCRIPTION", env.getProperty("app.description"));
-            BackEnd.InFo("APP VERSION", 	env.getProperty("app.version"));
-            BackEnd.InFo("JAVA VERSION", 	env.getProperty("java.version"));
-            BackEnd.InFo("BACKEND MWC CONFIG", "OK");
+        	port = Integer.parseInt(env.getProperty("server.port"));
+		} catch (Exception e) {
+			 
+		}
+        try {
+            BackEnd.INFO(BackEnd_Config.class,"+==================================================================+");
+            BackEnd.INFO(BackEnd_Config.class,"MY-SQL URL", 		env.getProperty("spring.datasource.url"));
+            BackEnd.INFO(BackEnd_Config.class,"MY-SQL USERNAME", env.getProperty("spring.datasource.username"));
+            BackEnd.INFO(BackEnd_Config.class,"MY-SQL PASSWORD", env.getProperty("spring.datasource.password"));
+            BackEnd.INFO(BackEnd_Config.class,"SERVER  PORT", 	String.valueOf(port));
+            BackEnd.INFO(BackEnd_Config.class,"CONTEXT PATH", 	env.getProperty("server.servlet.context-path"));
+            BackEnd.INFO(BackEnd_Config.class,"LOCAL PC/IP ", 	InetAddress.getLocalHost().toString());
+            BackEnd.INFO(BackEnd_Config.class,"PUBLIC IP ", 		Ip());
+            BackEnd.INFO(BackEnd_Config.class,"APP NAME", 		env.getProperty("app.name"));
+            BackEnd.INFO(BackEnd_Config.class,"APP DESCRIPTION", env.getProperty("app.description"));
+            BackEnd.INFO(BackEnd_Config.class,"APP VERSION", 	env.getProperty("app.version"));
+            BackEnd.INFO(BackEnd_Config.class,"JAVA VERSION", 	env.getProperty("java.version"));
+            BackEnd.INFO(BackEnd_Config.class,"BACKEND MWC CONFIG", "OK");
         } catch (IOException e) {
-            BackEnd.InFo("BACKEND MWC CONFIG", "FAIL");
+            BackEnd.ERROR(BackEnd_Config.class,"BACKEND MWC CONFIG", "FAIL");
         }
-        BackEnd.InFo("+==================================================================+");
+        BackEnd.INFO(BackEnd_Config.class,"+==================================================================+");
     }
 }

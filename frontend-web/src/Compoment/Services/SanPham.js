@@ -4,10 +4,7 @@ import ApiInFo from "./ApiInFo";
 
 const API = ApiInFo.API
 
-
-var myHeaders = new Headers();
-myHeaders.append("Content-Type", "application/json");
-myHeaders.append("Authorization", localStorage.getItem("token"));
+const myHeaders = ApiInFo.myHeaders();
 
 const GetTop20Sanpham = () => {
 
@@ -99,7 +96,7 @@ const GetSanphambyID = (id) => {
 
 const UpdateSanPham = (sid, sname, sprice, sdesiption, slistimgsize, sdanhmucid) => {
     var raw = JSON.stringify({
-        "id" : sid,
+        "id": sid,
         "user_id": -1,
         "price": sprice,
         "name": sname,
@@ -107,7 +104,7 @@ const UpdateSanPham = (sid, sname, sprice, sdesiption, slistimgsize, sdanhmucid)
         "listimgsize": slistimgsize,
         "danhmucid": sdanhmucid
     });
- 
+
     var requestOptions = {
         method: 'POST',
         headers: myHeaders,
@@ -128,22 +125,37 @@ const UpdateSanPham = (sid, sname, sprice, sdesiption, slistimgsize, sdanhmucid)
 }
 
 
-const Search = (search) =>{
+const Search = (search) => {
     var requestOptions = {
         method: 'GET',
         redirect: 'follow'
-      };
-      
-    return  fetch(API + "/api/sanpham/search="+search, requestOptions)
-    .then((response) => {
-        if (response.ok || response.status === 400) {
-            return response.json();
-        }});
-         
-}
+    };
 
+    return fetch(API + "/api/sanpham/search=" + search, requestOptions)
+        .then((response) => {
+            if (response.ok || response.status === 400) {
+                return response.json();
+            }
+        });
+
+}
+const getAllSanPham = () => {
+    var requestOptions = {
+        method: 'GET',
+        headers: myHeaders,
+        redirect: 'follow'
+    };
+
+    return fetch("http://localhost/api/sanpham/all", requestOptions)
+        .then((response) => {
+            if (response.ok || response.status === 400) {
+                return response.json();
+            }
+        });
+}
 const SanPhamService = {
-    GetTop20Sanpham, GetSanphambyID, DeleteSanPhamByID, AddSanpham, UpdateSanPham ,Search
+    GetTop20Sanpham, GetSanphambyID, DeleteSanPhamByID,
+    AddSanpham, UpdateSanPham, Search ,getAllSanPham
 
 };
 export default SanPhamService;

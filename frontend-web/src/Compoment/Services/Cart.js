@@ -1,9 +1,8 @@
 
 import ApiInFo from "./ApiInFo";
 const API = ApiInFo.API
-var myHeaders = new Headers();
-myHeaders.append("Content-Type", "application/json");
-myHeaders.append("Authorization", localStorage.getItem("token"));
+
+const myHeaders =ApiInFo.myHeaders();
 
 
 const AddToCart = (sid) => {

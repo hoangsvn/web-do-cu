@@ -13,6 +13,8 @@ import io.jsonwebtoken.*;
 
 @Component
 public class JWT_Utils {
+	
+	
 	private static final Logger logger = LoggerFactory.getLogger(JWT_Utils.class);
 
 	@Value("${backend.app.jwtSecret}")

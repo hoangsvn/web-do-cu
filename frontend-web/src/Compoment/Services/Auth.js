@@ -2,14 +2,11 @@ import ApiInFo from "./ApiInFo";
 
 const API = ApiInFo.API
 
-
-var myHeaders = new Headers();
-myHeaders.append("Content-Type", "application/json");
+const myHeaders =ApiInFo.myHeaders();
 
 
 const ApiLogin = (username, password) => {
-
-  myHeaders.append("Authorization", localStorage.getItem("token"));
+ 
   var raw = JSON.stringify({
     username: username,
     password: password,
@@ -42,8 +39,7 @@ const ApiLogout = () => {
 };
 
 const ApiRegister = (email1, username1, password1) => {
-
-  myHeaders.append("Authorization", localStorage.getItem("token"));
+ 
   var raw = JSON.stringify({
     "username": username1,
     "password": password1,
@@ -87,14 +83,14 @@ const getCurrentUserToken = () => {
 
 const ApiUserInFo = () => {
 
-  myHeaders.append("Authorization", localStorage.getItem("token"));
+ 
   var requestOptions = {
     method: 'GET',
     headers: myHeaders,
     redirect: 'follow'
   };
 
-  return fetch("http://localhost/api/auth/info", requestOptions)
+  return fetch(API + "/api/auth/info", requestOptions)
     .then((response) => {
       if (response.ok) {
         return response.json();
@@ -106,7 +102,8 @@ const ApiUserInFo = () => {
 
 
 const ApiGetPath = (part) => {
-  myHeaders.append("Authorization", localStorage.getItem("token"));
+
+ 
   var requestOptions = {
     method: 'GET',
     headers: myHeaders,
@@ -125,7 +122,8 @@ const ApiGetPath = (part) => {
 
 
 const ApiGetUserInfoPublic = (sid) => {
-  myHeaders.append("Authorization", localStorage.getItem("token"));
+
+ 
   var requestOptions = {
     method: 'GET',
     headers: myHeaders,
@@ -142,6 +140,76 @@ const ApiGetUserInfoPublic = (sid) => {
     });
 }
 
+
+const UpdateUserInfo = (fullname, phonenumber, address, brithDay, linkfacebook, linkinstagram, linktwitter) => {
+ 
+  var raw = JSON.stringify({
+    "fullname": fullname,
+    "phonenumber": phonenumber,
+    "linkfacebook": linkfacebook,
+    "linkinstagram": linkinstagram,
+    "linktwitter": linktwitter,
+    "address": address,
+    "datebirth": brithDay
+  });
+
+  var requestOptions = {
+    method: 'POST',
+    headers: myHeaders,
+    body: raw,
+    redirect: 'follow'
+  };
+
+  return fetch(API + "/api/auth/updateuserinfo", requestOptions)
+    .then((response) => {
+      if (response.ok || response.status === 400) {
+        return response.json();
+      } else {
+        throw new Error("Cannot Update  User Info");
+      }
+    });
+}
+
+const getAllUsers = () => {
+
+ 
+
+  var requestOptions = {
+    method: 'GET',
+    headers: myHeaders,
+    redirect: 'follow'
+  };
+
+  return fetch(API + "/api/auth/all", requestOptions)
+    .then((response) => {
+      if (response.ok || response.status === 400) {
+        return response.json();
+      } else {
+        throw new Error("Get All User ");
+      }
+    });
+}
+
+
+const getSearchUsers = (keyword) => {
+
+  var requestOptions = {
+    method: 'GET',
+    headers: myHeaders,
+    redirect: 'follow'
+  };
+
+  return fetch(API + "/api/auth/search="+keyword, requestOptions)
+    .then((response) => {
+      if (response.ok || response.status === 400) {
+        return response.json();
+      } else {
+        throw new Error("Get Search User ");
+      }
+    });
+}
+
+
 const Authservice = {
   ApiLogin,
   ApiLogout,
@@ -149,7 +217,10 @@ const Authservice = {
   ApiUserInFo,
   getCurrentUserApi,
   getCurrentUserToken,
-  ApiGetPath,ApiGetUserInfoPublic
+  ApiGetPath,
+  ApiGetUserInfoPublic,
+  UpdateUserInfo,
+  getAllUsers,getSearchUsers
 };
 
 export default Authservice;

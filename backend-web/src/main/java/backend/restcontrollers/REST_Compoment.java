@@ -56,6 +56,10 @@ public class REST_Compoment {
 	public static Response_Message update_sanpham_error 	= new Response_Message("Update SanPham Error!", 	"Update in Mysql"	, false);
 
 	
+	public static Response_Message update_userinfo_success 	= new Response_Message("Update User InFo Success!", "Update in Mysql"	, true);
+	public static Response_Message update_userinfo_fail 	= new Response_Message("Update User InFo Fail!", 	"Update in Mysql"	, false);
+	public static Response_Message update_userinfo_error 	= new Response_Message("Update User InFo Error!", 	"Update in Mysql"	, false);
+	
 	public static Response_Message search_sanpham_success 	= new Response_Message("Search SanPham Success!", 	"Search in Mysql"	, true);
 	public static Response_Message search_sanpham_fail 		= new Response_Message("Search SanPham Fail!", 		"Search in Mysql"	, false);
 	public static Response_Message search_sanpham_error 	= new Response_Message("Search SanPham Error!", 	"Search in Mysql"	, false);

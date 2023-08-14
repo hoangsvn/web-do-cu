@@ -1,12 +1,14 @@
 import ApiInFo from "./ApiInFo";
 
-const API = ApiInFo.API
+const API = ApiInFo.API;
+
+const myHeaders =ApiInFo.myHeaders();
+
+
 const ImageUrlByLink = (link) => {
     return `${API}/api/image/link=${link}`;
 }
-var myHeaders = new Headers();
-myHeaders.append("Content-Type", "application/json");
-myHeaders.append("Authorization", localStorage.getItem("token"));
+
 
 const UploadImg = (Link, file) => {
     var formdata = new FormData();
@@ -52,7 +54,22 @@ const getImageBlod =(imageUrl)=>{
         })
 }
 
+const getAllLink =()=>{
+    var requestOptions = {
+        method: 'GET',
+        redirect: 'follow'
+      };
+      
+    return  fetch(API+"/api/image/alllink", requestOptions)
+    .then(response => {
+        if (response.ok || response.status === 400) {
+            return response.json();
+        } 
+    });
+       
+}
+
 const ImageApi = {
-    ImageUrlByLink, UploadImg, DeleteHinhAnhInfo , getImageBlod
+    ImageUrlByLink, UploadImg, DeleteHinhAnhInfo , getImageBlod ,getAllLink
 }
 export default ImageApi;

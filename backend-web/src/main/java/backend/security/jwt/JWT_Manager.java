@@ -2,15 +2,12 @@ package backend.security.jwt;
 
 import java.util.Date;
 import java.util.HashMap;
-
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
-
 import backend.BackEnd;
 
 @Component
@@ -74,7 +71,7 @@ public class JWT_Manager implements Runnable {
 	
 	@Override
 	public void run() {
-		BackEnd.InFo("REMOVE","removeExpiredJwts " + new Date().toString());
+		BackEnd.INFO(JWT_Manager.class,"REMOVE","removeExpiredJwts " + new Date().toString());
 		removeExpiredJwts();
 	}
 }

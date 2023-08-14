@@ -93,7 +93,7 @@ const UpDatesanPham = () => {
                                         ImageSV.DeleteHinhAnhInfo(item.id);
                                     })
                                 } catch (error) {
-                                    
+
                                 }
                                 imagePreviews.forEach((preview, index) => {
                                     try {
@@ -163,14 +163,16 @@ const UpDatesanPham = () => {
     return (
         <div >
             <form className="row" onSubmit={updatesanpham}>
-                <div className="   col-lg-6 mt-5">
+                <div className="col-lg-6 mt-5">
                     <div className="">
-                        <span className="btn">
-                            Images
+                        <div class="input-group mb-3">
+                            <span class="input-group-text w-25" id="basic-addon1">Image</span>
+                            <input type="file" class="form-control" multiple="5" onChange={handleFileChange} />
+                        </div>
 
-                        </span>
-                        <input className="btn " type="file" multiple="5" onChange={handleFileChange} />
-                        <div className="">
+ 
+                         
+                        <div className="mb-3">
                             {imagePreviews.map((preview, index) => (
 
                                 <span className="image-preview justify-content-start">
@@ -182,24 +184,34 @@ const UpDatesanPham = () => {
                     </div>
 
                 </div>
-                <div className="upload__box col-lg-6 mt-5">
-                    <div className="upload__btn-box">
-                        <label className="upload__btn">
-                            <p>Edit InFO</p>
-                        </label>
-                        <br />
-                        <select class="form-select" aria-label="" placeholder="ChonDanhMuc" onChange={(e) => onChangesetDanhmucid(e.target.value)} >
-                            {danhmuc && <option selected value={danhmuc.id}>{danhmuc.name}</option>}
+                <div className="col-lg-6 mt-5">
+                    <div className="">
+                        <div class="input-group mb-3">
+                            <span class="input-group-text w-25" id="basic-addon1">Danh Mục</span>
+                            <select class="form-select" aria-label="" placeholder="ChonDanhMuc" onChange={(e) => onChangesetDanhmucid(e.target.value)} >
+                                {danhmuc && <option selected value={danhmuc.id}>{danhmuc.name}</option>}
+                                {listdanhmuc.map((item) => (
+                                    <option value={item.id} >{item.name}</option>
+                                ))}
+                            </select>
+                        </div>
 
-                            {listdanhmuc.map((item) => (
-                                <option value={item.id} >{item.name}</option>
-                            ))}
-                        </select>
-                        <input className="w-100 mt-4 form-control" type="text" placeholder="Name" value={name} onChange={(e) => onChangesetName(e.target.value)}></input> <br />
-                        <input className="w-100 mt-4 form-control" type="number" min={0} placeholder="Price" value={price} onChange={(e) => onChangesetPrice(e.target.value)} ></input> <br />
-                        <textarea className="w-100 mt-4 form-control" type="text" placeholder="Description" rows={10} value={Description} onChange={(e) => onChangesetDes(e.target.value)} ></textarea>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text w-25" id="basic-addon1">Name</span>
+                            <input type="text" class="form-control" value={name} placeholder="Name" aria-label="Name" aria-describedby="basic-addon1" onChange={(e) => onChangesetName(e.target.value)} />
+                        </div>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text w-25" id="basic-addon1">Price</span>
+                            <input type="number" class="form-control" value={price} placeholder="Username" aria-label="Username" aria-describedby="basic-addon1" onChange={(e) => onChangesetPrice(e.target.value)} />
+                        </div>
+
+                        <div class="input-group">
+                            <span class="input-group-text w-25">Description</span>
+                            <textarea class="form-control" placeholder="Description" rows={10} value={Description} onChange={(e) => onChangesetDes(e.target.value)} aria-label="With textarea"></textarea>
+                        </div>
+
                     </div>
-                    <div className="upload__img-wrap"></div>
+
                 </div>
                 {isSuccess && <button type="submit" className="btn btn-primary col-lg-6 offset-lg-3 mt-5 ">
                     Edit

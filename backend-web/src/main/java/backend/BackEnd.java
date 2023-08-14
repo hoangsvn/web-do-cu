@@ -9,15 +9,83 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 public class BackEnd {
 
-    public static void InFo(String ...value ) {
-        Logger logger = LoggerFactory.getLogger(BackEnd.class);
-        if (value.length>1) {
-        	logger.info(String.format("%-30s : %s ", value[0] ,value[1]));
-        } else {
-        	logger.info(String.format("%-30s :", value[0]));
+    public static void INFO(String ...value ) {
+    	Logger logger = LoggerFactory.getLogger(BackEnd.class);
+        if (value.length > 0) {
+            StringBuilder logMessage = new StringBuilder(String.format("%-30s :", value[0]));
+            if (value.length > 1) {
+                for (int i = 1; i < value.length; i++) {
+                    logMessage.append(" ").append(value[i]);
+                }
+            }
+            logger.info(logMessage.toString());
         }
     }
-
+    public static void ERROR(String ...value ) {
+    	Logger logger = LoggerFactory.getLogger(BackEnd.class);
+        if (value.length > 0) {
+            StringBuilder logMessage = new StringBuilder(String.format("%-30s :", value[0]));
+            if (value.length > 1) {
+                for (int i = 1; i < value.length; i++) {
+                    logMessage.append(" ").append(value[i]);
+                }
+            }
+            logger.error(logMessage.toString());
+        }
+    }    public static void WARM(String ...value ) {
+    	Logger logger = LoggerFactory.getLogger(BackEnd.class);
+        if (value.length > 0) {
+            StringBuilder logMessage = new StringBuilder(String.format("%-30s :", value[0]));
+            if (value.length > 1) {
+                for (int i = 1; i < value.length; i++) {
+                    logMessage.append(" ").append(value[i]);
+                }
+            }
+            logger.info(logMessage.toString());
+        }
+    }
+    public static void INFO(Class<?> clazz  ,String ...value) {
+    	Logger logger = LoggerFactory.getLogger(clazz);
+        if (value.length > 0) {
+            StringBuilder logMessage = new StringBuilder(String.format("%-30s :", value[0]));
+            
+            if (value.length > 1) {
+                for (int i = 1; i < value.length; i++) {
+                    logMessage.append(" ").append(value[i]);
+                }
+            }
+            
+            logger.info(logMessage.toString());
+        }
+    }
+    public static void ERROR(Class<?> clazz  ,String ...value) {
+    	Logger logger = LoggerFactory.getLogger(clazz);
+        if (value.length > 0) {
+            StringBuilder logMessage = new StringBuilder(String.format("%-30s :", value[0]));
+            
+            if (value.length > 1) {
+                for (int i = 1; i < value.length; i++) {
+                    logMessage.append(" ").append(value[i]);
+                }
+            }
+            
+            logger.error(logMessage.toString());
+        }
+    }
+    public static void WARM(Class<?> clazz  ,String ...value) {
+    	Logger logger = LoggerFactory.getLogger(clazz);
+        if (value.length > 0) {
+            StringBuilder logMessage = new StringBuilder(String.format("%-30s :", value[0]));
+            
+            if (value.length > 1) {
+                for (int i = 1; i < value.length; i++) {
+                    logMessage.append(" ").append(value[i]);
+                }
+            }
+            
+            logger.warn(logMessage.toString());
+        }
+    }
     public static String RamdomNameImage() {
         return DateToString()+ "-" + Ramdomkey()+"-"+ Ramdomkey() + ".png";
     }

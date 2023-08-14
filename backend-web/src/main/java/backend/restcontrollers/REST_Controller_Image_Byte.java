@@ -2,6 +2,7 @@ package backend.restcontrollers;
 
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
 
@@ -42,6 +43,26 @@ public class REST_Controller_Image_Byte extends REST_Compoment {
 			return ResponseEntity.badRequest().body(rest_controller_error);
 		}
 	}
+	
+	@GetMapping("/alllink")
+	public ResponseEntity<?> getAllLinkHinhAnh(){
+		Map<String, Object> response = new HashMap<>();
+		try {
+			List<String> listLink = repository_Image_Byte.getListStringLink();
+			response.put(info_image, listLink);
+			response.put(info_message, rest_controller_success);
+			return ResponseEntity.ok().body(response);
+		} 
+		catch (DataIntegrityViolationException e) {
+			response.clear();
+			response.put(info_message, rest_controller_fail);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+		return ResponseEntity.badRequest().body(response);
+	}
+	
 	@PostMapping("/upload")
 	public ResponseEntity<?> getHinhAnh(@Valid @RequestParam("image")  MultipartFile image , @RequestParam("link")  String link){
 		Map<String, Object> response = new HashMap<>();

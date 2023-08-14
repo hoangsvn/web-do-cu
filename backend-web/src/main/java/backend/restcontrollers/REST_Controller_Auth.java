@@ -30,13 +30,16 @@ import backend.modal.ERole;
 import backend.modal.Role;
 import backend.modal.SanPham;
 import backend.modal.User;
+import backend.modal.UserInFo;
 import backend.payload.request.Request_Login;
 import backend.payload.request.Request_Signup;
+import backend.payload.request.Request_UserInfo;
 import backend.payload.response.Response_JWT;
 import backend.payload.response.Response_Message;
 import backend.repository.Repository_Role;
 import backend.repository.Repository_SanPham;
 import backend.repository.Repository_User;
+import backend.repository.Repository_UserInFo;
 import backend.security.jwt.JWT_Manager;
 import backend.security.jwt.JWT_Utils;
 
@@ -45,12 +48,15 @@ import backend.security.services.UserDetailsImpl;
 @CrossOrigin
 @RestController
 @RequestMapping("/api/auth")
-public class REST_Controller_Auth extends REST_Compoment{
+public class REST_Controller_Auth extends REST_Compoment {
 	@Autowired
 	private AuthenticationManager authenticationManager;
 
 	@Autowired
 	private Repository_User userRepository;
+
+	@Autowired
+	private Repository_UserInFo repository_UserInFo;
 
 	@Autowired
 	private Repository_Role roleRepository;
@@ -60,21 +66,24 @@ public class REST_Controller_Auth extends REST_Compoment{
 
 	@Autowired
 	private JWT_Utils jwtUtils;
-	
+
 	@Autowired
 	private Repository_SanPham repository_SanPham;
-	
+
 	@Autowired
-    private JWT_Manager jwt_Manager;
-	 
+	private JWT_Manager jwt_Manager;
+
 	@PostMapping("/signin")
 	public ResponseEntity<?> authenticateUser(@Valid @RequestBody Request_Login loginRequest) {
-		Authentication authentication = authenticationManager.authenticate( new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
+		Authentication authentication = authenticationManager.authenticate(
+				new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
 		SecurityContextHolder.getContext().setAuthentication(authentication);
 		String jwt = jwtUtils.generateJwtToken(authentication);
 		UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
-		List<String> roles = userDetails.getAuthorities().stream().map(item -> item.getAuthority()).collect(Collectors.toList());
-		return ResponseEntity.ok(new Response_JWT(jwt, userDetails.getId(), userDetails.getUsername(), userDetails.getFullname(), userDetails.getEmail(), roles));
+		List<String> roles = userDetails.getAuthorities().stream().map(item -> item.getAuthority())
+				.collect(Collectors.toList());
+		return ResponseEntity.ok(new Response_JWT(jwt, userDetails.getId(), userDetails.getUsername(),
+				userDetails.getFullname(), userDetails.getEmail(), roles));
 	}
 
 	@PostMapping("/signup")
@@ -90,10 +99,12 @@ public class REST_Controller_Auth extends REST_Compoment{
 				return ResponseEntity.badRequest().body(response);
 			}
 
-			User user = new User(signUpRequest.getUsername(), signUpRequest.getEmail(),encoder.encode(signUpRequest.getPassword()));
+			User user = new User(signUpRequest.getUsername(), signUpRequest.getEmail(),
+					encoder.encode(signUpRequest.getPassword()));
 			user.setFullname(signUpRequest.getFullname());
 			Set<Role> roles = new HashSet<>();
-			Role userRole = roleRepository.findByName(ERole.ROLE_USER).orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+			Role userRole = roleRepository.findByName(ERole.ROLE_USER)
+					.orElseThrow(() -> new RuntimeException("Error: Role is not found."));
 			roles.add(userRole);
 			user.setRoles(roles);
 			user = userRepository.save(user);
@@ -119,7 +130,8 @@ public class REST_Controller_Auth extends REST_Compoment{
 			return ResponseEntity.badRequest().body(email_already);
 		}
 
-		User user = new User(signUpRequest.getUsername(), signUpRequest.getEmail(),encoder.encode(signUpRequest.getPassword()));
+		User user = new User(signUpRequest.getUsername(), signUpRequest.getEmail(),
+				encoder.encode(signUpRequest.getPassword()));
 
 		Set<String> strRoles = signUpRequest.getRole();
 		Set<Role> roles = new HashSet<>();
@@ -159,15 +171,59 @@ public class REST_Controller_Auth extends REST_Compoment{
 
 	@PostMapping("/create")
 	public ResponseEntity<?> CreateUser() {
-		User user = new User("admin", "admin@gmail.com", "$2a$12$YgyJGX9mIW3BK2cGarHWouFTB6dgCtl6Gd89pfVZehDIc3aVw8k5G");
+		User user = new User("admin", "admin@gmail.com",
+				"$2a$12$YgyJGX9mIW3BK2cGarHWouFTB6dgCtl6Gd89pfVZehDIc3aVw8k5G");
 		Set<Role> roles = new HashSet<>();
-		Role adminRole = roleRepository.findByName(ERole.ROLE_ADMIN) .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+		Role adminRole = roleRepository.findByName(ERole.ROLE_ADMIN)
+				.orElseThrow(() -> new RuntimeException("Error: Role is not found."));
 		roles.add(adminRole);
-		Role userRole = roleRepository.findByName(ERole.ROLE_USER) .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+		Role userRole = roleRepository.findByName(ERole.ROLE_USER)
+				.orElseThrow(() -> new RuntimeException("Error: Role is not found."));
 		roles.add(userRole);
 		user.setRoles(roles);
 		userRepository.save(user);
-		return ResponseEntity.ok(new Response_Message("User Create successfully!","Create Admin",true));
+		return ResponseEntity.ok(new Response_Message("User Create successfully!", "Create Admin", true));
+	}
+
+	@PostMapping("/updateuserinfo")
+	@PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
+	public ResponseEntity<?> UpdateUserInfo(@Valid @RequestBody Request_UserInfo repu) {
+		 
+		Map<String, Object> response = new HashMap<>();
+		try {
+			UserDetailsImpl userdetail = getUserDetailsImplInAuthentcation();
+			UserInFo user = repository_UserInFo.findById(userdetail.getId()).get();
+			if (repu.getFullname() != null) {
+				user.setFullname(repu.getFullname());
+			}
+			if (repu.getAddress() != null) {
+				user.setAddress(repu.getAddress());
+			}
+			if (repu.getLinkfacebook() != null) {
+				user.setLinkfacebook(repu.getLinkfacebook());
+			}
+			if (repu.getLinkinstagram() != null) {
+		 
+				user.setLinkinstagram(repu.getLinkinstagram()) ;
+			}
+			if (repu.getLinktwitter() != null) {
+				user.setLinktwitter(repu.getLinktwitter());
+			}
+			if (repu.getPhonenumber() != null) {
+				user.setPhonenumber(repu.getPhonenumber());
+			}
+			if (repu.getDatebirth() != null) {
+				user.setDatebirth(repu.getDatebirth());
+			}
+			user = repository_UserInFo.saveAndFlush(user);
+			response.put(info_user, user);
+			response.put(info_message, update_userinfo_success);
+			return ResponseEntity.ok(response);
+		} catch (Exception e) {
+			response.clear();
+			response.put(info_message, update_userinfo_error);
+		}
+		return ResponseEntity.badRequest().body(response);
 	}
 
 	@GetMapping("/info")
@@ -177,34 +233,33 @@ public class REST_Controller_Auth extends REST_Compoment{
 		try {
 			UserDetailsImpl userDetails = getUserDetailsImplInAuthentcation();
 			User us = userRepository.findById(userDetails.getId()).get();
-			us.setPassword(""); 
+			us.setPassword("");
 			us.getCart().clear();
 			us.getListsanphamid().clear();
 			response.put(info_user, us);
-			response.put(info_message,  rest_controller_success);
+			response.put(info_message, rest_controller_success);
 			return ResponseEntity.ok(response);
- 
-		}
-		catch (ClassCastException e) {
+
+		} catch (ClassCastException e) {
 			response.clear();
 			response.put(info_message, not_login);
-			 
-		}
-		catch (Exception e) {
+
+		} catch (Exception e) {
 			response.clear();
 			response.put(info_message, user_not_found);
 		}
 		return ResponseEntity.badRequest().body(response);
 	}
+
 	@GetMapping("/myrepository/{path}")
 	@PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
-	public ResponseEntity<?> MyrepositoryPath(@PathVariable String path  ) {
+	public ResponseEntity<?> MyrepositoryPath(@PathVariable String path) {
 		Map<String, Object> response = new HashMap<>();
 		try {
 			UserDetailsImpl userDetails = getUserDetailsImplInAuthentcation();
 			User us = userRepository.findById(userDetails.getId()).get();
-			us.setPassword(""); 
-			response.put(info_message,  rest_controller_success);
+			us.setPassword("");
+			response.put(info_message, rest_controller_success);
 			if (path.endsWith("listsanpham")) {
 				response.put(info_sanpham, us.getListsanphamid());
 			} else if (path.endsWith("listcart")) {
@@ -214,115 +269,175 @@ public class REST_Controller_Auth extends REST_Compoment{
 						listcart.add(repository_SanPham.findById(s.getSanpham_id()).get());
 					}
 				}
- 				response.put(info_sanpham,listcart);
+				response.put(info_sanpham, listcart);
 			} else if (path.endsWith("listdiachi")) {
 				response.put(info_address, us.getListdiachi());
 			} else {
-				response.put(info_message,  rest_controller_fail);
+				response.put(info_message, rest_controller_fail);
 			}
-			
+
 			return ResponseEntity.ok(response);
- 
-		}
-		catch (ClassCastException e) {
+
+		} catch (ClassCastException e) {
 			response.clear();
 			response.put(info_message, not_login);
-			 
-		}
-		catch (Exception e) {
+
+		} catch (Exception e) {
 			response.clear();
 			response.put(info_message, user_not_found);
 		}
 		return ResponseEntity.badRequest().body(response);
 	}
+
 	
-	
-	
+	// Kho chua cua ban
 	
 	@GetMapping("/myrepository")
 	@PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
-	public ResponseEntity<?> Myrepository(  ) {
+	public ResponseEntity<?> Myrepository() {
 		Map<String, Object> response = new HashMap<>();
 		try {
 			UserDetailsImpl userDetails = getUserDetailsImplInAuthentcation();
 			User us = userRepository.findById(userDetails.getId()).get();
-			us.setPassword(""); 
+			us.setPassword("");
 			response.put(info_user, us);
-			response.put(info_message,  rest_controller_success);
+			response.put(info_message, rest_controller_success);
 			return ResponseEntity.ok(response);
- 
-		}
-		catch (ClassCastException e) {
+
+		} catch (ClassCastException e) {
 			response.clear();
 			response.put(info_message, not_login);
-			 
-		}
-		catch (Exception e) {
+
+		} catch (Exception e) {
 			response.clear();
 			response.put(info_message, user_not_found);
 		}
 		return ResponseEntity.badRequest().body(response);
 	}
-	
-	
+
 	@GetMapping("/logout")
-	public ResponseEntity<?> Logout( HttpServletRequest request ) {
+	public ResponseEntity<?> Logout(HttpServletRequest request) {
 		try {
-			 
+
 			String headerAuth = request.getHeader("Authorization");
-			return ResponseEntity.ok(headerAuth.substring(7, headerAuth.length()) );
- 
+			return ResponseEntity.ok(headerAuth.substring(7, headerAuth.length()));
+
 		} catch (Exception e) {
 			return ResponseEntity.ok(login_fail);
 		}
 	}
+
 	@GetMapping("/running")
-	public ResponseEntity<?> Count(  ) {
+	public ResponseEntity<?> Count() {
 		try {
-			
-			  return ResponseEntity.ok("Running User =>" + jwt_Manager.getActiveJwtCount());
- 
+
+			return ResponseEntity.ok("Running User =>" + jwt_Manager.getActiveJwtCount());
+
 		} catch (Exception e) {
 			return ResponseEntity.ok(login_fail);
 		}
 	}
+
 	@GetMapping("/id")
 	@PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
-	public ResponseEntity<?> ID(  ) {
+	public ResponseEntity<?> ID() {
 		try {
 			UserDetailsImpl userDetails = getUserDetailsImplInAuthentcation();
 			return ResponseEntity.ok(userDetails.getId());
-		}
-		catch(ClassCastException e) {
+		} catch (ClassCastException e) {
 			return ResponseEntity.ok(not_login);
-		}
-		catch (Exception e) {
+		} catch (Exception e) {
 			return ResponseEntity.ok("Fail");
 		}
-		 
+
 	}
+
+	
+	// Thong tin cong khai cua 1 user
 	@GetMapping("/publicinfo/id={id}")
-	public ResponseEntity<?> PubLicUserInfo( @PathVariable String id ){
+	public ResponseEntity<?> PubLicUserInfo(@PathVariable String id) {
 		Map<String, Object> response = new HashMap<>();
 		try {
 			Long sid = Long.parseLong(id);
 			User us = userRepository.findById(sid).get();
-			us.setPassword(""); 
+			us.setPassword("");
 			us.setUsername("");
 			us.getListsanphamid().clear();
 			us.getCart().clear();
 			us.getRoles().clear();
 			response.put(info_user, us);
-			response.put(info_message,  rest_controller_success);
+			response.put(info_message, rest_controller_success);
 			return ResponseEntity.ok(response);
- 
-		}
-		catch (ClassCastException e) {
+
+		} catch (ClassCastException e) {
 			response.clear();
 			response.put(info_message, not_login);
-			 
+
+		} catch (Exception e) {
+			response.clear();
+			response.put(info_message, user_not_found);
 		}
-		catch (Exception e) {
+		return ResponseEntity.badRequest().body(response);
+	}
+	
+	
+	
+	
+	// ADMIN lây thông tin tất cả user
+	@GetMapping("/all")
+	@PreAuthorize("hasRole('ADMIN')")
+	public ResponseEntity<?> getAll() {
+		Map<String, Object> response = new HashMap<>();
+		try {
+			 
+			List<User> listus = userRepository.findAll();
+			for (User user : listus) {
+				user.getListdiachi().clear();
+				user.getListsanphamid().clear();
+				user.getCart().clear();
+				user.getListdiachi().clear();
+				user.setPassword("");
+				user.setUserinfo(null);
+			}
+			response.put(info_user, listus);
+			response.put(info_message, rest_controller_success);
+			return ResponseEntity.ok(response);
+		} catch (Exception e) {
+			e.printStackTrace();
+			response.clear();
+			response.put(info_message, rest_controller_error);
+		}
+		return ResponseEntity.badRequest().body(response);
+		
+	}
+	
+	
+	
+	
+	@GetMapping("/search={search}")
+	@PreAuthorize("hasRole('ADMIN')")
+	public ResponseEntity<?> PubLicSearch(@PathVariable String search) {
+		Map<String, Object> response = new HashMap<>();
+		try {
+ 
+			List<User> listus = userRepository.searchByNameLike(search);
+			for (User user : listus) {
+				user.getListdiachi().clear();
+				user.getListsanphamid().clear();
+				user.getCart().clear();
+				user.getListdiachi().clear();
+				user.setPassword("");
+				user.setUserinfo(null);
+			}
+			response.put(info_user, listus);
+			response.put(info_message, rest_controller_success);
+			return ResponseEntity.ok(response);
+
+		} catch (ClassCastException e) {
+			response.clear();
+			response.put(info_message, not_login);
+
+		} catch (Exception e) {
 			response.clear();
 			response.put(info_message, user_not_found);
 		}

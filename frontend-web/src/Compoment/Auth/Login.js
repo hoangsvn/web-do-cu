@@ -22,7 +22,6 @@ const Login = () => {
                     navigate("/home");
                 })
                 .catch((error) => {
-                    console.error("Error during login:", error);
                     toast.error("Login Error");
                 });
         }

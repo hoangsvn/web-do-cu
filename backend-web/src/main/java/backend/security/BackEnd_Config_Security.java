@@ -91,11 +91,12 @@ public class BackEnd_Config_Security { // extends WebSecurityConfigurerAdapter {
                 .antMatchers("/api/test/**").permitAll()
                 .antMatchers("/api/sanpham/**").permitAll()
                 .antMatchers("/api/image/**").permitAll()
+              
                 .anyRequest().authenticated();
 
         http.authenticationProvider(authenticationProvider());
         http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
-        BackEnd.InFo("BACKEND SECURITY CONFIG", "OK");
+        BackEnd.INFO(BackEnd_Config_Security.class,"BACKEND SECURITY CONFIG", "OK");
         return http.build();
     }
 }

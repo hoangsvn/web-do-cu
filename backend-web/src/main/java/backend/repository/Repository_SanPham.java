@@ -18,4 +18,8 @@ public interface Repository_SanPham extends JpaRepository<SanPham, Long> {
 	@Query("SELECT p FROM SanPham p WHERE p.name LIKE %:keyword%")
     List<SanPham> searchByNameLike(String keyword);
 	
+	
+	@Query("SELECT p FROM SanPham p WHERE concat(p.name,p.price,p.id) LIKE %:keyword%")
+    List<SanPham> searchByAllLike(String keyword);
+	
 }

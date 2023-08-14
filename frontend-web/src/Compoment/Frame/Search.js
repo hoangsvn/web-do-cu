@@ -27,7 +27,7 @@ const SearchFrame = () => {
                     } else {
                         toast.info(data.message.message);
                     }
-                })
+                }).catch(err =>{console.log(err)})
         } catch (error) {
         }
     }, []);

@@ -75,7 +75,7 @@ public class REST_Controller_Cart extends REST_Compoment {
 		catch (Exception e) {
 			response.clear();
 			response.put(info_message, add_cart_error);
-			return ResponseEntity.status(404).body(response);
+			return ResponseEntity.badRequest().body(response);
 		}
 	}
 	

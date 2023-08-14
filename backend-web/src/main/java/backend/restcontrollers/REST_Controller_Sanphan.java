@@ -147,9 +147,7 @@ public class REST_Controller_Sanphan extends REST_Compoment {
 				for (HinhAnh a : spsave.getListhinhanh()) {
 				    repository_HinhAnh.deleteById(a.getId());
 				}
-
 				spsave.getListhinhanh().clear();
-
 				List<HinhAnh> newImages = new ArrayList<>();
 				for (int i = 0; i < sp.getListimgsize(); i++) {
 				    HinhAnh ha = new HinhAnh();
@@ -159,7 +157,6 @@ public class REST_Controller_Sanphan extends REST_Compoment {
 				    ha.setSanpham_id(spsave.getId());
 				    newImages.add(ha);
 				}
-
 				spsave.getListhinhanh().addAll(newImages);
 
 			} catch (Exception e) {
@@ -172,7 +169,6 @@ public class REST_Controller_Sanphan extends REST_Compoment {
 			response.put(info_message, update_sanpham_success);
 			return ResponseEntity.ok(response);
 		} catch (Exception e) {
-			e.printStackTrace();
 			response.clear();
 			response.put(info_message, update_sanpham_error);
 		}
@@ -259,7 +255,7 @@ public class REST_Controller_Sanphan extends REST_Compoment {
 		Map<String, Object> response = new HashMap<>();
 		try {
 			 
-			List<SanPham> listsp = repository_SanPham.searchByNameLike(search);
+			List<SanPham> listsp = repository_SanPham.searchByAllLike(search);
 			response.put(info_sanpham, listsp);
 			response.put(info_message, search_sanpham_success);
 			return ResponseEntity.ok(response);
@@ -267,6 +263,24 @@ public class REST_Controller_Sanphan extends REST_Compoment {
 			e.printStackTrace();
 			response.clear();
 			response.put(info_message, search_sanpham_error);
+		}
+		return ResponseEntity.badRequest().body(response);
+		
+	}
+	@GetMapping("/all")
+	@PreAuthorize("hasRole('ADMIN')")
+	public ResponseEntity<?> getAll() {
+		Map<String, Object> response = new HashMap<>();
+		try {
+			 
+			List<SanPham> listsp = repository_SanPham.findAll();
+			response.put(info_sanpham, listsp);
+			response.put(info_message, rest_controller_success);
+			return ResponseEntity.ok(response);
+		} catch (Exception e) {
+			e.printStackTrace();
+			response.clear();
+			response.put(info_message, rest_controller_error);
 		}
 		return ResponseEntity.badRequest().body(response);
 		
