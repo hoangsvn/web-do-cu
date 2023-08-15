@@ -2,15 +2,14 @@ import { useEffect, useState } from "react";
 import { ImageSV, SanPhamSV, DanhMucSV } from "../Services";
 import { toast } from "react-toastify";
 import { useParams } from "react-router-dom";
-import { FontAwesomeIcon as FaIcon } from "@fortawesome/react-fontawesome";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrashCan } from "@fortawesome/free-solid-svg-icons";
 
 const UpDatesanPham = () => {
     const { sid } = useParams();
     const [selectedFiles, setSelectedFiles] = useState([]);
     const [imagePreviews, setImagePreviews] = useState([]);
-    const [isChange, SetChange] = useState(false);
-    const [sanpham, setSanPham] = useState({});
+
 
 
     const [uploadIma, setuploadIma] = useState(false);
@@ -20,7 +19,7 @@ const UpDatesanPham = () => {
     const [Description, setDescription] = useState("");
     const [listdanhmuc, setListdanhmuc] = useState([]);
     const [listhinhanh, setListHinhAnh] = useState([]);
-    const [listdeletehinhanh, Setlistdeletehinhanh] = useState([]);
+
     const [danhmucid, setDanhmucid] = useState(0);
     const [danhmuc, setDanhMuc] = useState([]);
     useEffect(() => {
@@ -36,7 +35,7 @@ const UpDatesanPham = () => {
             SanPhamSV.GetSanphambyID(sid)
                 .then(data => {
                     if (data.message.success) {
-                        setSanPham(data.sanpham);
+
                         setPrice(data.sanpham.price);
                         setName(data.sanpham.name);
                         setDescription(data.sanpham.desiption);
@@ -61,7 +60,7 @@ const UpDatesanPham = () => {
 
 
     const validate = () => {
-        SetChange(true);
+
         if (name === "" || name === null) {
             toast.info("Please Enter Name");
             return false;
@@ -85,9 +84,7 @@ const UpDatesanPham = () => {
                         if (data.message.success) {
                             toast.success(data.message.message);
                             setIsSuccess(false);
-
                             if (imagePreviews.length > 0 && uploadIma) {
-
                                 try {
                                     listhinhanh.forEach((item) => {
                                         ImageSV.DeleteHinhAnhInfo(item.id);
@@ -103,14 +100,12 @@ const UpDatesanPham = () => {
                                     }
 
                                 });
-
                             }
-
                         } else {
                             toast.info(data.message.message)
                         }
                     }).catch(error => {
-                        toast.error("Update SanPham Error")
+                        console.log(error)
                     })
             }
 
@@ -119,10 +114,7 @@ const UpDatesanPham = () => {
         }
 
     };
-
-    const onChangesetDanhMuc = (value) => {
-        setIsSuccess(true);
-    }
+ 
     const onChangesetDanhmucid = (value) => {
         setDanhmucid(value);
         setIsSuccess(true);
@@ -166,18 +158,18 @@ const UpDatesanPham = () => {
                 <div className="col-lg-6 mt-5">
                     <div className="">
                         <div class="input-group mb-3">
-                            <span class="input-group-text w-25" id="basic-addon1">Image</span>
+                            <span class="input-group-text w-25" >Image</span>
                             <input type="file" class="form-control" multiple="5" onChange={handleFileChange} />
                         </div>
 
- 
-                         
+
+
                         <div className="mb-3">
                             {imagePreviews.map((preview, index) => (
 
                                 <span className="image-preview justify-content-start">
                                     <img className="ms-4 image" key={index} src={preview} />
-                                    <a className="delete-img-button " onClick={() => handleImageDelete(index)}><FaIcon icon={faTrashCan} /> </a>
+                                    <a className="delete-img-button " onClick={() => handleImageDelete(index)}><FontAwesomeIcon icon={faTrashCan} /> </a>
                                 </span>
                             ))}
                         </div>
@@ -187,7 +179,7 @@ const UpDatesanPham = () => {
                 <div className="col-lg-6 mt-5">
                     <div className="">
                         <div class="input-group mb-3">
-                            <span class="input-group-text w-25" id="basic-addon1">Danh Mục</span>
+                            <span class="input-group-text w-25" >Danh Mục</span>
                             <select class="form-select" aria-label="" placeholder="ChonDanhMuc" onChange={(e) => onChangesetDanhmucid(e.target.value)} >
                                 {danhmuc && <option selected value={danhmuc.id}>{danhmuc.name}</option>}
                                 {listdanhmuc.map((item) => (
@@ -197,12 +189,12 @@ const UpDatesanPham = () => {
                         </div>
 
                         <div class="input-group mb-3">
-                            <span class="input-group-text w-25" id="basic-addon1">Name</span>
-                            <input type="text" class="form-control" value={name} placeholder="Name" aria-label="Name" aria-describedby="basic-addon1" onChange={(e) => onChangesetName(e.target.value)} />
+                            <span class="input-group-text w-25" >Name</span>
+                            <input type="text" class="form-control" value={name} placeholder="Name" aria-label="Name" onChange={(e) => onChangesetName(e.target.value)} />
                         </div>
                         <div class="input-group mb-3">
-                            <span class="input-group-text w-25" id="basic-addon1">Price</span>
-                            <input type="number" class="form-control" value={price} placeholder="Username" aria-label="Username" aria-describedby="basic-addon1" onChange={(e) => onChangesetPrice(e.target.value)} />
+                            <span class="input-group-text w-25" >Price</span>
+                            <input type="number" class="form-control" value={price} placeholder="Username" aria-label="Username" onChange={(e) => onChangesetPrice(e.target.value)} />
                         </div>
 
                         <div class="input-group">

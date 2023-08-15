@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { AuthSV, SanPhamSV, TimeSV } from "../Services";
+import {  SanPhamSV, TimeSV } from "../Services";
 import { toast } from "react-toastify";
 import { FontAwesomeIcon as FaIcon } from "@fortawesome/react-fontawesome";
 import { faEdit } from "@fortawesome/free-regular-svg-icons";
@@ -23,7 +23,7 @@ const ManagerProducts = () => {
                     }
 
                 }).catch(err => {
-                    toast.error("Canot get All User");
+                    toast.error("Canot get All Product");
                 })
         } catch (error) {
 

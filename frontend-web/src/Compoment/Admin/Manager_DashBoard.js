@@ -1,9 +1,5 @@
-import { useEffect, useState } from "react";
-import { ManagerCategorys, ManagerImages, ManagerProducts, ManagerUsers } from "./";
-
-
-
-
+import {  useState } from "react";
+import { ManagerCategorys, ManagerImages, ManagerProducts, ManagerUsers } from ".";
 
 
 

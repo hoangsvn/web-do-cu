@@ -2,8 +2,8 @@ import { useEffect, useState } from "react";
 import { CartSV, ImageSV, SanPhamSV ,TimeSV} from "../Services";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
-import { FontAwesomeIcon as FaIcon } from "@fortawesome/react-fontawesome";
-import {faExclamationCircle, faShopSlash, faShoppingCart } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {faExclamationCircle, faShoppingCart } from "@fortawesome/free-solid-svg-icons";
 const Home = () => {
 
    
@@ -64,8 +64,8 @@ const Home = () => {
                                 
                                 <div class="d-flex justify-content-between align-items-center">
                                     <div class="btn-group w-100">
-                                        <button type="button "  class="btn btn-sm btn-outline-info" onClick={(e) => btntosanphan(sanpham.id)}><FaIcon icon={faExclamationCircle} /></button>
-                                        <button type="button"   class="btn btn-sm btn-outline-primary" onClick={(e) => btnaddsanphantocart(sanpham.id)}><FaIcon icon={faShoppingCart} /></button>
+                                        <button type="button "  class="btn btn-sm btn-outline-info" onClick={(e) => btntosanphan(sanpham.id)}><FontAwesomeIcon icon={faExclamationCircle} /></button>
+                                        <button type="button"   class="btn btn-sm btn-outline-primary" onClick={(e) => btnaddsanphantocart(sanpham.id)}><FontAwesomeIcon icon={faShoppingCart} /></button>
                                     </div>
                                 </div>
                             </div>

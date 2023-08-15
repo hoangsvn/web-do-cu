@@ -1,6 +1,6 @@
 
 
-import ApiInFo from "./ApiInFo";
+import ApiInFo from "./Service_ApiInFo";
 
 const API = ApiInFo.API
 

@@ -19,9 +19,7 @@ const ManagerUsers = () => {
                     console.log(err);
                 });
         } catch (error) {
-
         }
-
         console.log(listUsers);
     }, [])
 

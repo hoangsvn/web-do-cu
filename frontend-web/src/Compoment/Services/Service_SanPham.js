@@ -1,6 +1,6 @@
 
 
-import ApiInFo from "./ApiInFo";
+import ApiInFo from "./Service_ApiInFo";
 
 const API = ApiInFo.API
 
@@ -146,7 +146,7 @@ const getAllSanPham = () => {
         redirect: 'follow'
     };
 
-    return fetch("http://localhost/api/sanpham/all", requestOptions)
+    return fetch(API +"/api/sanpham/all", requestOptions)
         .then((response) => {
             if (response.ok || response.status === 400) {
                 return response.json();

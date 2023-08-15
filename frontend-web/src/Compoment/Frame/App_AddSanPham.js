@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { DanhMucSV, ImageSV, SanPhamSV } from "../Services";
 import { toast } from "react-toastify";
-import { FontAwesomeIcon as FaIcon } from "@fortawesome/react-fontawesome";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrashCan } from "@fortawesome/free-solid-svg-icons";
-import { useParams } from "react-router-dom";
+ 
 
 
 const AddSanPham = () => {
@@ -108,7 +108,7 @@ const AddSanPham = () => {
                 <div className=" col-lg-6 mt-5">
                     <div className="">
                         <div class="input-group mb-3">
-                            <span class="input-group-text w-25" id="basic-addon1">Image</span>
+                            <span class="input-group-text w-25" >Image</span>
                             <input type="file" class="form-control" multiple="5" onChange={handleFileChange} />
                         </div>
 
@@ -117,7 +117,7 @@ const AddSanPham = () => {
 
                                 <span className="image-preview justify-content-start">
                                     <img className="ms-4 image" key={index} src={preview} />
-                                    <a className="delete-img-button " onClick={() => handleImageDelete(index)}><FaIcon icon={faTrashCan} /> </a>
+                                    <a className="delete-img-button " onClick={() => handleImageDelete(index)}><FontAwesomeIcon icon={faTrashCan} /> </a>
                                 </span>
                             ))}
                         </div>
@@ -126,10 +126,9 @@ const AddSanPham = () => {
 
                 </div>
                 <div className=" col-lg-6 mt-5">
-                    
                     <div className="">
                         <div class="input-group mb-3">
-                            <span class="input-group-text w-25" id="basic-addon1">Danh Mục</span>
+                            <span class="input-group-text w-25" >Danh Mục</span>
                             <select class="form-select" aria-label="" placeholder="ChonDanhMuc" onChange={(e) => onChangesetDanhmucid(e.target.value)} >
                                 {danhmuc && <option selected value={danhmuc.id}>{danhmuc.name}</option>}
                                 {listdanhmuc.map((item) => (
@@ -139,12 +138,12 @@ const AddSanPham = () => {
                         </div>
 
                         <div class="input-group mb-3">
-                            <span class="input-group-text w-25" id="basic-addon1">Name</span>
-                            <input type="text" class="form-control" value={name} placeholder="Name" aria-label="Name" aria-describedby="basic-addon1" onChange={(e) => onChangesetName(e.target.value)} />
+                            <span class="input-group-text w-25" >Name</span>
+                            <input type="text" class="form-control" value={name} placeholder="Name" aria-label="Name"  onChange={(e) => onChangesetName(e.target.value)} />
                         </div>
                         <div class="input-group mb-3">
-                            <span class="input-group-text w-25" id="basic-addon1">Price</span>
-                            <input type="number" class="form-control" value={price} placeholder="Username" aria-label="Username" aria-describedby="basic-addon1" onChange={(e) => onChangesetPrice(e.target.value)} />
+                            <span class="input-group-text w-25" >Price</span>
+                            <input type="number" class="form-control" value={price} placeholder="Username" aria-label="Username"  onChange={(e) => onChangesetPrice(e.target.value)} />
                         </div>
 
                         <div class="input-group">

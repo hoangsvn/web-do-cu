@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
  
 import javax.persistence.GeneratedValue;
@@ -28,10 +29,11 @@ public class SanPham {
 	private Long user_id;
 	private Long price;
 	private String name;
-	
 	private Date create_at;
 	private String desiption;
-
+	
+	@Column(columnDefinition = "BOOLEAN DEFAULT true")
+	private boolean state;
 	@OneToMany( targetEntity = HinhAnh.class ,cascade = CascadeType.ALL ,mappedBy = "sanpham_id")
 	private List<HinhAnh> listhinhanh =new ArrayList<>();
 	
@@ -39,7 +41,12 @@ public class SanPham {
 	@JoinTable(name = "sanpham_danhmuc")
 	private List<DanhMuc> listdanhmuc =new ArrayList<>();
 	
-	
+	public Boolean getState() {
+		return state;
+	}
+	public void setState(Boolean state) {
+		this.state = state;
+	}
 	public List<DanhMuc> getListdanhmuc() {
 		return listdanhmuc;
 	}

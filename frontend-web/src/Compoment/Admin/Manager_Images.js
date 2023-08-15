@@ -1,16 +1,13 @@
 import { useEffect, useState } from "react";
 import { ImageSV } from "../Services";
 import { toast } from "react-toastify";
- 
 import { FontAwesomeIcon as FaIcon } from "@fortawesome/react-fontawesome";
 import { faImage } from "@fortawesome/free-regular-svg-icons";
-import { useNavigate } from "react-router-dom";
+ 
 const Images = () => {
 
-
     const [listimages, setListImages] = useState([]);
-
-    const usenavigate = useNavigate();
+ 
     const IniT = (e) => {
         e.preventDefault();
         try {
@@ -33,7 +30,8 @@ const Images = () => {
 
 
     const onChangeImageLink =(link) =>{
-        usenavigate("/anyurl="+ImageSV.ImageUrlByLink(link));
+        window.open(ImageSV.ImageUrlByLink(link), '_blank').focus();
+         
     }
 
     return (

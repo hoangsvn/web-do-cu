@@ -1,2 +1,2 @@
-export {default as Login } from './Login' 
-export {default as Register } from './Register' 
+export {default as App_Login } from './App_Login' 
+export {default as App_Register } from './App_Register' 

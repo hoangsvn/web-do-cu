@@ -30,9 +30,7 @@ public class User {
 	@Size(max = 120)
 	private String password;
 	
-	
-	@Size(max = 120)
-	private String fullname;
+
 
 	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
@@ -128,12 +126,7 @@ public class User {
 		this.roles = roles;
 	}
 
-	public String getFullname() {
-		return fullname;
-	}
-	public void setFullname(String fullname) {
-		this.fullname = fullname;
-	}
+ 
 	
 	@Override
 	public String toString() {

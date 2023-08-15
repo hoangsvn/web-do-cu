@@ -129,9 +129,8 @@ public class REST_Controller_Sanphan extends REST_Compoment {
 			spsave.setUser_id(userDetail.getId());
 			spsave.setPrice(sp.getPrice());
 			spsave.setDesiption(sp.getDesiption());
-			 
 			try {
-				if (sp.getDanhmucid()!=0 && sp.getDanhmucid() != spsave.getListdanhmuc().get(0).getId()) {
+				if (sp.getDanhmucid()!=0 || sp.getDanhmucid() != spsave.getListdanhmuc().get(0).getId()) {
 					DanhMuc ms = repository_DanhMuc.findById(sp.getDanhmucid()).get();
 					spsave.getListdanhmuc().clear();
 					spsave.getListdanhmuc().add(ms);	 
@@ -141,8 +140,6 @@ public class REST_Controller_Sanphan extends REST_Compoment {
 				 
 			}
 			spsave = repository_SanPham.save(spsave);
-			
-			
 			try {
 				for (HinhAnh a : spsave.getListhinhanh()) {
 				    repository_HinhAnh.deleteById(a.getId());
@@ -162,9 +159,7 @@ public class REST_Controller_Sanphan extends REST_Compoment {
 			} catch (Exception e) {
 				 System.out.println("Error Update");
 			}
-			System.out.println(spsave);
 			spsave = repository_SanPham.saveAndFlush(spsave);
-			
 			response.put(info_sanpham, spsave);
 			response.put(info_message, update_sanpham_success);
 			return ResponseEntity.ok(response);
@@ -201,10 +196,7 @@ public class REST_Controller_Sanphan extends REST_Compoment {
 			} catch (Exception e) {
 				
 			}
-			
-			 
 			spsave = repository_SanPham.save(spsave);
-			 
 			for (int i = 0; i < sp.getListimgsize(); i++) {
 			    HinhAnh ha = new HinhAnh();
 			    ha.setId(-1L);

@@ -101,7 +101,7 @@ public class REST_Controller_Auth extends REST_Compoment {
 
 			User user = new User(signUpRequest.getUsername(), signUpRequest.getEmail(),
 					encoder.encode(signUpRequest.getPassword()));
-			user.setFullname(signUpRequest.getFullname());
+
 			Set<Role> roles = new HashSet<>();
 			Role userRole = roleRepository.findByName(ERole.ROLE_USER)
 					.orElseThrow(() -> new RuntimeException("Error: Role is not found."));
@@ -188,11 +188,19 @@ public class REST_Controller_Auth extends REST_Compoment {
 	@PostMapping("/updateuserinfo")
 	@PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
 	public ResponseEntity<?> UpdateUserInfo(@Valid @RequestBody Request_UserInfo repu) {
-		 
+
 		Map<String, Object> response = new HashMap<>();
+
 		try {
+			UserInFo user = new UserInFo();
 			UserDetailsImpl userdetail = getUserDetailsImplInAuthentcation();
-			UserInFo user = repository_UserInFo.findById(userdetail.getId()).get();
+			try {
+				user = repository_UserInFo.findByUserid(userdetail.getId()).get();
+			} catch (Exception e) {
+				user.setId(-1l);
+				user.setUserid(userdetail.getId());
+			}
+
 			if (repu.getFullname() != null) {
 				user.setFullname(repu.getFullname());
 			}
@@ -203,8 +211,8 @@ public class REST_Controller_Auth extends REST_Compoment {
 				user.setLinkfacebook(repu.getLinkfacebook());
 			}
 			if (repu.getLinkinstagram() != null) {
-		 
-				user.setLinkinstagram(repu.getLinkinstagram()) ;
+
+				user.setLinkinstagram(repu.getLinkinstagram());
 			}
 			if (repu.getLinktwitter() != null) {
 				user.setLinktwitter(repu.getLinktwitter());
@@ -215,11 +223,13 @@ public class REST_Controller_Auth extends REST_Compoment {
 			if (repu.getDatebirth() != null) {
 				user.setDatebirth(repu.getDatebirth());
 			}
+		 
 			user = repository_UserInFo.saveAndFlush(user);
 			response.put(info_user, user);
 			response.put(info_message, update_userinfo_success);
 			return ResponseEntity.ok(response);
 		} catch (Exception e) {
+			 
 			response.clear();
 			response.put(info_message, update_userinfo_error);
 		}
@@ -289,9 +299,8 @@ public class REST_Controller_Auth extends REST_Compoment {
 		return ResponseEntity.badRequest().body(response);
 	}
 
-	
 	// Kho chua cua ban
-	
+
 	@GetMapping("/myrepository")
 	@PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
 	public ResponseEntity<?> Myrepository() {
@@ -352,7 +361,6 @@ public class REST_Controller_Auth extends REST_Compoment {
 
 	}
 
-	
 	// Thong tin cong khai cua 1 user
 	@GetMapping("/publicinfo/id={id}")
 	public ResponseEntity<?> PubLicUserInfo(@PathVariable String id) {
@@ -379,17 +387,14 @@ public class REST_Controller_Auth extends REST_Compoment {
 		}
 		return ResponseEntity.badRequest().body(response);
 	}
-	
-	
-	
-	
+
 	// ADMIN lây thông tin tất cả user
 	@GetMapping("/all")
 	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<?> getAll() {
 		Map<String, Object> response = new HashMap<>();
 		try {
-			 
+
 			List<User> listus = userRepository.findAll();
 			for (User user : listus) {
 				user.getListdiachi().clear();
@@ -408,18 +413,15 @@ public class REST_Controller_Auth extends REST_Compoment {
 			response.put(info_message, rest_controller_error);
 		}
 		return ResponseEntity.badRequest().body(response);
-		
+
 	}
-	
-	
-	
-	
+
 	@GetMapping("/search={search}")
 	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<?> PubLicSearch(@PathVariable String search) {
 		Map<String, Object> response = new HashMap<>();
 		try {
- 
+
 			List<User> listus = userRepository.searchByNameLike(search);
 			for (User user : listus) {
 				user.getListdiachi().clear();

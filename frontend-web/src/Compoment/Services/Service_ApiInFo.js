@@ -1,5 +1,7 @@
 
 const API = "http://localhost";
+
+
 const myHeaders = () =>{
     var myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
