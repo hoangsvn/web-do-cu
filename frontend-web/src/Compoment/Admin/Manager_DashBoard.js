@@ -1,27 +1,39 @@
-import {  useState } from "react";
+import {  useEffect, useState } from "react";
 import { ManagerCategorys, ManagerImages, ManagerProducts, ManagerUsers } from ".";
+import { AuthSV } from "../Services";
 
-
+import { Fm_NotAdmin} from "../Fragments"
 
 const AdminDashBoard = () => {
 
     const [Display, setDisplay] = useState();
+
+
+    useEffect(()  =>{
+        if (AuthSV.IsAdmin()){
+
+        } else {
+            setDisplay(<Fm_NotAdmin />);
+        }
+
+    },[])
+
     const onBtnCategory = () => {
-        setDisplay( <ManagerCategorys/>)
+        if (AuthSV.IsAdmin()) setDisplay( <ManagerCategorys/>);
     }
 
     const onBtnUsers = () => {
-        setDisplay(<ManagerUsers/> )
+        if (AuthSV.IsAdmin()) setDisplay(<ManagerUsers/> );
     }
     const onBtnNotification = () => {
-        setDisplay( )
+        if (AuthSV.IsAdmin()) setDisplay( );
     }
     const onBtnProDucts = () => {
-        setDisplay( <ManagerProducts/>)
+        if (AuthSV.IsAdmin()) setDisplay( <ManagerProducts/>);
     }
     
     const onBtnImages = () => {
-        setDisplay(<ManagerImages/> )
+        if (AuthSV.IsAdmin()) setDisplay(<ManagerImages/> );
     }
 
     return (
@@ -50,7 +62,7 @@ const AdminDashBoard = () => {
                         <div className="card">
                             Display
                         </div>
-                        <div className="card mt-1 ">
+                        <div className="card">
                             {Display}
                         </div>
                     </div>

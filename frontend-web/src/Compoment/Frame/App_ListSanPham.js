@@ -37,7 +37,7 @@ const ListCart = () => {
             SetEdit(true);
         }
 
-    }, []);
+    }, [path]);
 
     const handleDeleteItem = (id) => {
         setListCart((listcart) => listcart.filter((item) => item.id !== id));

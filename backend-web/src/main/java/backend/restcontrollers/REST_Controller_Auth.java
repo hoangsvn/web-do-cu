@@ -75,15 +75,22 @@ public class REST_Controller_Auth extends REST_Compoment {
 
 	@PostMapping("/signin")
 	public ResponseEntity<?> authenticateUser(@Valid @RequestBody Request_Login loginRequest) {
-		Authentication authentication = authenticationManager.authenticate(
-				new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
-		SecurityContextHolder.getContext().setAuthentication(authentication);
-		String jwt = jwtUtils.generateJwtToken(authentication);
-		UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
-		List<String> roles = userDetails.getAuthorities().stream().map(item -> item.getAuthority())
-				.collect(Collectors.toList());
-		return ResponseEntity.ok(new Response_JWT(jwt, userDetails.getId(), userDetails.getUsername(),
-				userDetails.getFullname(), userDetails.getEmail(), roles));
+		Map<String, Object> response = new HashMap<>();
+		try {
+			Authentication authentication = authenticationManager.authenticate( new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
+			SecurityContextHolder.getContext().setAuthentication(authentication);
+			String jwt = jwtUtils.generateJwtToken(authentication);
+			UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+			List<String> roles = userDetails.getAuthorities().stream().map(item -> item.getAuthority()) .collect(Collectors.toList());
+			response.put(info_user, new Response_JWT(jwt, userDetails.getId(), userDetails.getUsername(), userDetails.getFullname(), userDetails.getEmail(), roles));
+			response.put(info_message, rest_controller_success);
+			return ResponseEntity.ok(response);
+		} catch (Exception e) {
+			
+			response.clear();
+			response.put(info_message, rest_controller_error);
+			return ResponseEntity.badRequest().body(response);
+		}
 	}
 
 	@PostMapping("/signup")

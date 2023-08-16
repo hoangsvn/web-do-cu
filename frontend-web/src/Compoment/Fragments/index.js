@@ -5,3 +5,5 @@ export {default as Fm_Link } from './Fm_Link' ;
 export {default as Fm_EditProfile } from './Fm_Link' ;
 export {default as Fm_Product } from './Fm_Product' ;
 export {default as Fm_Owner } from './Fm_Owner' ;
+export {default as Fm_LiteProduct } from './Fm_LiteProduct' ;
+export {default as Fm_NotAdmin } from './Fm_NotAdmin' ;

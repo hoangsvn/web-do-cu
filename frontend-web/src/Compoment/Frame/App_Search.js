@@ -10,12 +10,8 @@ import { Fm_Product } from "../Fragments";
 const SearchFrame = () => {
     const { search } = useParams()
     const [listsanpham, setlistsanpham] = useState([]);
-
     const navigate = useNavigate();
-
     const [isok, SetOke] = useState(false);
-
-
     useEffect(() => {
         try {
             console.log(search);
@@ -32,9 +28,6 @@ const SearchFrame = () => {
         } catch (error) {
         }
     }, [search]);
-
-
-
 
     const btnclicksanphan = (st, sid) => {
 

@@ -19,17 +19,11 @@ const ApiLogin = (username, password) => {
   };
   return fetch(API + "/api/auth/signin", requestOptions)
     .then((response) => {
-      if (response.ok) {
+      if (response.ok || response.status ===400 ) {
         return response.json();
       } else {
         throw new Error("Login failed");
       }
-    })
-    .then((result) => {
-      var user = JSON.stringify(result);
-      localStorage.setItem("logininfo", user);
-      localStorage.setItem("token", `${result.type} ${result.token}`);
-      return result;
     });
 };
 
@@ -72,6 +66,17 @@ const getCurrentUserApi = () => {
   }
 };
 
+const IsAdmin =() =>{
+
+  try {
+    var roles = Array.from(JSON.parse(localStorage.getItem("logininfo")).roles);
+    return roles.includes("ROLE_ADMIN");
+  } catch (error) {
+     
+  }
+
+  return false;
+}
 const getCurrentUserToken = () => {
   try {
     return JSON.parse(localStorage.getItem("logininfo")).token;
@@ -221,6 +226,7 @@ const Authservice = {
   ApiGetUserInfoPublic,
   UpdateUserInfo,
   getAllUsers,getSearchUsers
+  ,IsAdmin
 };
 
 export default Authservice;

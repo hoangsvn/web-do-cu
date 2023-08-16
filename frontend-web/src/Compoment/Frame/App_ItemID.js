@@ -6,13 +6,14 @@ import { toast } from 'react-toastify';
 import { FontAwesomeIcon as FaIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeftLong, faArrowRightLong } from '@fortawesome/free-solid-svg-icons';
 import { Fm_Owner } from '../Fragments';
+ 
 
 
 const ItemID = () => {
     const { id } = useParams();
     const [sanpham, SetSanPham] = useState([]);
     const [listanh, SetListAnh] = useState([]);
-    const [isadmin ,setAdmin] =useState(false);
+ 
     const [isok, SetOke] = useState(false);
 
     const [currentIndex, setCurrentIndex] = useState(0);
@@ -20,6 +21,7 @@ const ItemID = () => {
         SanPhamSV.GetSanphambyID(id)
             .then((data) => {
                 if (data.message.success) {
+                    console.log("HERE");
                     SetSanPham(data.sanpham);
                     SetListAnh(data.sanpham.listhinhanh)
                     SetOke(true)
@@ -29,16 +31,18 @@ const ItemID = () => {
             }).catch(error => {
                 toast.error("")
             })
-    }, [])
+    }, [id])
 
 
 
     const handlePrevClick = () => {
+        console.log(listanh[currentIndex].link);
         setCurrentIndex((prevIndex) => (prevIndex === 0 ? listanh.length - 1 : prevIndex - 1));
     };
 
     const handleNextClick = () => {
         setCurrentIndex((prevIndex) => (prevIndex === listanh.length - 1 ? 0 : prevIndex + 1));
+        console.log(listanh[currentIndex].link);
     };
     const btnaddsanphantocart = (sid) => {
 
@@ -54,6 +58,10 @@ const ItemID = () => {
         } catch (error) {
 
         }
+    }
+
+    const buyid =() =>{
+         
     }
 
     return (
@@ -96,7 +104,7 @@ const ItemID = () => {
                         <div className='col-lg-6'>
                             <Fm_Owner uid={sanpham.user_id} />
                             {sanpham.state && <div className='mt-4'>
-                                <button className="btn btn-sm w-100 btn-outline-success mt-2 "> Buy </button> <br />
+                                <button className="btn btn-sm w-100 btn-outline-success mt-2 " onClick={(e) => {buyid()}}> Buy </button> <br />
                                 <button className="btn btn-sm w-100 btn-outline-success mt-2 " onClick={(e) => { btnaddsanphantocart(sanpham.id) }}> Add To Cart </button>
                             </div>}
                             {!sanpham.state && <div className='mt-4'>

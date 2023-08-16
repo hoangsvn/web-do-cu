@@ -18,8 +18,19 @@ const Login = () => {
         if (validate()) {
 
             AuthSV.ApiLogin(username, password)
-                .then(() => {
-                    navigate("/home");
+                .then((result) => {
+                    
+                    if (result.message.success) {
+                        var user = result.userinfo;
+                        console.log(user);
+                        localStorage.setItem("logininfo", JSON.stringify(user));
+                        localStorage.setItem("token", `${user.type} ${user.token}`);
+                        toast.success("Login Success");
+                        navigate("/home");
+                    } else{
+                        toast.error(result.message.message);
+                    }
+
                 })
                 .catch((error) => {
                     toast.error("Login Error");

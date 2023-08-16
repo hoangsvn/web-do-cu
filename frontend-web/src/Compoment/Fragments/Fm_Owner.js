@@ -18,7 +18,7 @@ const Fm_Owner = ({ uid }) => {
             }).catch((err) => {
                 toast.info("Error get User PubLic Info");
             })
-    })
+    },[uid])
     return (
         <div className="card">
             {isuser && <div className="card-body text-center row" >

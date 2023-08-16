@@ -3,13 +3,15 @@ import { useState, useEffect } from "react";
 import {  useNavigate } from "react-router-dom";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faHome, faShoppingCart, faSignOut, faSignIn, faBell, faStore, faUserCircle } from "@fortawesome/free-solid-svg-icons";
+import { faHome, faShoppingCart, faSignOut, faSignIn, faBell, faStore, faUserCircle, faDashboard } from "@fortawesome/free-solid-svg-icons";
 import { AuthSV } from "../Services";
 const AppHeader = () => {
     const [islogin, setISlogin] = useState(false);
+    const [IsAdmin, setAdmin] = useState(false);
     const usenavigate = useNavigate()
     useEffect(() => {
         try {
+            setAdmin(AuthSV.IsAdmin());
             AuthSV.getCurrentUserApi(); 
             setISlogin(true);
         } catch (error) {
@@ -20,6 +22,10 @@ const AppHeader = () => {
     const handleLogout = () => {
         AuthSV.ApiLogout();
         usenavigate("/login");
+    };
+    const handleDasboard = () => {
+        AuthSV.ApiLogout();
+        usenavigate("/dashboard");
     };
     const handleLogin = () => {
         AuthSV.ApiLogout();
@@ -41,7 +47,7 @@ const AppHeader = () => {
             <div className="App-header">
                 <div>
                     <nav className="navbar navbar-expand navbar-dark bg-dark" aria-label="Second navbar example">
-                        <div className="container-fluid">
+                        <div className="container-fluid ms-5 me-5">
                             <a className="navbar-brand ms-4" href="/"><FontAwesomeIcon icon={faHome}></FontAwesomeIcon></a>
                             
                             <div className="collapse navbar-collapse" id="navbarsExample02">
@@ -66,13 +72,13 @@ const AppHeader = () => {
                                         <a className="nav-link active" href="/myrepository/listsanpham"><FontAwesomeIcon icon={faStore} ></FontAwesomeIcon></a>
                                     </li>
                                 </ul>
-                                <form className="ms-2 me-5">
-                                    {
-                                        islogin ?
-                                            <button className="btn btn-danger " onClick={handleLogout}><FontAwesomeIcon icon={faSignOut} /></button> :
-                                            <button className="btn btn-success " onClick={handleLogin}><FontAwesomeIcon icon={faSignIn} /></button>
+                                <div className="ms-2 me-5">
+                                {IsAdmin && <button className="btn btn-outline-success ms-2" onClick={handleDasboard}><FontAwesomeIcon icon={faDashboard} /></button> }
+                                    {islogin ?
+                                        <button className="btn btn-danger ms-2" onClick={handleLogout}><FontAwesomeIcon icon={faSignOut} /></button> :
+                                        <button className="btn btn-success ms-2" onClick={handleLogin}><FontAwesomeIcon icon={faSignIn} /></button>
                                     }
-                                </form>
+                                </div>
                             </div>
                         </div>
                     </nav>

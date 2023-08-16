@@ -5,7 +5,7 @@ import { useParams } from "react-router-dom";
 
 const AnyUrl = () => {
     const { link } = useParams();
-    console.log(link);
+   
     const [Display, setDisplay] = useState();
     useEffect(() => {
         try {
@@ -19,7 +19,7 @@ const AnyUrl = () => {
         }
 
         console.log(Display);
-    }, []);
+    }, [link]);
 
     return (
         <div>

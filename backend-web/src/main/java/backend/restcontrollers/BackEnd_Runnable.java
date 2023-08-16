@@ -27,21 +27,20 @@ public class BackEnd_Runnable implements Runnable {
 	@Autowired
 	private Environment env;
 
-	private int start = 30;
-	private int nextt = 30;
+	private int clearimage = 30;
 
 	@Bean
 	public void BeanActive() {
 
 		try {
-			start = Integer.parseInt(env.getProperty("backend.app.time.minutesstart"));
-			nextt = Integer.parseInt(env.getProperty("backend.app.time.minutesnext"));
+			clearimage = Integer.parseInt(env.getProperty("backend.app.time.clearimage"));
+			 
 		} catch (Exception e) {
 
 		}
-		BackEnd.INFO(BackEnd_Runnable.class, "STAT RUNABLE =>" + start + ":" + nextt + " MINUTES", "DELETE IMAGE BY LINK");
+		BackEnd.INFO(BackEnd_Runnable.class, "RUNABLE AFFTER =>" + clearimage + " MINUTES", "DELETE IMAGE BY LINK");
 		executor = Executors.newSingleThreadScheduledExecutor();
-		executor.scheduleAtFixedRate(this, start, nextt, TimeUnit.MINUTES);
+		executor.scheduleAtFixedRate(this, clearimage, clearimage, TimeUnit.MINUTES);
 	}
 
    
@@ -73,7 +72,7 @@ public class BackEnd_Runnable implements Runnable {
 			}
 			
 		} catch (Exception e) {
-			BackEnd.ERROR(BackEnd_Runnable.class, "ERROR CLEAR IMAGE BY LINK", "IMAGE");
+			BackEnd.ERROR(BackEnd_Runnable.class, "ERROR CLEAR IMAGE BY LINK", "IMAGE"+e.getMessage());
 		}
 
 	}

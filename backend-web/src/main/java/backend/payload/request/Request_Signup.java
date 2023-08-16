@@ -14,8 +14,6 @@ public class Request_Signup {
 	@Email
 	private String email;
 	
-	
-	 
 	private String fullname;
 	
 	private Set<String> role;
