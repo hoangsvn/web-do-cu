@@ -39,13 +39,12 @@ public class User {
  
 	@OneToMany (fetch = FetchType.LAZY,cascade = CascadeType.ALL,targetEntity = SanPham.class,mappedBy = "user_id")
 	private List<SanPham> listsanphamid = new ArrayList<>();
-	
-	@OneToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL,targetEntity = DiaChi.class,mappedBy = "user_id")
-	private List<DiaChi> listdiachi ;
+ 
 	
     @OneToOne(cascade = CascadeType.ALL ,targetEntity = UserInFo.class)
     @JoinColumn(name = "id", referencedColumnName = "userid")
-	private UserInFo userinfo ;
+	
+    private UserInFo userinfo ;
 	
 	public UserInFo getUserinfo() {
 		return userinfo;
@@ -54,12 +53,7 @@ public class User {
 		this.userinfo = userinfo;
 	}
 	
-	public List<DiaChi> getListdiachi() {
-		return listdiachi;
-	}
-	public void setListdiachi(List<DiaChi> listdiachi) {
-		this.listdiachi = listdiachi;
-	}
+	 
 	public User() {
 	}
 	@OneToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL,targetEntity = Cart.class ,mappedBy = "user_id")
@@ -125,15 +119,5 @@ public class User {
 	public void setRoles(Set<Role> roles) {
 		this.roles = roles;
 	}
-
- 
-	
-	@Override
-	public String toString() {
-		return "User [id=" + id + ", username=" + username + ", email=" + email + ", password=" + password + ", roles="
-				+ roles + ", getId()=" + getId() + ", getUsername()=" + getUsername() + ", getEmail()=" + getEmail()
-				+ ", getPassword()=" + getPassword() + ", getRoles()=" + getRoles() + "]";
-	}
-	
 	
 }

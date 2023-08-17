@@ -56,7 +56,7 @@ const Fm_Product = ({ sanpham, setedit, setdelete ,onSanPhamDelete }) => {
                     <p className=" text-start mt-4">Name : {sanpham.name}</p>
                     <p className=" text-start">Price : {sanpham.price}</p>
                     <p className=" text-start">Date : {TimeSV.formatDate(sanpham.create_at)}</p>
-                    { !sanpham.state && <p> The product has been ordered by someone </p> }
+                    { !sanpham.state && <p className="card-body"> The product has been ordered by someone </p> }
                 </div>
                 <div className=" col-lg-1">
                     <div className=" justify-content-between align-items-center ">

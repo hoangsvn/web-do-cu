@@ -48,6 +48,8 @@ public class REST_Controller_Cart extends REST_Compoment {
 				SanPham sp = repository_SanPham.findById(sanpham_id).get();
 				if (sp.getUser_id() == userDetails.getId()) {
 					response.put(info_message, you_owner_sanpham);
+				} else if ( !sp.getState()) {
+					response.put(info_message, sanpham_order_by_someone);
 				} else if (lcart.size()>1) {
 					cart.setCount(1L);
 					for(Cart c : lcart) {

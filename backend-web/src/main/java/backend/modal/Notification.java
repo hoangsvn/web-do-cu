@@ -1,5 +1,7 @@
 package backend.modal;
 
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -20,6 +22,15 @@ public class Notification {
 	@Column(length = 1000)
 	private String body;
 
+	private Date create_at;
+	
+	public Date getCreate_at() {
+		return create_at;
+	}
+	public void setCreate_at(Date create_at) {
+		this.create_at = create_at;
+	}
+	
 	public Long getId() {
 		return id;
 	}

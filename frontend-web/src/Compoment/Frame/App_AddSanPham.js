@@ -109,7 +109,7 @@ const AddSanPham = () => {
                     <div className="">
                         <div class="input-group mb-3">
                             <span class="input-group-text w-25" >Image</span>
-                            <input type="file" class="form-control" multiple="5" onChange={handleFileChange} />
+                            <input type="file"  accept=".jpg, .jpeg, .png , .bmp" class="form-control" multiple="5" onChange={handleFileChange} />
                         </div>
 
                         <div className="mb-3">

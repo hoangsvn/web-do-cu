@@ -153,9 +153,19 @@ const getAllSanPham = () => {
             }
         });
 }
+
+const BuySanPhamID = (id) => {
+
+    return fetch(API +"/api/sanpham/buy/id="+id, ApiInFo.GET())
+        .then((response) => {
+            if (response.ok || response.status === 400) {
+                return response.json();
+            }
+        });
+}
 const SanPhamService = {
     GetTop20Sanpham, GetSanphambyID, DeleteSanPhamByID,
-    AddSanpham, UpdateSanPham, Search ,getAllSanPham
+    AddSanpham, UpdateSanPham, Search ,getAllSanPham,BuySanPhamID
 
 };
 export default SanPhamService;

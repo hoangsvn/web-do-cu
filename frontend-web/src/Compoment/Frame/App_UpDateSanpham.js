@@ -9,9 +9,6 @@ const UpDatesanPham = () => {
     const { sid } = useParams();
     const [selectedFiles, setSelectedFiles] = useState([]);
     const [imagePreviews, setImagePreviews] = useState([]);
-
-
-
     const [uploadIma, setuploadIma] = useState(false);
     const [isSuccess, setIsSuccess] = useState(false);
     const [price, setPrice] = useState(0);
@@ -159,7 +156,7 @@ const UpDatesanPham = () => {
                     <div className="">
                         <div class="input-group mb-3">
                             <span class="input-group-text w-25" >Image</span>
-                            <input type="file" class="form-control" multiple="5" onChange={handleFileChange} />
+                            <input type="file" class="form-control" accept=".jpg, .jpeg, .png , .bmp" multiple="5" onChange={handleFileChange} />
                         </div>
 
 

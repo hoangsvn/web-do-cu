@@ -1,19 +1,17 @@
 import { useEffect, useState } from "react";
 import { CartSV, ImageSV, SanPhamSV ,TimeSV} from "../Services";
 import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {faExclamationCircle, faShoppingCart } from "@fortawesome/free-solid-svg-icons";
 const Home = () => {
-
    
-
     const [top20, setTop20] = useState([]);
     const [isok , SetOk] = useState(false);
-
     const navigate = useNavigate();
-
+    const location = useLocation();
     useEffect(() => {
+        
         SanPhamSV.GetTop20Sanpham().then(data =>{
             setTop20(data);
             console.log(data);
@@ -22,7 +20,8 @@ const Home = () => {
         .catch((error) => {
             toast.error("Cannot get data in BackEnd ");
         });
-    }, []);
+
+    }, [location]);
 
 
     

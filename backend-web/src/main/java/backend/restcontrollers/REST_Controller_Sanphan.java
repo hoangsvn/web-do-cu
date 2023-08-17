@@ -22,11 +22,15 @@ import org.springframework.web.bind.annotation.RestController;
 import backend.BackEnd;
 import backend.modal.DanhMuc;
 import backend.modal.HinhAnh;
+import backend.modal.Notification;
 import backend.modal.SanPham;
+import backend.modal.UserInFo;
 import backend.payload.request.Resquest_sanpham;
 import backend.repository.Repository_DanhMuc;
 import backend.repository.Repository_HinhAnh;
+import backend.repository.Repository_Notification;
 import backend.repository.Repository_SanPham;
+import backend.repository.Repository_UserInFo;
 import backend.security.services.UserDetailsImpl;
  
 
@@ -44,6 +48,12 @@ public class REST_Controller_Sanphan extends REST_Compoment {
 	@Autowired
 	private Repository_DanhMuc repository_DanhMuc;
 
+	@Autowired
+	private Repository_Notification repository_Notification;
+	
+	@Autowired
+	private Repository_UserInFo repository_UserInFo;
+	
 	@GetMapping("/id={id}")
 	public ResponseEntity<?> GetByID(@PathVariable String id) {
 		
@@ -277,5 +287,67 @@ public class REST_Controller_Sanphan extends REST_Compoment {
 		return ResponseEntity.badRequest().body(response);
 		
 	}
-
+	@GetMapping("/buy/id={id}")
+	@PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
+	public ResponseEntity<?> BuyID( @PathVariable String id) {
+		Map<String, Object> response = new HashMap<>();
+		try {
+			
+			Long sid = Long.parseLong(id);
+			SanPham sp = repository_SanPham.findById(sid).get();
+			Long buyuserid 		=getUserDetailsImplInAuthentcation().getId();
+			Long owneruserid 	=sp.getUser_id();
+			UserInFo ownerinfo = repository_UserInFo.findByUserid(sp.getUser_id()).get();
+			UserInFo buyinfo = repository_UserInFo.findByUserid(buyuserid).get();
+			if (sp.getState() && buyuserid != owneruserid) {
+				
+				Date date = new Date();
+				
+				Notification user_buy_noti = new Notification();
+				user_buy_noti.setId(-1l);
+				user_buy_noti.setUserid(buyuserid);
+				user_buy_noti.setTitle("You have ordered a product named :" + sp.getName());
+				user_buy_noti.setCreate_at(date);
+				
+				StringBuilder buystring  = new StringBuilder();
+				buystring.append("You have ordered a product named :" + sp.getName() +"\n");
+				buystring.append("With the price :" + sp.getPrice() +"\n");
+				buystring.append("From the owner :" + ownerinfo.getFullname() +"\n");
+				buystring.append("Contact phone number :" + ownerinfo.getPhonenumber() +"\n");
+				user_buy_noti.setBody(buystring.toString());
+ 
+				Notification owner_noti = new Notification();
+				owner_noti.setId(-1l);
+				owner_noti.setUserid(owneruserid);
+				owner_noti.setTitle("Someone ordered your product named :" + sp.getName());
+				owner_noti.setCreate_at(date);
+				
+				StringBuilder owner_notification  = new StringBuilder();
+				owner_notification.append("Someone ordered your product named :" + sp.getName() +"\n");
+				owner_notification.append("With the price :" + sp.getPrice() +"\n");
+				owner_notification.append("Product buyer information Fullname :" + buyinfo.getFullname() +"\n");
+				owner_notification.append("Contact phone number :" + buyinfo.getPhonenumber() +"\n");
+				owner_notification.append("Contact Address :" + buyinfo.getAddress() +"\n");
+				owner_noti.setBody(owner_notification.toString());
+				
+				sp.setState(false);
+				repository_Notification.save( user_buy_noti);
+				repository_Notification.save( owner_noti);
+				sp = repository_SanPham.save(sp);
+				response.put(info_sanpham, sp);
+				response.put(info_message, buy_sanpham_success);
+				
+			} else {
+				response.put(info_message, buy_sanpham_fail);
+			}
+			 
+			return ResponseEntity.ok(response);
+		} catch (Exception e) {
+			e.printStackTrace();
+			response.clear();
+			response.put(info_message, buy_sanpham_error);
+		}
+		return ResponseEntity.badRequest().body(response);
+		
+	}
 }

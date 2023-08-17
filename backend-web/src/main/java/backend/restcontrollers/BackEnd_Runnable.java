@@ -51,8 +51,8 @@ public class BackEnd_Runnable implements Runnable {
         if (executor != null && !executor.isShutdown()) {
         	BackEnd.INFO(BackEnd_Runnable.class, "SHUTDOWN RUNABLE ","DELETE IMAGE BY LINK");
             executor.shutdown();
-        }
-    }
+        }	 
+	}
 	
 	
 	@Override

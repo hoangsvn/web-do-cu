@@ -27,6 +27,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import backend.modal.Cart;
 import backend.modal.ERole;
+import backend.modal.Notification;
 import backend.modal.Role;
 import backend.modal.SanPham;
 import backend.modal.User;
@@ -36,6 +37,7 @@ import backend.payload.request.Request_Signup;
 import backend.payload.request.Request_UserInfo;
 import backend.payload.response.Response_JWT;
 import backend.payload.response.Response_Message;
+import backend.repository.Repository_Notification;
 import backend.repository.Repository_Role;
 import backend.repository.Repository_SanPham;
 import backend.repository.Repository_User;
@@ -55,6 +57,10 @@ public class REST_Controller_Auth extends REST_Compoment {
 	@Autowired
 	private Repository_User userRepository;
 
+	
+	
+	@Autowired
+	private Repository_Notification repository_Notification;
 	@Autowired
 	private Repository_UserInFo repository_UserInFo;
 
@@ -288,7 +294,7 @@ public class REST_Controller_Auth extends REST_Compoment {
 				}
 				response.put(info_sanpham, listcart);
 			} else if (path.endsWith("listdiachi")) {
-				response.put(info_address, us.getListdiachi());
+				response.put(info_address,null);
 			} else {
 				response.put(info_message, rest_controller_fail);
 			}
@@ -404,10 +410,10 @@ public class REST_Controller_Auth extends REST_Compoment {
 
 			List<User> listus = userRepository.findAll();
 			for (User user : listus) {
-				user.getListdiachi().clear();
+				 
 				user.getListsanphamid().clear();
 				user.getCart().clear();
-				user.getListdiachi().clear();
+				 
 				user.setPassword("");
 				user.setUserinfo(null);
 			}
@@ -431,14 +437,37 @@ public class REST_Controller_Auth extends REST_Compoment {
 
 			List<User> listus = userRepository.searchByNameLike(search);
 			for (User user : listus) {
-				user.getListdiachi().clear();
+				 
 				user.getListsanphamid().clear();
 				user.getCart().clear();
-				user.getListdiachi().clear();
+				 
 				user.setPassword("");
 				user.setUserinfo(null);
 			}
 			response.put(info_user, listus);
+			response.put(info_message, rest_controller_success);
+			return ResponseEntity.ok(response);
+
+		} catch (ClassCastException e) {
+			response.clear();
+			response.put(info_message, not_login);
+
+		} catch (Exception e) {
+			response.clear();
+			response.put(info_message, user_not_found);
+		}
+		return ResponseEntity.badRequest().body(response);
+	}
+	@GetMapping("/notification")
+	@PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
+	public ResponseEntity<?> NotiFication() {
+		Map<String, Object> response = new HashMap<>();
+		try {
+			Long id =getUserDetailsImplInAuthentcation().getId();
+			System.out.println(id);
+			List<Notification> list = repository_Notification.findAllNotification(id);
+ 
+			response.put(info_notification, list);
 			response.put(info_message, rest_controller_success);
 			return ResponseEntity.ok(response);
 

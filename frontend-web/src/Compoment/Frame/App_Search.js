@@ -29,17 +29,7 @@ const SearchFrame = () => {
         }
     }, [search]);
 
-    const btnclicksanphan = (st, sid) => {
-
-
-        if (st === "view") {
-            navigate(`/sanpham/${sid}`);
-        } else if (st === "addtocard") {
-
-        } else {
-
-        }
-    }
+    
 
 
 

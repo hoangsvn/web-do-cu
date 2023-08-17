@@ -11,13 +11,8 @@ const ApiLogin = (username, password) => {
     username: username,
     password: password,
   });
-  var requestOptions = {
-    method: "POST",
-    headers: myHeaders,
-    body: raw,
-    redirect: "follow",
-  };
-  return fetch(API + "/api/auth/signin", requestOptions)
+   
+  return fetch(API + "/api/auth/signin", ApiInFo.POSTBODY(raw))
     .then((response) => {
       if (response.ok || response.status ===400 ) {
         return response.json();
@@ -213,7 +208,18 @@ const getSearchUsers = (keyword) => {
       }
     });
 }
+const getNotification = () => {
+ 
 
+  return fetch(API + "/api/auth/notification", ApiInFo.GET())
+    .then((response) => {
+      if (response.ok || response.status === 400) {
+        return response.json();
+      } else {
+        throw new Error("Get Search User");
+      }
+    });
+}
 
 const Authservice = {
   ApiLogin,
@@ -226,7 +232,7 @@ const Authservice = {
   ApiGetUserInfoPublic,
   UpdateUserInfo,
   getAllUsers,getSearchUsers
-  ,IsAdmin
+  ,IsAdmin ,getNotification
 };
 
 export default Authservice;

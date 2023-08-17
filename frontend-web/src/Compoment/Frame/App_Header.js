@@ -24,7 +24,6 @@ const AppHeader = () => {
         usenavigate("/login");
     };
     const handleDasboard = () => {
-        AuthSV.ApiLogout();
         usenavigate("/dashboard");
     };
     const handleLogin = () => {

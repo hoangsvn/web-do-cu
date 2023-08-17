@@ -3,7 +3,6 @@ package backend.restcontrollers;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-
 import backend.payload.response.Response_Message;
 import backend.security.services.UserDetailsImpl;
  
@@ -38,6 +37,7 @@ public class REST_Compoment {
 	public static Response_Message sanpham_already_in_cart	= new Response_Message("Sanpham is already in Cart","In Cart"		, false);
 	public static Response_Message sanpham_is_number 		= new Response_Message("SanPham ID Is Number", 	 	"SanPham ID"	, false);
 	public static Response_Message you_owner_sanpham 		= new Response_Message("You are the owner of the product", 	 	"SanPham ID"	, false);
+	public static Response_Message sanpham_order_by_someone = new Response_Message("The product has been ordered by someone","SanPham ID"	, false);
 	
 	public static Response_Message sanpham_isnot_exists_in_mysql 	= new Response_Message("SanPham Is Not Exists In Mysql", 	"SanPham In Mysql"	, false);
 	public static Response_Message sanpham_is_exists_in_mysql 		= new Response_Message("SanPham Is Exists In Mysql", 		"SanPham In Mysql"	, false);
@@ -55,6 +55,11 @@ public class REST_Compoment {
 	public static Response_Message update_sanpham_fail 		= new Response_Message("Update SanPham Fail!", 		"Update in Mysql"	, false);
 	public static Response_Message update_sanpham_error 	= new Response_Message("Update SanPham Error!", 	"Update in Mysql"	, false);
 
+	
+	public static Response_Message buy_sanpham_success 		= new Response_Message("Buy SanPham Success!", 	"Update in Mysql"	, true);
+	public static Response_Message buy_sanpham_fail 		= new Response_Message("Buy SanPham Fail!", 		"Update in Mysql"	, false);
+	public static Response_Message buy_sanpham_error 		= new Response_Message("Buy SanPham Error!", 	"Update in Mysql"	, false);
+	
 	
 	public static Response_Message update_userinfo_success 	= new Response_Message("Update User InFo Success!", "Update in Mysql"	, true);
 	public static Response_Message update_userinfo_fail 	= new Response_Message("Update User InFo Fail!", 	"Update in Mysql"	, false);
@@ -83,6 +88,7 @@ public class REST_Compoment {
 	public static String info_user 		= "userinfo";
 	public static String info_danhmuc 	= "danhmuc";
 	public static String info_image 	= "image";
+	public static String info_notification 	= "notification";
 	
 	public static Response_Message upload_image_success 	= new Response_Message("Upload Image Success !", 	"Insert in Mysql"	, true);
 	public static Response_Message upload_image_fail 		= new Response_Message("Upload Image Fail !", 		"Insert in Mysql"	, false);

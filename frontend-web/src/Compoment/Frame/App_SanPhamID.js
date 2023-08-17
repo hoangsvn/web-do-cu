@@ -1,6 +1,6 @@
 
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { AuthSV, ImageSV, SanPhamSV, CartSV, TimeSV } from '../Services';
 import { toast } from 'react-toastify';
 import { FontAwesomeIcon as FaIcon } from '@fortawesome/react-fontawesome';
@@ -17,6 +17,8 @@ const ItemID = () => {
     const [isok, SetOke] = useState(false);
 
     const [currentIndex, setCurrentIndex] = useState(0);
+
+    const navigate = useNavigate();
     useEffect(() => {
         SanPhamSV.GetSanphambyID(id)
             .then((data) => {
@@ -61,7 +63,7 @@ const ItemID = () => {
     }
 
     const buyid =() =>{
-         
+        navigate("/buy/"+id)
     }
 
     return (
@@ -104,11 +106,12 @@ const ItemID = () => {
                         <div className='col-lg-6'>
                             <Fm_Owner uid={sanpham.user_id} />
                             {sanpham.state && <div className='mt-4'>
-                                <button className="btn btn-sm w-100 btn-outline-success mt-2 " onClick={(e) => {buyid()}}> Buy </button> <br />
+                                <button className="btn btn-sm w-100 btn-outline-success mt-2 " onClick={(e) => {buyid()}}> Buy </button> <br/>
                                 <button className="btn btn-sm w-100 btn-outline-success mt-2 " onClick={(e) => { btnaddsanphantocart(sanpham.id) }}> Add To Cart </button>
                             </div>}
-                            {!sanpham.state && <div className='mt-4'>
-                                <p>The product has been ordered by someone</p>
+                            {!sanpham.state && 
+                            <div className='mt-4 card'>
+                                <p className='card-header'>The product has been ordered by someone</p>
                             </div>}
                         </div>
                     </div>}
