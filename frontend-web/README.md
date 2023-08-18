@@ -22,19 +22,19 @@ In the project directory, you can run:
 #### Form Search
 ![Form Search](../images/%20(11).png)
 
-#### Form QL DS Sản Phẩm Đăng Bán
-![QL DS Sản Phẩm Đăng Bán](../images/%20(3).png)
-
 #### Form QL Notification
 ![QL Notification ](../images/%20(4).png)
+
+#### Form QL DS Sản Phẩm Đăng Bán
+![QL DS Sản Phẩm Đăng Bán](../images/%20(3).png)
 
 #### Form Thêm Sản Phẩm
 ![Form Thêm Sản Phẩm ](../images/%20(5).png)
 
-#### Sửa Sản Phẩm
+#### Form Sửa Sản Phẩm
 ![Form Sửa Sản Phẩm](../images/%20(6).png)
 
-#### Form  Xem Sản Phẩm Theo ID
+#### Form Xem Sản Phẩm Theo ID
 ![Form Xem Sản Phẩm Theo ID](../images/%20(7).png)
 
 #### Form Buy Sản Phâm Theo ID
