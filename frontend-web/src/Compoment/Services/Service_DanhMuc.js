@@ -4,16 +4,11 @@ import ApiInFo from "./Service_ApiInFo";
 
 const API = ApiInFo.API
 
-const myHeaders =ApiInFo.myHeaders();
 
 const GetAll = () => {
-    var requestOptions = {
-        headers: myHeaders,
-        method: 'GET',
-        redirect: 'follow'
-    };
+    
 
-    return fetch(API+ "/api/danhmuc/all", requestOptions)
+    return fetch(API+ "/api/danhmuc/all", ApiInFo.GET())
         .then((response) => {
             if (response.ok || response.status === 400) {
                 return response.json();
@@ -25,14 +20,9 @@ const GetAll = () => {
 
 
 const GetID = (id) => {
-    var requestOptions = {
-        headers: myHeaders,
-        method: 'GET',
-        redirect: 'follow'
-        
-    };
+    
 
-    return fetch(API+ "/api/danhmuc/id="+id, requestOptions)
+    return fetch(API+ "/api/danhmuc/id="+id, ApiInFo.GET())
         .then((response) => {
             if (response.ok || response.status === 400) {
                 return response.json();
@@ -42,14 +32,9 @@ const GetID = (id) => {
         });
 }
 const AddNewCategory = (newCategory) => {
-    
-    var requestOptions = {
-        headers: myHeaders,
-        method: 'GET',
-        redirect: 'follow'
-    };
 
-    return fetch(API+ "/api/danhmuc/add="+newCategory, requestOptions)
+
+    return fetch(API+ "/api/danhmuc/add="+newCategory, ApiInFo.GET())
         .then((response) => {
             if (response.ok || response.status === 400) {
                 return response.json();

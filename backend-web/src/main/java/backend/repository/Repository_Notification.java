@@ -14,4 +14,5 @@ public interface Repository_Notification extends JpaRepository<Notification, Lon
 	@Query("SELECT u FROM Notification u WHERE u.userid=:id")
 	List<Notification> findAllNotificationbyUid(Long id);
 
+	List<Notification> findAllByUserid(Long id);
 }

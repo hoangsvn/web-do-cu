@@ -2,16 +2,9 @@
 import ApiInFo from "./Service_ApiInFo";
 const API = ApiInFo.API
 
-const myHeaders =ApiInFo.myHeaders();
-
-
 const AddToCart = (sid) => {
-    var requestOptions = {
-        method: 'GET',
-        headers: myHeaders,
-        redirect: 'follow'
-    };
-    return fetch(API + "/api/cart/addtocart/id=" + sid, requestOptions)
+    
+    return fetch(API + "/api/cart/addtocart/id=" + sid, ApiInFo.GET())
         .then(response => {
             if (response.ok || response.status === 400) {
                 return response.json();
@@ -23,13 +16,9 @@ const AddToCart = (sid) => {
 }
 
 const DeleteToCart = (sid) => {
-    var requestOptions = {
-        method: 'GET',
-        headers: myHeaders,
-        redirect: 'follow'
-    };
+   
 
-    return fetch(API + "/api/cart/deletetocart/id=" + sid, requestOptions)
+    return fetch(API + "/api/cart/deletetocart/id=" + sid, ApiInFo.GET())
         .then(response => {
             if (response.ok || response.status === 400) {
                 return response.json();

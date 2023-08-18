@@ -2,8 +2,6 @@ import ApiInFo from "./Service_ApiInFo";
 
 const API = ApiInFo.API
 
-const myHeaders =ApiInFo.myHeaders();
-
 
 const ApiLogin = (username, password) => {
  
@@ -35,15 +33,8 @@ const ApiRegister = (email1, username1, password1) => {
     "email": email1
   });
 
-  var requestOptions = {
-    method: 'POST',
-    headers: myHeaders,
-    body: raw,
-    redirect: 'follow'
-  };
-
-
-  return fetch(API + "/api/auth/signup", requestOptions)
+  
+  return fetch(API + "/api/auth/signup", ApiInFo.POSTBODY(raw))
     .then((response) => {
       if (response.ok || response.status === 400) {
         return response.json()
@@ -83,14 +74,8 @@ const getCurrentUserToken = () => {
 
 const ApiUserInFo = () => {
 
- 
-  var requestOptions = {
-    method: 'GET',
-    headers: myHeaders,
-    redirect: 'follow'
-  };
 
-  return fetch(API + "/api/auth/info", requestOptions)
+  return fetch(API + "/api/auth/info", ApiInFo.GET())
     .then((response) => {
       if (response.ok) {
         return response.json();
@@ -103,14 +88,8 @@ const ApiUserInFo = () => {
 
 const ApiGetPath = (part) => {
 
- 
-  var requestOptions = {
-    method: 'GET',
-    headers: myHeaders,
-    redirect: 'follow'
-  };
 
-  return fetch(API + "/api/auth/myrepository/" + part, requestOptions)
+  return fetch(API + "/api/auth/myrepository/" + part, ApiInFo.GET())
     .then((response) => {
       if (response.ok || response.status === 400) {
         return response.json();
@@ -123,14 +102,8 @@ const ApiGetPath = (part) => {
 
 const ApiGetUserInfoPublic = (sid) => {
 
- 
-  var requestOptions = {
-    method: 'GET',
-    headers: myHeaders,
-    redirect: 'follow'
-  };
 
-  return fetch(API + "/api/auth/publicinfo/id=" + sid, requestOptions)
+  return fetch(API + "/api/auth/publicinfo/id=" + sid, ApiInFo.GET())
     .then((response) => {
       if (response.ok || response.status === 400) {
         return response.json();
@@ -153,14 +126,8 @@ const UpdateUserInfo = (fullname, phonenumber, address, brithDay, linkfacebook, 
     "datebirth": brithDay
   });
 
-  var requestOptions = {
-    method: 'POST',
-    headers: myHeaders,
-    body: raw,
-    redirect: 'follow'
-  };
-
-  return fetch(API + "/api/auth/updateuserinfo", requestOptions)
+  
+  return fetch(API + "/api/auth/updateuserinfo", ApiInFo.POSTBODY(raw))
     .then((response) => {
       if (response.ok || response.status === 400) {
         return response.json();
@@ -171,16 +138,7 @@ const UpdateUserInfo = (fullname, phonenumber, address, brithDay, linkfacebook, 
 }
 
 const getAllUsers = () => {
-
- 
-
-  var requestOptions = {
-    method: 'GET',
-    headers: myHeaders,
-    redirect: 'follow'
-  };
-
-  return fetch(API + "/api/auth/all", requestOptions)
+  return fetch(API + "/api/auth/all", ApiInFo.GET())
     .then((response) => {
       if (response.ok || response.status === 400) {
         return response.json();
@@ -193,13 +151,7 @@ const getAllUsers = () => {
 
 const getSearchUsers = (keyword) => {
 
-  var requestOptions = {
-    method: 'GET',
-    headers: myHeaders,
-    redirect: 'follow'
-  };
-
-  return fetch(API + "/api/auth/search="+keyword, requestOptions)
+  return fetch(API + "/api/auth/search="+keyword, ApiInFo.GET())
     .then((response) => {
       if (response.ok || response.status === 400) {
         return response.json();
@@ -221,6 +173,35 @@ const getNotification = () => {
     });
 }
 
+const getAdminNotification = () => {
+ 
+
+  return fetch(API + "/api/auth/adminnotification", ApiInFo.GET())
+    .then((response) => {
+      if (response.ok || response.status === 400) {
+        return response.json();
+      } else {
+        throw new Error("Get Search User");
+      }
+    });
+}
+
+
+const AdminAdddNotification = ( title ,body ) => {
+ 
+  var raw = JSON.stringify({
+    "title": title,
+    "body": body
+  });
+  return fetch(API + "/api/auth/adminaddnotification", ApiInFo.POSTBODY(raw))
+    .then((response) => {
+      if (response.ok || response.status === 400) {
+        return response.json();
+      } else {
+        throw new Error("Get Search User");
+      }
+    });
+}
 const Authservice = {
   ApiLogin,
   ApiLogout,
@@ -232,7 +213,8 @@ const Authservice = {
   ApiGetUserInfoPublic,
   UpdateUserInfo,
   getAllUsers,getSearchUsers
-  ,IsAdmin ,getNotification
+  ,IsAdmin ,getNotification,
+  getAdminNotification,AdminAdddNotification
 };
 
 export default Authservice;

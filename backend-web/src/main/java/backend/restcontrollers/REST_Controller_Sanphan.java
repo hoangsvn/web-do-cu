@@ -196,7 +196,7 @@ public class REST_Controller_Sanphan extends REST_Compoment {
 			spsave.setUser_id(userDetail.getId());
 			spsave.setPrice(sp.getPrice());
 			spsave.setDesiption(sp.getDesiption());
-			
+			spsave.setState(true);
 			try {
 				if (sp.getDanhmucid()!=0) {
 					DanhMuc ms = repository_DanhMuc.findById(sp.getDanhmucid()).get();

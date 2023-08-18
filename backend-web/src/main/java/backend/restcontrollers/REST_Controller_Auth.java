@@ -1,6 +1,7 @@
 package backend.restcontrollers;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -35,8 +36,10 @@ import backend.modal.UserInFo;
 import backend.payload.request.Request_Login;
 import backend.payload.request.Request_Signup;
 import backend.payload.request.Request_UserInfo;
+import backend.payload.request.Resquest_Notification;
 import backend.payload.response.Response_JWT;
 import backend.payload.response.Response_Message;
+
 import backend.repository.Repository_Notification;
 import backend.repository.Repository_Role;
 import backend.repository.Repository_SanPham;
@@ -481,5 +484,51 @@ public class REST_Controller_Auth extends REST_Compoment {
 		}
 		return ResponseEntity.badRequest().body(response);
 	}
+	@GetMapping("/adminnotification")
+	@PreAuthorize("hasRole('ADMIN')")
+	public ResponseEntity<?> AdminNotiFication() {
+		Map<String, Object> response = new HashMap<>();
+		try {
 
+			List<Notification> list = repository_Notification.findAllByUserid(0L);
+			response.put(info_notification, list);
+			response.put(info_message, rest_controller_success);
+			return ResponseEntity.ok(response);
+
+		} catch (ClassCastException e) {
+			response.clear();
+			response.put(info_message, not_login);
+
+		} catch (Exception e) {
+			response.clear();
+			response.put(info_message, user_not_found);
+		}
+		return ResponseEntity.badRequest().body(response);
+	}
+	@PostMapping("/adminaddnotification")
+	@PreAuthorize("hasRole('ADMIN')")
+	public ResponseEntity<?> AdminAllNotificationserver(@Valid @RequestBody Resquest_Notification  noti) {
+		Map<String, Object> response = new HashMap<>();
+		try {
+			Notification nt =new Notification();
+			nt.setId(-1l);
+			nt.setBody(noti.getBody());
+			nt.setTitle(noti.getTitle());
+			nt.setCreate_at(new Date());
+			nt.setUserid(0L);
+			nt = repository_Notification.save(nt);
+			response.put(info_notification, nt);
+			response.put(info_message, rest_controller_success);
+			return ResponseEntity.ok(response);
+
+		} catch (ClassCastException e) {
+			response.clear();
+			response.put(info_message, not_login);
+
+		} catch (Exception e) {
+			response.clear();
+			response.put(info_message, user_not_found);
+		}
+		return ResponseEntity.badRequest().body(response);
+	}
 }

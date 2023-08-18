@@ -1,5 +1,5 @@
 import {  useEffect, useState } from "react";
-import { ManagerCategorys, ManagerImages, ManagerProducts, ManagerUsers } from ".";
+import { ManagerCategorys, ManagerImages, ManagerNotifications, ManagerProducts, ManagerUsers } from ".";
 import { AuthSV } from "../Services";
 
 import { Fm_NotAdmin} from "../Fragments"
@@ -27,7 +27,7 @@ const AdminDashBoard = () => {
         if (AuthSV.IsAdmin()) setDisplay(<ManagerUsers/> );
     }
     const onBtnNotification = () => {
-        if (AuthSV.IsAdmin()) setDisplay( );
+        if (AuthSV.IsAdmin()) setDisplay(<ManagerNotifications /> );
     }
     const onBtnProDucts = () => {
         if (AuthSV.IsAdmin()) setDisplay( <ManagerProducts/>);

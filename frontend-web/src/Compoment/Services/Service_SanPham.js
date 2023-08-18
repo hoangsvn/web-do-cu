@@ -2,19 +2,11 @@
 
 import ApiInFo from "./Service_ApiInFo";
 
-const API = ApiInFo.API
-
-const myHeaders = ApiInFo.myHeaders();
-
+const API = ApiInFo.API;
 const GetTop20Sanpham = () => {
 
-    var requestOptions = {
-        method: 'GET',
-        headers: myHeaders,
-        redirect: 'follow'
-    };
 
-    return fetch(API + "/api/sanpham/top20", requestOptions)
+    return fetch(API + "/api/sanpham/top20", ApiInFo.GET())
         .then((response) => {
             if (response.ok) {
                 return response.json();
@@ -38,14 +30,7 @@ const AddSanpham = (sname, sprice, sdesiption, slistimgsize, sdanhmucid) => {
         "danhmucid": sdanhmucid
     });
 
-    var requestOptions = {
-        method: 'POST',
-        headers: myHeaders,
-        body: raw,
-        redirect: 'follow'
-    };
-
-    return fetch(API + "/api/sanpham/add", requestOptions)
+    return fetch(API + "/api/sanpham/add", ApiInFo.POSTBODY(raw))
         .then((response) => {
             if (response.ok || response.status === 400) {
                 return response.json();
@@ -58,13 +43,8 @@ const AddSanpham = (sname, sprice, sdesiption, slistimgsize, sdanhmucid) => {
 }
 
 const DeleteSanPhamByID = (id) => {
-    var requestOptions = {
-        method: 'GET',
-        headers: myHeaders,
-        redirect: 'follow'
-    };
-
-    return fetch(API + "/api/sanpham/delete/id=" + id, requestOptions)
+    
+    return fetch(API + "/api/sanpham/delete/id=" + id, ApiInFo.GET())
         .then((response) => {
             if (response.ok || response.status === 400) {
                 return response.json();
@@ -76,13 +56,7 @@ const DeleteSanPhamByID = (id) => {
 
 const GetSanphambyID = (id) => {
 
-    var requestOptions = {
-        method: 'GET',
-        headers: myHeaders,
-        redirect: 'follow'
-    };
-
-    return fetch(API + "/api/sanpham/id=" + id, requestOptions)
+    return fetch(API + "/api/sanpham/id=" + id, ApiInFo.GET())
         .then((response) => {
             if (response.ok || response.status === 400) {
                 return response.json();
@@ -105,14 +79,8 @@ const UpdateSanPham = (sid, sname, sprice, sdesiption, slistimgsize, sdanhmucid)
         "danhmucid": sdanhmucid
     });
 
-    var requestOptions = {
-        method: 'POST',
-        headers: myHeaders,
-        body: raw,
-        redirect: 'follow'
-    };
 
-    return fetch(API + "/api/sanpham/update", requestOptions)
+    return fetch(API + "/api/sanpham/update", ApiInFo.POSTBODY(raw))
         .then((response) => {
             if (response.ok || response.status === 400) {
                 return response.json();
@@ -126,12 +94,9 @@ const UpdateSanPham = (sid, sname, sprice, sdesiption, slistimgsize, sdanhmucid)
 
 
 const Search = (search) => {
-    var requestOptions = {
-        method: 'GET',
-        redirect: 'follow'
-    };
+    
 
-    return fetch(API + "/api/sanpham/search=" + search, requestOptions)
+    return fetch(API + "/api/sanpham/search=" + search, ApiInFo.GET())
         .then((response) => {
             if (response.ok || response.status === 400) {
                 return response.json();
@@ -140,13 +105,9 @@ const Search = (search) => {
 
 }
 const getAllSanPham = () => {
-    var requestOptions = {
-        method: 'GET',
-        headers: myHeaders,
-        redirect: 'follow'
-    };
+   
 
-    return fetch(API +"/api/sanpham/all", requestOptions)
+    return fetch(API +"/api/sanpham/all", ApiInFo.GET())
         .then((response) => {
             if (response.ok || response.status === 400) {
                 return response.json();
