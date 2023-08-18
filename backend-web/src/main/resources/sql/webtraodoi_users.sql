@@ -25,13 +25,12 @@ DROP TABLE IF EXISTS `users`;
 CREATE TABLE `users` (
   `id` bigint NOT NULL AUTO_INCREMENT,
   `email` varchar(80) DEFAULT NULL,
-  `fullname` varchar(120) DEFAULT NULL,
   `password` varchar(120) DEFAULT NULL,
   `username` varchar(20) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `UKr43af9ap4edm43mmtq01oddj6` (`username`),
   UNIQUE KEY `UK6dotkott2kjsp8vw4d0m25fb7` (`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -40,7 +39,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'admin@gmail.com','Nguyên Xuân Hoàng','$2a$12$YgyJGX9mIW3BK2cGarHWouFTB6dgCtl6Gd89pfVZehDIc3aVw8k5G','admin');
+INSERT INTO `users` VALUES (1,'admin@gmail.com','$2a$12$YgyJGX9mIW3BK2cGarHWouFTB6dgCtl6Gd89pfVZehDIc3aVw8k5G','admin'),(2,'usertest@gmail.com','$2a$10$tsAcC7U5xjROQr1BIX0D.uhWrB4XBt7bkuAo.VtxN7cKytNxjUZyy','usertest'),(3,'usertest1@gmail.com','$2a$10$/l3MLqm10.emjvJgqOUJ8O1xmd/ZQupdVGsZllfoztZEMzRG5.vIG','usertest1'),(4,'usertest2@gmail.com','$2a$10$4ZT4iQmqX.j3QcacHvPkmuYqc76eXt5.cZr2HTJAmb1960Ap886cy','usertest2'),(5,'admintest@gmail.com','$2a$10$M5vCMEGxIQc6a5yPgdsAqOcqiF4RfAYHgv0SdAAv/iXmSuF5w83Ue','admintest'),(6,'admintest1@gmail.com','$2a$10$AREgqfbdF5sjSIT/y44xNu/AjqoWI4/e9dZw4quUNekwpF/LLrVBi','admintest1'),(11,'usertest3@gmail.com','$2a$10$rCF4910oBOahBuPBYxNhFOjRFBxhmEzkEkUuwM0b/7MrsyMbpAyEm','usertest3');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -53,4 +52,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-07-05 22:15:27
+-- Dump completed on 2023-08-18 20:07:45

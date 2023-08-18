@@ -16,30 +16,27 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `user_roles`
+-- Table structure for table `danhmuc`
 --
 
-DROP TABLE IF EXISTS `user_roles`;
+DROP TABLE IF EXISTS `danhmuc`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `user_roles` (
-  `user_id` bigint NOT NULL,
-  `role_id` int NOT NULL,
-  PRIMARY KEY (`user_id`,`role_id`),
-  KEY `FKh8ciramu9cc9q3qcqiv4ue8a6` (`role_id`),
-  CONSTRAINT `FKh8ciramu9cc9q3qcqiv4ue8a6` FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`),
-  CONSTRAINT `FKhfh9dx7w3ubf1co1vdev94g3f` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+CREATE TABLE `danhmuc` (
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `user_roles`
+-- Dumping data for table `danhmuc`
 --
 
-LOCK TABLES `user_roles` WRITE;
-/*!40000 ALTER TABLE `user_roles` DISABLE KEYS */;
-INSERT INTO `user_roles` VALUES (1,1),(5,1),(6,1),(2,3),(3,3),(4,3),(11,3);
-/*!40000 ALTER TABLE `user_roles` ENABLE KEYS */;
+LOCK TABLES `danhmuc` WRITE;
+/*!40000 ALTER TABLE `danhmuc` DISABLE KEYS */;
+INSERT INTO `danhmuc` VALUES (1,'Điện Thoại Cũ'),(2,'Lap Top Cũ'),(3,'Máy Tính Cũ'),(4,'Đồ Gia Dụng Cũ'),(5,'Phụ Kiện Cũ'),(6,'Sách Cũ'),(7,'Máy Ảnh Cũ'),(8,'Link Kiện Cũ'),(9,'Thiết Bị đeo tay Cũ'),(10,'Xe Cộ Cũ'),(11,'Tivi , Âm Thanh Cũ');
+/*!40000 ALTER TABLE `danhmuc` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -51,4 +48,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-08-18 20:07:44
+-- Dump completed on 2023-08-18 20:07:45

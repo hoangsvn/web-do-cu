@@ -16,30 +16,30 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `user_roles`
+-- Table structure for table `noification`
 --
 
-DROP TABLE IF EXISTS `user_roles`;
+DROP TABLE IF EXISTS `noification`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `user_roles` (
-  `user_id` bigint NOT NULL,
-  `role_id` int NOT NULL,
-  PRIMARY KEY (`user_id`,`role_id`),
-  KEY `FKh8ciramu9cc9q3qcqiv4ue8a6` (`role_id`),
-  CONSTRAINT `FKh8ciramu9cc9q3qcqiv4ue8a6` FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`),
-  CONSTRAINT `FKhfh9dx7w3ubf1co1vdev94g3f` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+CREATE TABLE `noification` (
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `body` varchar(1000) DEFAULT NULL,
+  `title` varchar(200) DEFAULT NULL,
+  `userid` bigint DEFAULT NULL,
+  `create_at` datetime(6) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `user_roles`
+-- Dumping data for table `noification`
 --
 
-LOCK TABLES `user_roles` WRITE;
-/*!40000 ALTER TABLE `user_roles` DISABLE KEYS */;
-INSERT INTO `user_roles` VALUES (1,1),(5,1),(6,1),(2,3),(3,3),(4,3),(11,3);
-/*!40000 ALTER TABLE `user_roles` ENABLE KEYS */;
+LOCK TABLES `noification` WRITE;
+/*!40000 ALTER TABLE `noification` DISABLE KEYS */;
+INSERT INTO `noification` VALUES (1,'Xin Chao Cac Ban','Admin Notification',0,'2023-08-17 22:47:30.562000'),(2,'Trang Web Đang Sữa Chữa ','Admin Notification',0,'2023-08-17 22:47:30.562000'),(5,'Notification Test by :Admin','Notification Test',0,'2023-08-18 12:40:28.700000');
+/*!40000 ALTER TABLE `noification` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -51,4 +51,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-08-18 20:07:44
+-- Dump completed on 2023-08-18 20:07:45
