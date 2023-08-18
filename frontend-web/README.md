@@ -17,7 +17,7 @@ In the project directory, you can run:
 ![Form Register ](../images/(21).png)
 
 #### Form Home
-![Home](../images/%20(1).png)
+![Form Home](../images/%20(1).png)
 
 #### Form Search
 ![Form Search](../images/%20(11).png)
@@ -47,13 +47,13 @@ In the project directory, you can run:
 ![Form User InFo ](../images/%20(2).png)
 
 #### Form Edit User InFo
-![Form User InFo ](../images/%20(10).png)
+![Form Edit User InFo ](../images/%20(10).png)
  
 #### Form Ds Dashboard Admin
-![Form User InFo ](../images/%20(19).png)
+![Form Ds Dashboard Admin](../images/%20(19).png)
 
 #### Form Ds Dashboard Admin QL Users
-![Form User InFo ](../images/%20(15).png)
+![Form Ds Dashboard Admin QL Users ](../images/%20(15).png)
 
 #### Form Ds Dashboard Admin QL ProDuct
 ![Form Ds Dashboard Admin QL ProDuct](../images/%20(18).png)
