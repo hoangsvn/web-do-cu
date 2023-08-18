@@ -14,7 +14,7 @@ In the project directory, you can run:
 ![Form Login ](../images/%20(13).png)
 
 #### Form Register
-![Form Register ](../images/%20(21).png)
+![Form Register ](../images/(21).png)
 
 #### Form Home
 ![Home](../images/%20(1).png)
