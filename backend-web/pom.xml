@@ -68,11 +68,7 @@
             <scope>runtime</scope>
             <optional>true</optional>
         </dependency>
-        <dependency>
-            <groupId>com.google.code.gson</groupId>
-            <artifactId>gson</artifactId>
-            <version>2.10.1</version>
-        </dependency>
+        
         <!-- https://mvnrepository.com/artifact/com.squareup.okhttp/okhttp -->
 <!--        <dependency>
             <groupId>com.squareup.okhttp</groupId>
