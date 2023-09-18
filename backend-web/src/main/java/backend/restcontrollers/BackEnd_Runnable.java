@@ -31,21 +31,14 @@ public class BackEnd_Runnable implements Runnable {
 
 	@Bean
 	public void BeanActive() {
-
 		try {
 			clearimage = Integer.parseInt(env.getProperty("backend.app.time.clearimage"));
-			 
 		} catch (Exception e) {
-
 		}
 		BackEnd.INFO(BackEnd_Runnable.class, "RUNABLE AFFTER =>" + clearimage + " MINUTES", "DELETE IMAGE BY LINK");
 		executor = Executors.newSingleThreadScheduledExecutor();
 		executor.scheduleAtFixedRate(this, clearimage, clearimage, TimeUnit.MINUTES);
 	}
-
-   
- 
-
 	@PreDestroy
     public void destroy() {
         if (executor != null && !executor.isShutdown()) {
@@ -70,7 +63,6 @@ public class BackEnd_Runnable implements Runnable {
 					repository_Image_Byte.deleteById(id);
 				}
 			}
-			
 		} catch (Exception e) {
 			BackEnd.ERROR(BackEnd_Runnable.class, "ERROR CLEAR IMAGE BY LINK", "IMAGE"+e.getMessage());
 		}

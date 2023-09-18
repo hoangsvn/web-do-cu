@@ -26,11 +26,12 @@ public class JWT_Utils {
 	public String generateJwtToken(Authentication authentication) {
 		UserDetailsImpl userPrincipal = (UserDetailsImpl) authentication.getPrincipal();
 		return Jwts.builder()
-				.setAudience(userPrincipal.getFullname())
+				.setAudience(userPrincipal.getEmail())
 				.setId(String.valueOf(userPrincipal.getId()))
 				.setSubject((userPrincipal.getUsername()))
 				.setIssuedAt(new Date())	
 				.setExpiration(new Date((new Date()).getTime() + jwtExpirationMs))
+				
 				.signWith(SignatureAlgorithm.HS512, jwtSecret).compact();
 	}
 
@@ -47,7 +48,6 @@ public class JWT_Utils {
 			Claims claims = Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(jwtToken).getBody();
 	        return claims.getExpiration();
 	    } catch (Exception e) {
-	         
 	        return null;
 	    }
 	}

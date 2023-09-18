@@ -83,6 +83,7 @@ public class BackEnd_Config_Security { // extends WebSecurityConfigurerAdapter {
         
         http.cors().and().csrf().disable().exceptionHandling()
                 .authenticationEntryPoint(unauthorizedHandler)
+                
                 .and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and().authorizeRequests()
@@ -96,6 +97,7 @@ public class BackEnd_Config_Security { // extends WebSecurityConfigurerAdapter {
 
         http.authenticationProvider(authenticationProvider());
         http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
+        
         BackEnd.INFO(BackEnd_Config_Security.class,"BACKEND SECURITY CONFIG", "OK");
         return http.build();
     }
