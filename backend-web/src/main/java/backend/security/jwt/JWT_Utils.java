@@ -1,7 +1,10 @@
 package backend.security.jwt;
 
 import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
@@ -34,24 +37,42 @@ public class JWT_Utils {
 	@Autowired
 	private AuthenticationManager authenticationManager;
 	
+	HashMap<String , Date> MapUserLoginwithUUID = new HashMap<>(); 
+	
 	public String generateJwtToken(Authentication authentication) {
 		UserDetailsImpl userPrincipal = (UserDetailsImpl) authentication.getPrincipal();
+		Date datestart = new Date();
+		Date expiration =new Date(datestart.getTime() + jwtExpirationMs);
 		return Jwts.builder()
 				 
 				.setAudience(userPrincipal.getEmail())
 				.setId(String.valueOf(userPrincipal.getId()))
 				.setSubject((userPrincipal.getUsername()))
-				.setIssuedAt(new Date())	
-				.setExpiration(new Date((new Date()).getTime() + jwtExpirationMs))
-			
+				.setIssuedAt(datestart)	
+				.setExpiration(expiration)
+				
 				.signWith(SignatureAlgorithm.HS512, jwtSecret).compact();
 	}
-	
+	public String generateJwtToken(UserDetailsImpl userPrincipal) {
+		String uuid = UUID.randomUUID().toString();
+		Date datestart = new Date();
+		Date expiration =new Date(datestart.getTime() + jwtExpirationMs);
+		return Jwts.builder()
+				 
+				.setAudience(uuid)
+				.setId(String.valueOf(userPrincipal.getId()))
+				.setSubject((userPrincipal.getUsername()))
+				.setIssuedAt(datestart)	
+				.setExpiration(expiration)
+				
+				.signWith(SignatureAlgorithm.HS512, jwtSecret).compact();
+	}
 	public Object Login(String username,String password){
 		Authentication authentication = authenticationManager.authenticate( new UsernamePasswordAuthenticationToken(username, password));
 		SecurityContextHolder.getContext().setAuthentication(authentication);
-		String jwt = generateJwtToken(authentication);
+		
 		UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+		String jwt = generateJwtToken(authentication);
 		List<String> roles = userDetails.getAuthorities().stream().map(item -> item.getAuthority()) .collect(Collectors.toList());
 		return new Response_JWT(jwt, userDetails.getId(), userDetails.getUsername(), userDetails.getEmail(), roles);
 	}

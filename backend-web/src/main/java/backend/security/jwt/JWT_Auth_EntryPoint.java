@@ -10,7 +10,6 @@ import org.springframework.http.MediaType;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.stereotype.Component;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 
@@ -29,6 +28,7 @@ public class JWT_Auth_EntryPoint implements AuthenticationEntryPoint {
 		body.put("type", "Signin");
 		res.put("message", body);
 		final ObjectMapper mapper = new ObjectMapper();
+		 
 		mapper.writeValue(response.getOutputStream(), res);
 	}
 

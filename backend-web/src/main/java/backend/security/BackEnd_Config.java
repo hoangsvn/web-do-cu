@@ -49,6 +49,7 @@ public class BackEnd_Config implements WebMvcConfigurer, WebServerFactoryCustomi
 
     @Autowired
     private Environment env;
+    
     private int port = 8080;
     public void InFo() {
         try {
@@ -71,7 +72,7 @@ public class BackEnd_Config implements WebMvcConfigurer, WebServerFactoryCustomi
             BackEnd.INFO(BackEnd_Config.class,"JAVA VERSION", 		env.getProperty("backend.java.version"));
             BackEnd.INFO(BackEnd_Config.class,"BACKEND MWC CONFIG", "OK");
         } catch (IOException e) {
-            BackEnd.ERROR(BackEnd_Config.class,"BACKEND MWC CONFIG", "FAIL");
+            BackEnd.ERROR(BackEnd_Config.class,"BACKEND MWC CONFIG", "ERROR");
         }
         BackEnd.INFO(BackEnd_Config.class,"+==================================================================+");
     }
