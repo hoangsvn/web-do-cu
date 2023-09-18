@@ -22,16 +22,16 @@ public class BackEnd_Config implements WebMvcConfigurer, WebServerFactoryCustomi
 
     @Override
     public void customize(ConfigurableServletWebServerFactory factory) {
-        ErrorPage P400 = new ErrorPage(HttpStatus.BAD_REQUEST, "/backend/error=400");
-        ErrorPage P401 = new ErrorPage(HttpStatus.UNAUTHORIZED, "/backend/error=401");
-        ErrorPage P403 = new ErrorPage(HttpStatus.FORBIDDEN, "/backend/error=403");
-        ErrorPage P404 = new ErrorPage(HttpStatus.NOT_FOUND, "/backend/error=404");
-        ErrorPage P405 = new ErrorPage(HttpStatus.METHOD_NOT_ALLOWED, "/backend/error=405");
-        ErrorPage P406 = new ErrorPage(HttpStatus.NOT_ACCEPTABLE, "/backend/error=406");
-        ErrorPage P408 = new ErrorPage(HttpStatus.REQUEST_TIMEOUT, "/backend/error=408");
-        ErrorPage P415 = new ErrorPage(HttpStatus.UNSUPPORTED_MEDIA_TYPE, "/backend/error=415");
-        ErrorPage P500 = new ErrorPage(HttpStatus.INTERNAL_SERVER_ERROR, "/backend/error=500");
-        factory.addErrorPages(P400, P401, P403, P404, P405, P406, P408, P415, P500);
+//        ErrorPage P400 = new ErrorPage(HttpStatus.BAD_REQUEST, "/backend/error=400");
+//        ErrorPage P401 = new ErrorPage(HttpStatus.UNAUTHORIZED, "/backend/error=401");
+//        ErrorPage P403 = new ErrorPage(HttpStatus.FORBIDDEN, "/backend/error=403");
+//        ErrorPage P404 = new ErrorPage(HttpStatus.NOT_FOUND, "/backend/error=404");
+//        ErrorPage P405 = new ErrorPage(HttpStatus.METHOD_NOT_ALLOWED, "/backend/error=405");
+//        ErrorPage P406 = new ErrorPage(HttpStatus.NOT_ACCEPTABLE, "/backend/error=406");
+//        ErrorPage P408 = new ErrorPage(HttpStatus.REQUEST_TIMEOUT, "/backend/error=408");
+//        ErrorPage P415 = new ErrorPage(HttpStatus.UNSUPPORTED_MEDIA_TYPE, "/backend/error=415");
+//        ErrorPage P500 = new ErrorPage(HttpStatus.INTERNAL_SERVER_ERROR, "/backend/error=500");
+//        factory.addErrorPages(P400, P401, P403, P404, P405, P406, P408, P415, P500);
         InFo();
     }
 
@@ -59,16 +59,16 @@ public class BackEnd_Config implements WebMvcConfigurer, WebServerFactoryCustomi
         try {
             BackEnd.INFO(BackEnd_Config.class,"+==================================================================+");
             BackEnd.INFO(BackEnd_Config.class,"MY-SQL URL", 		env.getProperty("spring.datasource.url"));
-            BackEnd.INFO(BackEnd_Config.class,"MY-SQL USERNAME", env.getProperty("spring.datasource.username"));
-            BackEnd.INFO(BackEnd_Config.class,"MY-SQL PASSWORD", env.getProperty("spring.datasource.password"));
-            BackEnd.INFO(BackEnd_Config.class,"SERVER  PORT", 	String.valueOf(port));
-            BackEnd.INFO(BackEnd_Config.class,"CONTEXT PATH", 	env.getProperty("server.servlet.context-path"));
-            BackEnd.INFO(BackEnd_Config.class,"LOCAL PC/IP ", 	InetAddress.getLocalHost().toString());
+            BackEnd.INFO(BackEnd_Config.class,"MY-SQL USERNAME", 	env.getProperty("spring.datasource.username"));
+            BackEnd.INFO(BackEnd_Config.class,"MY-SQL PASSWORD", 	env.getProperty("spring.datasource.password"));
+            BackEnd.INFO(BackEnd_Config.class,"SERVER  PORT", 		String.valueOf(port));
+            BackEnd.INFO(BackEnd_Config.class,"CONTEXT PATH", 		env.getProperty("server.servlet.context-path"));
+            BackEnd.INFO(BackEnd_Config.class,"LOCAL PC/IP ", 		InetAddress.getLocalHost().toString());
             BackEnd.INFO(BackEnd_Config.class,"PUBLIC IP ", 		Ip());
-            BackEnd.INFO(BackEnd_Config.class,"APP NAME", 		env.getProperty("app.name"));
-            BackEnd.INFO(BackEnd_Config.class,"APP DESCRIPTION", env.getProperty("app.description"));
-            BackEnd.INFO(BackEnd_Config.class,"APP VERSION", 	env.getProperty("app.version"));
-            BackEnd.INFO(BackEnd_Config.class,"JAVA VERSION", 	env.getProperty("java.version"));
+            BackEnd.INFO(BackEnd_Config.class,"APP NAME", 			env.getProperty("backend.app.name"));
+            BackEnd.INFO(BackEnd_Config.class,"APP DESCRIPTION", 	env.getProperty("backend.app.description"));
+            BackEnd.INFO(BackEnd_Config.class,"APP VERSION", 		env.getProperty("backend.app.version"));
+            BackEnd.INFO(BackEnd_Config.class,"JAVA VERSION", 		env.getProperty("backend.java.version"));
             BackEnd.INFO(BackEnd_Config.class,"BACKEND MWC CONFIG", "OK");
         } catch (IOException e) {
             BackEnd.ERROR(BackEnd_Config.class,"BACKEND MWC CONFIG", "FAIL");

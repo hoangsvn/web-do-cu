@@ -356,7 +356,7 @@ public class REST_Controller_Auth extends REST_Compoment {
 	public ResponseEntity<?> Count() {
 		try {
 
-			return ResponseEntity.ok("Running User =>" + jwt_Manager.getActiveJwtCount());
+			return ResponseEntity.ok("Running User =>" + jwt_Manager.getCountUserlogin());
 
 		} catch (Exception e) {
 			return ResponseEntity.ok(login_fail);
