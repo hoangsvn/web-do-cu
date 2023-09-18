@@ -47,8 +47,7 @@ public class BackEnd {
     public static void INFO(Class<?> clazz  ,String ...value) {
     	Logger logger = LoggerFactory.getLogger(clazz);
         if (value.length > 0) {
-            StringBuilder logMessage = new StringBuilder(String.format("%-30s :", value[0]));
-            
+            StringBuilder logMessage = new StringBuilder(String.format("%-30s :", value[0])); 
             if (value.length > 1) {
                 for (int i = 1; i < value.length; i++) {
                     logMessage.append(" ").append(value[i]);
@@ -62,7 +61,6 @@ public class BackEnd {
     	Logger logger = LoggerFactory.getLogger(clazz);
         if (value.length > 0) {
             StringBuilder logMessage = new StringBuilder(String.format("%-30s :", value[0]));
-            
             if (value.length > 1) {
                 for (int i = 1; i < value.length; i++) {
                     logMessage.append(" ").append(value[i]);
@@ -75,8 +73,7 @@ public class BackEnd {
     public static void WARM(Class<?> clazz  ,String ...value) {
     	Logger logger = LoggerFactory.getLogger(clazz);
         if (value.length > 0) {
-            StringBuilder logMessage = new StringBuilder(String.format("%-30s :", value[0]));
-            
+            StringBuilder logMessage = new StringBuilder(String.format("%-30s :", value[0])); 
             if (value.length > 1) {
                 for (int i = 1; i < value.length; i++) {
                     logMessage.append(" ").append(value[i]);

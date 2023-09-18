@@ -94,10 +94,8 @@ public class REST_Compoment {
 	public static Response_Message upload_image_fail 		= new Response_Message("Upload Image Fail !", 		"Insert in Mysql"	, false);
 	public static Response_Message upload_image_error 		= new Response_Message("Upload Image Error !", 		"Insert in Mysql"	, false);
 	
-	public UserDetailsImpl getUserDetailsImplInAuthentcation(Authentication authentication) {
-		UserDetailsImpl userPrincipal = (UserDetailsImpl) authentication.getPrincipal();
-		return userPrincipal;
-	}
+	 
+	
 	public UserDetailsImpl getUserDetailsImplInAuthentcation() {
 		Authentication authentications = SecurityContextHolder.getContext().getAuthentication();
 		UserDetailsImpl userPrincipal = (UserDetailsImpl) authentications.getPrincipal();

@@ -7,16 +7,13 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.stream.Collectors;
+ 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
+ 
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -37,7 +34,7 @@ import backend.payload.request.Request_Login;
 import backend.payload.request.Request_Signup;
 import backend.payload.request.Request_UserInfo;
 import backend.payload.request.Resquest_Notification;
-import backend.payload.response.Response_JWT;
+ 
 import backend.payload.response.Response_Message;
 
 import backend.repository.Repository_Notification;
@@ -45,7 +42,7 @@ import backend.repository.Repository_Role;
 import backend.repository.Repository_SanPham;
 import backend.repository.Repository_User;
 import backend.repository.Repository_UserInFo;
-import backend.security.jwt.JWT_Manager;
+ 
 import backend.security.jwt.JWT_Utils;
 
 import backend.security.services.UserDetailsImpl;
@@ -54,44 +51,28 @@ import backend.security.services.UserDetailsImpl;
 @RestController
 @RequestMapping("/api/auth")
 public class REST_Controller_Auth extends REST_Compoment {
-	@Autowired
-	private AuthenticationManager authenticationManager;
-
+	 
 	@Autowired
 	private Repository_User userRepository;
-
-	
-	
 	@Autowired
 	private Repository_Notification repository_Notification;
 	@Autowired
 	private Repository_UserInFo repository_UserInFo;
-
 	@Autowired
 	private Repository_Role roleRepository;
-
 	@Autowired
 	private PasswordEncoder encoder;
-
 	@Autowired
 	private JWT_Utils jwtUtils;
-
 	@Autowired
 	private Repository_SanPham repository_SanPham;
-
-	@Autowired
-	private JWT_Manager jwt_Manager;
-
+	 
 	@PostMapping("/signin")
 	public ResponseEntity<?> authenticateUser(@Valid @RequestBody Request_Login loginRequest) {
 		Map<String, Object> response = new HashMap<>();
 		try {
-			Authentication authentication = authenticationManager.authenticate( new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
-			SecurityContextHolder.getContext().setAuthentication(authentication);
-			String jwt = jwtUtils.generateJwtToken(authentication);
-			UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
-			List<String> roles = userDetails.getAuthorities().stream().map(item -> item.getAuthority()) .collect(Collectors.toList());
-			response.put(info_user, new Response_JWT(jwt, userDetails.getId(), userDetails.getUsername(), userDetails.getFullname(), userDetails.getEmail(), roles));
+ 
+			response.put(info_user,  jwtUtils.Login(loginRequest.getUsername(), loginRequest.getPassword()));
 			response.put(info_message, rest_controller_success);
 			return ResponseEntity.ok(response);
 		} catch (Exception e) {
@@ -356,7 +337,7 @@ public class REST_Controller_Auth extends REST_Compoment {
 	public ResponseEntity<?> Count() {
 		try {
 
-			return ResponseEntity.ok("Running User =>" + jwt_Manager.getCountUserlogin());
+			return ResponseEntity.ok("Running User =>" );
 
 		} catch (Exception e) {
 			return ResponseEntity.ok(login_fail);
